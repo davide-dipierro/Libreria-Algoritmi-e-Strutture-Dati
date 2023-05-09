@@ -102,7 +102,7 @@ public:
 
   // Specific member function (inherited from ClearableContainer)
 
-  // inline void Clear() override { if (root != nullptr) { this->DeleteSubTree(root); root=nullptr; } }; // Override ClearableContainer member
+  inline void Clear() override { BinaryTreeLnk<Data>::Clear(); }; // Override ClearableContainer member
 
 protected:
 

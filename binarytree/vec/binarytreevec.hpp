@@ -14,8 +14,7 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
-class BinaryTreeVec : virtual public MutableBinaryTree<Data>,
-                      virtual protected Vector<Data> {
+class BinaryTreeVec : virtual public MutableBinaryTree<Data> {
 
 private:
 
@@ -25,25 +24,40 @@ protected:
 
   struct NodeVec : virtual public MutableBinaryTree<Data>::MutableNode { // Must extend MutableNode
 
-  friend class BinaryTreeVec<Data>;
+  // friend class BinaryTreeVec<Data>;
 
   private:
 
-    Vector<Data>* punt;
+    BinaryTreeVec<Data>* bt;
+    int i;
+
 
   protected:
 
-    const ulong Index() const { return (this)-(Nodes); }
+    const ulong Index() const { return i; }//{ return (this)-(bt->Nodes->Elements); }
 
   public:
 
-    virtual inline Data& Element() noexcept override { return Elements[Index()]; }
-    virtual inline const Data& Element() const noexcept override { return Elements[Index()]; }
+    NodeVec(const Data &dat, int i, BinaryTreeVec<Data>* bt);
+    NodeVec(Data&& dat, int i, BinaryTreeVec<Data>* bt);
+
+    virtual bool HasLeftChild() const noexcept override;
+    virtual bool HasRightChild() const noexcept override;
+
+    virtual NodeVec& RightChild() override;
+    virtual const NodeVec& RightChild() const override;
+
+    virtual NodeVec& LeftChild() override;
+    virtual const NodeVec& LeftChild() const override;
+
+
+    virtual inline Data& Element() noexcept override { return bt->Elements[Index()]; }
+    virtual inline const Data& Element() const noexcept override { return bt->Elements[Index()]; }
 
   };
 
-  using Vector<Data>::Elements;
-  Vector<NodeVec*> Nodes;
+  Vector<Data> Elements = Vector<Data>(0);
+  Vector<NodeVec*> Nodes = Vector<NodeVec*>(0);
 
 public:
 
@@ -66,7 +80,7 @@ public:
   /* ************************************************************************ */
 
   // Destructor
-  virtual ~BinaryTreeVec();
+  virtual ~BinaryTreeVec() = default;
 
   /* ************************************************************************ */
 
@@ -98,7 +112,7 @@ public:
 
   // Specific member function (inherited from ClearableContainer)
 
-  virtual inline void Clear() override { Vector<Data>::Clear(); }; // Override ClearableContainer member (throw std::length_error when empty)
+  virtual inline void Clear() override { Elements.Clear(); Nodes.Clear(); }; // Override ClearableContainer member (throw std::length_error when empty)
 
   /* ************************************************************************ */
 

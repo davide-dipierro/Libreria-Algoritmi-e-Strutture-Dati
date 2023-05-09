@@ -50,22 +50,29 @@ void temptest(){
   for(int i{0}; i<v2.Size(); i++) v2[i]=i;
 
   lasd::BST<int> bst1;
-  // lasd::BST<int> bst2;
 
-  bst1.Insert(5);
-  bst1.Insert(1);
-  bst1.Insert(3);
-  bst1.Insert(7);
-  bst1.Insert(2);
-  bst1.Insert(4);
-  bst1.Insert(9);
-  bst1.Insert(8);
+  // bst1.Insert(5);
+  // bst1.Insert(1);
+  // bst1.Insert(3);
+  // bst1.Insert(7);
+  // bst1.Insert(2);
+  // bst1.Insert(4);
+  // bst1.Insert(9);
+  // bst1.Insert(8);
+
+  lasd::BST<int> bst2(bst1);
+
+  lasd::BTPostOrderIterator itr1(bst1);
+  lasd::BTPostOrderIterator itr2(bst1);
+
+  ++itr1; ++itr2;
+  cout<<(itr1==itr2);
 
 
-  cout<<"\nBST1("<<bst1.Size()<<") Breadth: ";
-  bst1.BreadthMap(print);cout<<endl;
-  cout<<"\nBST1("<<bst1.Size()<<") InOrder: ";
-  bst1.InOrderMap(print);cout<<endl;
+  // cout<<"\nBST1("<<bst1.Size()<<") Breadth: ";
+  // bst1.BreadthMap(print);cout<<endl;
+  // cout<<"\nBST1("<<bst1.Size()<<") InOrder: ";
+  // bst1.InOrderMap(print);cout<<endl;
 
 
 
