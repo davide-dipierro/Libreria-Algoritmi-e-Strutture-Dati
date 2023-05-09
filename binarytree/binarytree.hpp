@@ -404,11 +404,8 @@ public:
   // Specific member functions (inherited from MutableIterator)
 
   Data& operator*() override {
-    if(this->current!=nullptr) {
-      return const_cast<Data&>((this->current)->Element());
-    } else {
-      throw std::out_of_range("Out of range iterator"); 
-    } 
+    if(this->current!=nullptr) return const_cast<Data&>((this->current)->Element());
+    else throw std::out_of_range("Out of range iterator");  
   }; // (throw std::out_of_range when terminated)
 };
 
@@ -529,11 +526,8 @@ public:
   // Specific member functions (inherited from MutableIterator)
 
   Data& operator*() override {
-    if(this->current!=nullptr) {
-      return const_cast<Data&>((this->current)->Element());
-    } else {
-      throw std::out_of_range("Out of range iterator"); 
-    } 
+    if(this->current!=nullptr) return const_cast<Data&>((this->current)->Element());
+    else throw std::out_of_range("Out of range iterator");  
   }; // (throw std::out_of_range when terminated)
 
 };
@@ -655,11 +649,8 @@ public:
   // Specific member functions (inherited from MutableIterator)
 
   Data& operator*() override {
-    if(this->current!=nullptr) {
-      return const_cast<Data&>((this->current)->Element());
-    } else {
-      throw std::out_of_range("Out of range iterator"); 
-    } 
+    if(this->current!=nullptr) return const_cast<Data&>((this->current)->Element());
+    else throw std::out_of_range("Out of range iterator"); 
   }; // (throw std::out_of_range when terminated)
 
 };
@@ -779,11 +770,8 @@ public:
   // Specific member functions (inherited from MutableIterator)
 
   Data& operator*() override {
-    if(this->current!=nullptr) {
-      return const_cast<Data&>((this->current)->Element());
-    } else {
-      throw std::out_of_range("Out of range iterator"); 
-    } 
+    if(this->current!=nullptr) return const_cast<Data&>((this->current)->Element());
+    else throw std::out_of_range("Out of range iterator");  
   }; 
 
 };

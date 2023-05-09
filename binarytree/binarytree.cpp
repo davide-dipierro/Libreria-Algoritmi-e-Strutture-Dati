@@ -108,7 +108,8 @@ bool BTPreOrderIterator<Data>::operator==(const BTPreOrderIterator &other) const
 
 template <typename Data>
 const Data& BTPreOrderIterator<Data>::operator*() const {
-    if(Terminated()) throw std::out_of_range("Iterator is terminated."); else return current->Element();
+    if(Terminated()) throw std::out_of_range("Iterator is terminated.");
+    else return current->Element();
 }
 
 template <typename Data>
@@ -182,7 +183,8 @@ BTPostOrderIterator<Data>::BTPostOrderIterator(BTPostOrderIterator&& other) noex
 
 template <typename Data>
 const Data& BTPostOrderIterator<Data>::operator*() const {
-    if(Terminated()) throw std::out_of_range("Iterator is terminated."); else return current->Element();
+    if(Terminated()) throw std::out_of_range("Iterator is terminated.");
+    else return current->Element();
 }
 
 template <typename Data>
@@ -317,7 +319,8 @@ bool BTInOrderIterator<Data>::operator==(const BTInOrderIterator &other) const n
 
 template <typename Data>
 const Data& BTInOrderIterator<Data>::operator*() const {
-    if(Terminated()) throw std::out_of_range("Iterator is terminated."); else return current->Element();
+    if(Terminated()) throw std::out_of_range("Iterator is terminated.");
+    else return current->Element();
 }
 
 template <typename Data>
@@ -401,7 +404,8 @@ bool BTBreadthIterator<Data>::operator==(const BTBreadthIterator &other) const n
 
 template <typename Data>
 const Data& BTBreadthIterator<Data>::operator*() const {
-    if(Terminated()) throw std::out_of_range("Iterator is terminated."); else return current->Element();
+    if(Terminated()) throw std::out_of_range("Iterator is terminated.");
+    else return current->Element();
 }
 
 template <typename Data>
