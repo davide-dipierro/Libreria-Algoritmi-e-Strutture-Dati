@@ -389,10 +389,9 @@ public:
   /* ************************************************************************ */
 
   // Copy assignment
-  BTPreOrderMutableIterator& operator=(const BTPreOrderMutableIterator& other) { return BTPreOrderIterator<Data>::operator=(other); };
-
+  BTPreOrderMutableIterator& operator=(const BTPreOrderMutableIterator& other);
   // Move assignment
-  BTPreOrderMutableIterator& operator=(BTPreOrderMutableIterator&& other) noexcept { return BTPreOrderIterator<Data>::operator=(std::move(other)); };
+  BTPreOrderMutableIterator& operator=(BTPreOrderMutableIterator&& other) noexcept;
 
   /* ************************************************************************ */
 
@@ -514,10 +513,10 @@ public:
   /* ************************************************************************ */
 
   // Copy assignment
-  BTPostOrderMutableIterator& operator=(const BTPostOrderMutableIterator& other) { return BTPostOrderIterator<Data>::operator=(other); };
+  BTPostOrderMutableIterator& operator=(const BTPostOrderMutableIterator& other);
 
   // Move assignment
-  BTPostOrderMutableIterator& operator=(BTPostOrderMutableIterator&& other) noexcept { return BTPostOrderIterator<Data>::operatr=(std::move(other)); };
+  BTPostOrderMutableIterator& operator=(BTPostOrderMutableIterator&& other) noexcept;
 
   /* ************************************************************************ */
 
@@ -640,10 +639,10 @@ public:
   /* ************************************************************************ */
 
   // Copy assignment
-  inline BTInOrderMutableIterator& operator=(const BTInOrderMutableIterator& other) { return BTInOrderIterator<Data>::operator=(other); };
+  inline BTInOrderMutableIterator& operator=(const BTInOrderMutableIterator& other);
 
   // Move assignment
-  inline BTInOrderMutableIterator& operator=(BTInOrderMutableIterator&& other) { return BTInOrderIterator<Data>::operator=(std::move(other)); };
+  inline BTInOrderMutableIterator& operator=(BTInOrderMutableIterator&& other) noexcept;
 
   /* ************************************************************************ */
 
@@ -764,10 +763,10 @@ public:
   /* ************************************************************************ */
 
   // Copy assignment
-  BTBreadthMutableIterator& operator=(const BTBreadthMutableIterator& other) { return BTBreadthIterator<Data>::operator=(other); };
+  BTBreadthMutableIterator& operator=(const BTBreadthMutableIterator& other);
 
   // Move assignment
-  BTBreadthMutableIterator& operator=(BTBreadthMutableIterator&& other) noexcept { return BTBreadthIterator<Data>::operator=(std::move(other)); };
+  BTBreadthMutableIterator& operator=(BTBreadthMutableIterator&& other) noexcept;
 
   /* ************************************************************************ */
 

@@ -35,6 +35,41 @@ TODO:
 
 ************************************************************************** */
 
+// bool TestCompareBSTCopy(){
+//   bool result=true;
+//   int generated_size = genSize(gen);
+//   int generated_val;
+//   lasd::Vector<int> vec(generated_size);
+//   lasd::BST<int> BST1;
+//   for(int i=0; i<generated_size; i++){
+//     generated_val = genNum(gen);
+//     vec[i]=generated_val;
+//     BST1.Insert(generated_val);
+//   }
+//   lasd::BST<int> BST2(vec);
+//   lasd::BST<int> BST3(BST1);
+//   lasd::BST<int> BST4;
+//   BST4 = BST1;
+
+//   if(BST1!=BST2){
+//     result=false;
+//     cout<<"Costruttore da MutableMappableContainer errato"<<endl;
+//   }
+//   if(BST1!=BST3){
+//     result=false;
+//     cout<<"Costruttore da BST errato"<<endl;
+//   }
+//   if(BST1!=BST4){
+//     result=false;
+//     cout<<"Operatore di assegnazione errato"<<endl;
+//   }
+
+  
+//   cout<<"\n\nRISULTATO: "<<result<<endl;
+
+//   return result;
+// }
+
 void print(int value){
   cout<<"\t"<<value;
 }

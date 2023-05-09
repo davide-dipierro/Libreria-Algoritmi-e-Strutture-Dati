@@ -41,6 +41,9 @@ protected:
     NodeVec(const Data &dat, int i, BinaryTreeVec<Data>* bt);
     NodeVec(Data&& dat, int i, BinaryTreeVec<Data>* bt);
 
+    NodeVec& operator=(const NodeVec& other);
+    NodeVec& operator=(NodeVec&& other) noexcept;
+
     virtual bool HasLeftChild() const noexcept override;
     virtual bool HasRightChild() const noexcept override;
 
@@ -56,13 +59,13 @@ protected:
 
   };
 
-  Vector<Data> Elements = Vector<Data>(0);
-  Vector<NodeVec*> Nodes = Vector<NodeVec*>(0);
+  Vector<Data> Elements;// = Vector<Data>(0);
+  Vector<NodeVec*> Nodes;// = Vector<NodeVec*>(0);
 
 public:
 
   // Default constructor
-  BinaryTreeVec() = default;
+  BinaryTreeVec() : Elements(0), Nodes(0) {;};
 
   /* ************************************************************************ */
 
@@ -93,8 +96,8 @@ public:
   /* ************************************************************************ */
 
   // Comparison operators
-  inline bool operator==(const BinaryTreeVec& other) const noexcept { return Vector<Data>::operator==(other); };
-  inline bool operator!=(const BinaryTreeVec& other) const noexcept { return Vector<Data>::operator!=(other); };
+  inline bool operator==(const BinaryTreeVec& other) const noexcept { return Elements==other.Elements; };
+  inline bool operator!=(const BinaryTreeVec& other) const noexcept { return !(operator==(other)); };
 
   /* ************************************************************************ */
 
@@ -112,7 +115,7 @@ public:
 
   // Specific member function (inherited from ClearableContainer)
 
-  virtual inline void Clear() override { Elements.Clear(); Nodes.Clear(); }; // Override ClearableContainer member (throw std::length_error when empty)
+  virtual inline void Clear() override { Elements.Clear(); Nodes.Clear(); this->size=0; }; // Override ClearableContainer member (throw std::length_error when empty)
 
   /* ************************************************************************ */
 

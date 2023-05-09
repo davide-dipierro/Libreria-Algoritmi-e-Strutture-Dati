@@ -69,7 +69,7 @@ inline bool BST<Data>::operator==(const BST<Data>& other) const noexcept{
     BTInOrderIterator<Data> IterThis(*this);
     BTInOrderIterator<Data> IterOther(other);
     for (; !IterThis.Terminated(); ++IterThis, ++IterOther) {
-      std::cout<<(*IterThis)<<"=="<<(*IterOther)<<"\t";
+      // std::cout<<(*IterThis)<<"=="<<(*IterOther)<<"\t";
       if((*IterThis) != (*IterOther)) return false;
     }
     return true;

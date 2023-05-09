@@ -143,6 +143,25 @@ void BTPreOrderIterator<Data>::Reset() noexcept {
 /* ************************************************************************** */
 
 template <typename Data>
+BTPreOrderMutableIterator<Data>& BTPreOrderMutableIterator<Data>::operator=(const BTPreOrderMutableIterator& other) {
+    // if(this == &other) return *this; penso mai messo, ma andrebbe messo ovunque
+    this->current=other.current;
+    this->root=other.root;
+    this->stack=other.stack;
+    return *this;
+}
+
+template <typename Data>
+BTPreOrderMutableIterator<Data>& BTPreOrderMutableIterator<Data>::operator=(BTPreOrderMutableIterator&& other) noexcept {
+    this->current = std::move(other.current);
+    this->root = std::move(other.root);
+    this->stack = std::move(other.stack); //NOTE: si può fare? secondo me sì perché abbiamo fatto l'operatore && in stack
+    return *this;
+}
+
+/* ************************************************************************** */
+
+template <typename Data>
 BTPostOrderIterator<Data>::BTPostOrderIterator(const BinaryTree<Data>& other){
     root= (other.Empty()) ? nullptr : &other.Root();
     current=DeepestLeftLeaf(root);
@@ -219,11 +238,30 @@ BTPostOrderIterator<Data>& BTPostOrderIterator<Data>::operator=(BTPostOrderItera
     std::swap(current, other.current);
     std::swap(root, other.root);
     std::swap(stack, other.stack); //NOTE: si può fare? secondo me sì perché abbiamo fatto l'operatore && in stack
+    return *this;
 }
 
 template <typename Data>
 bool BTPostOrderIterator<Data>::operator==(const BTPostOrderIterator &other) const noexcept {
     return (current==other.current && root==root);
+}
+
+/* ************************************************************************** */
+
+template <typename Data>
+BTPostOrderMutableIterator<Data>& BTPostOrderMutableIterator<Data>::operator=(const BTPostOrderMutableIterator& other) {
+    this->current=other.current;
+    this->root=other.root;
+    this->stack=other.stack;
+    return *this;
+}
+
+template <typename Data>
+BTPostOrderMutableIterator<Data>& BTPostOrderMutableIterator<Data>::operator=(BTPostOrderMutableIterator&& other) noexcept {
+    std::swap(this->current, other.current);
+    std::swap(this->root, other.root);
+    std::swap(this->stack, other.stack);
+    return *this;
 }
 
 /* ************************************************************************** */
@@ -306,6 +344,24 @@ void BTInOrderIterator<Data>::Reset() noexcept {
 /* ************************************************************************** */
 
 template <typename Data>
+BTInOrderMutableIterator<Data>& BTInOrderMutableIterator<Data>::operator=(const BTInOrderMutableIterator& other) {
+    this->current=other.current;
+    this->root=other.root;
+    this->stack=other.stack;
+    return *this;
+}
+
+template <typename Data>
+BTInOrderMutableIterator<Data>& BTInOrderMutableIterator<Data>::operator=(BTInOrderMutableIterator&& other) noexcept {
+    std::swap(this->current, other.current);
+    std::swap(this->root, other.root);
+    std::swap(this->stack, other.stack);
+    return *this;
+}
+
+/* ************************************************************************** */
+
+template <typename Data>
 BTBreadthIterator<Data>::BTBreadthIterator(const BinaryTree<Data>& other) {
     root = current = (other.Empty()) ? nullptr : &other.Root();
 }
@@ -368,6 +424,25 @@ BTBreadthIterator<Data>& BTBreadthIterator<Data>::operator++() {
 template <typename Data>
 void BTBreadthIterator<Data>::Reset() noexcept {
     current=root;
+}
+
+
+/* ************************************************************************** */
+
+template <typename Data>
+BTBreadthMutableIterator<Data>& BTBreadthMutableIterator<Data>::operator=(const BTBreadthMutableIterator& other) {
+    this->current=other.current;
+    this->root=other.root;
+    this->queue=other.queue;
+    return *this;
+}
+
+template <typename Data>
+BTBreadthMutableIterator<Data>& BTBreadthMutableIterator<Data>::operator=(BTBreadthMutableIterator&& other) noexcept {
+    std::swap(this->current, other.current);
+    std::swap(this->root, other.root);
+    std::swap(this->queue, other.queue);
+    return *this;
 }
 
 /* ************************************************************************** */
