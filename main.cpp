@@ -239,7 +239,7 @@ int main(){
     cout<<endl<<endl;
   }
 
-  cout<<"GOODBYE!";
+  cout<<"GOODBYE!"<<endl;
 
   return 0;
 };

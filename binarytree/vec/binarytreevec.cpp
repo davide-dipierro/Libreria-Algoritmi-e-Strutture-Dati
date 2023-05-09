@@ -8,26 +8,26 @@ template <typename Data>
 BinaryTreeVec<Data>::NodeVec::NodeVec(const Data &dat, int i, BinaryTreeVec<Data>* bt) {
     this->bt = bt;
     this->i=i;
-    bt->Elements[i]=dat;  
+    Element()=dat;  
 }
 
 template <typename Data>
 BinaryTreeVec<Data>::NodeVec::NodeVec(Data&& dat, int i, BinaryTreeVec<Data>* bt) {
     this->bt = bt;
     this->i=i;
-    std::swap(bt->Elements[i], dat);  
+    std::swap(Element(), dat);  
 }
 
 template <typename Data>
 typename BinaryTreeVec<Data>::NodeVec& BinaryTreeVec<Data>::NodeVec::operator=(const NodeVec &other) {
-    bt->Elements[i]=other.dat;  
+    Element()=other.Element();  
     // this->bt = other.bt;
     // this->i=other.i;
 }
 
 template <typename Data>
 typename BinaryTreeVec<Data>::NodeVec& BinaryTreeVec<Data>::NodeVec::operator=(NodeVec&& other) noexcept {
-    std::swap(bt->Elements[i], other.dat);  
+    std::swap(Element(), other.Element());  
     // std::swap(this->bt, other.bt);
     // std::swap(this->i, other.i);
 }
@@ -74,8 +74,7 @@ BinaryTreeVec<Data>::BinaryTreeVec(const MappableContainer<Data>& other) : Eleme
     this->size=other.Size();
     other.Map(
         [this, &i](const Data& dat){
-            this->Nodes[i] = new NodeVec(dat, i, this);
-            i++;
+            this->Nodes[i] = new NodeVec(dat, i, this); i++;
         }
     );
 }
