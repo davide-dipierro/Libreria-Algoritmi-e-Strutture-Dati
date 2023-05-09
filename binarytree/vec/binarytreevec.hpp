@@ -40,6 +40,7 @@ protected:
 
     NodeVec(const Data &dat, int i, BinaryTreeVec<Data>* bt);
     NodeVec(Data&& dat, int i, BinaryTreeVec<Data>* bt);
+    ~NodeVec() { bt->Nodes[Index()]=nullptr; };
 
     NodeVec& operator=(const NodeVec& other);
     NodeVec& operator=(NodeVec&& other) noexcept;
@@ -83,7 +84,7 @@ public:
   /* ************************************************************************ */
 
   // Destructor
-  virtual ~BinaryTreeVec() = default;
+  virtual ~BinaryTreeVec();
 
   /* ************************************************************************ */
 

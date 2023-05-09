@@ -25,13 +25,15 @@ using namespace std;
 ALL'INTERNO DI CONTAINER.HPP E' STATO DEFINITO IL TIPO ULONG
 
 NOTE:
-- BinaryTreeLnk.hpp il distruttore di Nodo deve cancellare anche i figli?
-- Il prof pare che tiene l'operator == e != negli iterator come  =0 o =delete o default
-- Il MAKEFILE o i file oggetto generati nelle cartelle possono causare problemi alla compilazione del prof?
-- Perché dovrei riscrivere la clear in BST? Non va bene quella da BT e perché eredito da Clearable Container se già BT?
+- Lo swap di due nodi in BTVec deve scambiare solo gli elementi relativi ai nodi o anche i puntatori agli alberi/indici?
+- Il distruttore del nodo setta il relativo puntatore al nodo a nullptr, è una pezza a colori molto colorata?
+
 
 TODO:
-- Aggiungere eccezione a IsLeaf
+- Portare IsLeaf in BT
+- Portare Leftchild e RightChild in cpp (BTLnk)
+- Aggiungere eccezioni a Iterator++
+- FARE TEST!!
 
 ************************************************************************** */
 
@@ -236,6 +238,8 @@ int main(){
     }
     cout<<endl<<endl;
   }
+
+  cout<<"GOODBYE!";
 
   return 0;
 };

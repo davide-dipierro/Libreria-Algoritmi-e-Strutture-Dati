@@ -20,16 +20,16 @@ BinaryTreeVec<Data>::NodeVec::NodeVec(Data&& dat, int i, BinaryTreeVec<Data>* bt
 
 template <typename Data>
 typename BinaryTreeVec<Data>::NodeVec& BinaryTreeVec<Data>::NodeVec::operator=(const NodeVec &other) {
-    this->bt = other.bt;
-    this->i=other.i;
     bt->Elements[i]=other.dat;  
+    // this->bt = other.bt;
+    // this->i=other.i;
 }
 
 template <typename Data>
 typename BinaryTreeVec<Data>::NodeVec& BinaryTreeVec<Data>::NodeVec::operator=(NodeVec&& other) noexcept {
-    std::swap(this->bt, other.bt);
-    std::swap(this->i, other.i);
     std::swap(bt->Elements[i], other.dat);  
+    // std::swap(this->bt, other.bt);
+    // std::swap(this->i, other.i);
 }
 
 template <typename Data>
@@ -71,13 +71,13 @@ typename BinaryTreeVec<Data>::NodeVec& BinaryTreeVec<Data>::NodeVec::RightChild(
 template <typename Data>
 BinaryTreeVec<Data>::BinaryTreeVec(const MappableContainer<Data>& other) : Elements(other.Size()), Nodes(other.Size()){
     int i = 0;
+    this->size=other.Size();
     other.Map(
         [this, &i](const Data& dat){
             this->Nodes[i] = new NodeVec(dat, i, this);
             i++;
         }
     );
-    this->size=Nodes.Size();
 }
 
 template <typename Data>
@@ -100,6 +100,11 @@ BinaryTreeVec<Data>::BinaryTreeVec(const BinaryTreeVec<Data> &other) : Elements(
 template <typename Data>
 BinaryTreeVec<Data>::BinaryTreeVec(BinaryTreeVec<Data> &&other) noexcept : Elements(std::move(other.Elements)), Nodes(std::move(other.Nodes)) {
     std::swap(this->size, other.size);
+}
+
+template <typename Data>
+BinaryTreeVec<Data>::~BinaryTreeVec(){
+    for(ulong i{0}; i<Nodes.Size(); i++) if(Nodes[i]!=nullptr) delete Nodes[i];
 }
 
 template <typename Data>
