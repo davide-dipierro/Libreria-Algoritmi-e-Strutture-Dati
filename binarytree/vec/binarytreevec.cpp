@@ -7,29 +7,31 @@ namespace lasd {
 template <typename Data>
 BinaryTreeVec<Data>::NodeVec::NodeVec(const Data &dat, int i, BinaryTreeVec<Data>* bt) {
     this->bt = bt;
-    this->i=i;
+    this->i = i;
     Element()=dat;  
 }
 
 template <typename Data>
 BinaryTreeVec<Data>::NodeVec::NodeVec(Data&& dat, int i, BinaryTreeVec<Data>* bt) {
     this->bt = bt;
-    this->i=i;
+    this->i = i;
     std::swap(Element(), dat);  
 }
 
 template <typename Data>
 typename BinaryTreeVec<Data>::NodeVec& BinaryTreeVec<Data>::NodeVec::operator=(const NodeVec &other) {
     Element()=other.Element();  
-    // this->bt = other.bt;
-    // this->i=other.i;
+    this->bt = other.bt;
+    this->i=other.i;
+    return *this;
 }
 
 template <typename Data>
 typename BinaryTreeVec<Data>::NodeVec& BinaryTreeVec<Data>::NodeVec::operator=(NodeVec&& other) noexcept {
     std::swap(Element(), other.Element());  
-    // std::swap(this->bt, other.bt);
-    // std::swap(this->i, other.i);
+    std::swap(bt, other.bt);
+    std::swap(this->i, other.i);
+    return *this;
 }
 
 template <typename Data>
@@ -84,16 +86,18 @@ BinaryTreeVec<Data>::BinaryTreeVec(MutableMappableContainer<Data> &&other) noexc
     int i = 0;
     other.Map(
         [this, &i](const Data& dat){
-            this->Nodes[i] = new NodeVec(std::move(dat), i, this);
-            i++;
+            this->Nodes[i] = new NodeVec(std::move(dat), i, this); i++;
         }
     );
-    std::swap(this->size, other.size);
+    this->size = other.Size();
 }
 
 template <typename Data>
-BinaryTreeVec<Data>::BinaryTreeVec(const BinaryTreeVec<Data> &other) : Elements(other.Elements), Nodes(other.Nodes) {
-    this->size=other.size;
+BinaryTreeVec<Data>::BinaryTreeVec(const BinaryTreeVec<Data> &other) : Elements(other.Size()), Nodes(other.Size()){
+    for(ulong i{0}; i<other.size; i++){
+        this->Nodes[i] = new NodeVec(other.Elements[i], i, this);
+    }
+    this->size=other.Size();
 }
 
 template <typename Data>
@@ -103,23 +107,35 @@ BinaryTreeVec<Data>::BinaryTreeVec(BinaryTreeVec<Data> &&other) noexcept : Eleme
 
 template <typename Data>
 BinaryTreeVec<Data>::~BinaryTreeVec(){
-    for(ulong i{0}; i<Nodes.Size(); i++) if(Nodes[i]!=nullptr) delete Nodes[i];
+    for(ulong i{0}; i<Nodes.Size(); i++){
+        if(Nodes[i]!=nullptr){
+            delete Nodes[i];
+            Nodes[i]=nullptr;
+        }
+    }
+    Elements.Clear();
 }
 
 template <typename Data>
 BinaryTreeVec<Data>& BinaryTreeVec<Data>::operator=(const BinaryTreeVec& other) {
     Clear();
-    Elements = other.Elements;
-    Nodes=other.Nodes;
+    Nodes.Resize(other.Size());
+    Elements.Resize(other.Size());
+    for(ulong i{0}; i<other.size; i++){
+        this->Nodes[i] = new NodeVec(other.Elements[i], i, this);
+    }
     this->size = other.size;
     return *this;
 }
 
 template <typename Data>
 BinaryTreeVec<Data>& BinaryTreeVec<Data>::operator=(BinaryTreeVec &&other) noexcept {
-    Clear();
-    Elements = std::move(other.Elements);
-    Nodes = std::move(other.Nodes);
+    // Clear();
+    std::swap(Elements, other.Elements);
+    if(this->Size()<other.Size()) for(int i=this->Size(); i<other.Size(); i++) delete other.Nodes[i];
+    else for(int i=other.Size() ; i<this->Size(); i++) delete Nodes[i];
+    Nodes.Resize(Elements.Size());
+    other.Nodes.Resize(other.Elements.Size());
     std::swap(this->size, other.size);
     return *this;
 }
@@ -134,6 +150,17 @@ template <typename Data>
 typename BinaryTreeVec<Data>::NodeVec& BinaryTreeVec<Data>::Root() {
     if(!this->Empty()) return *Nodes[0];
     else throw std::length_error("BinaryTreeVec<Data>::Root(): Empty tree");
+}
+
+template <typename Data>
+void BinaryTreeVec<Data>::Clear() {
+    for(ulong i{0}; i<Nodes.Size(); i++){
+        if(Nodes[i]!=nullptr){
+            delete Nodes[i];
+            Nodes[i]=nullptr;
+        }
+    }
+    Elements.Clear(); this->size=0;
 }
 
 /* ************************************************************************** */

@@ -35,6 +35,7 @@ TODO:
 - Aggiungere eccezioni a Iterator++
 - FARE TEST!!
 
+
 ************************************************************************** */
 
 // bool TestCompareBSTCopy(){
@@ -227,13 +228,14 @@ int main(){
 /_____//_/  |_|/____/  /_____/                          
     )"<<endl;
     std::cout << "Libraries 2023" << std::endl<<std::endl;
-    cout<<"Ecco cosa puoi fare:\n1. Eseguire davtest()\n2. Eseguire lasdtest()\n3. temptest()\n0. Uscire\n";
+    cout<<"Ecco cosa puoi fare:\n1. Eseguire davtest_ex1()\n2. Eseguire davtest_ex2()\n3. Eseguire lasdtest()\n4. temptest()\n0. Uscire\n";
     cout<<"Inserisci la scelta: ";
     cin>>choose;
     switch(choose){
-      case 1 : davtest(); break;
-      case 2 : lasdtest(); break;
-      case 3 : temptest(); break;
+      case 1 : davtest_ex1(); break;
+      case 2 : davtest_ex2(); break;
+      case 3 : lasdtest(); break;
+      case 4 : temptest(); break;
       case 0 : exit=true;
     }
     cout<<endl<<endl;

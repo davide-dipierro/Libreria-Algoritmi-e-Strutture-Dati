@@ -16,7 +16,7 @@ template <typename Data>
 class BST : virtual public ClearableContainer,
             virtual public DictionaryContainer<Data>,
             virtual public BinaryTree<Data>,
-            virtual public BinaryTreeLnk<Data> {
+            virtual protected BinaryTreeLnk<Data> {
 
 private:
 

@@ -103,8 +103,8 @@ public:
   /* ************************************************************************ */
 
   // Comparison operators
-  inline bool operator==(const BinaryTreeLnk& other) const noexcept { return BinaryTree<Data>::operator==(other); };
-  inline bool operator!=(const BinaryTreeLnk& other) const noexcept { return BinaryTree<Data>::operator!=(other); };
+  bool operator==(const BinaryTreeLnk& other) const noexcept { return BinaryTree<Data>::operator==(other); };
+  bool operator!=(const BinaryTreeLnk& other) const noexcept { return BinaryTree<Data>::operator!=(other); };
 
   /* ************************************************************************ */
 

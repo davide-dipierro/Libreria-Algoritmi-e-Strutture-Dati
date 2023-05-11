@@ -5,7 +5,7 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
-bool BinaryTree<Data>::operator==(const BinaryTree& other) const {
+bool BinaryTree<Data>::operator==(const BinaryTree& other) const noexcept {
     if(size!=other.size) return false;
     BTPreOrderIterator i(*this);
     BTPreOrderIterator j(other);
@@ -130,9 +130,7 @@ BTPreOrderIterator<Data>& BTPreOrderIterator<Data>::operator++() {
         } else {
             current=nullptr;
         }
-    } else {
-        throw std::out_of_range("Out of range iterator");
-    }
+    } else throw std::out_of_range("BTPreOrderIterator<Data>::operator++: Iterator is terminated.");
     return *this;
 }
 
@@ -170,8 +168,8 @@ BTPostOrderIterator<Data>::BTPostOrderIterator(const BinaryTree<Data>& other){
 
 template <typename Data>
 BTPostOrderIterator<Data>::BTPostOrderIterator(const BTPostOrderIterator& other) {
-    stack(other.stack);
-    root=other.Root();
+    stack=other.stack;
+    root=other.root;
     current=other.current;
 }
 
@@ -194,14 +192,16 @@ bool BTPostOrderIterator<Data>::Terminated() const noexcept {
 
 template <typename Data>
 BTPostOrderIterator<Data>& BTPostOrderIterator<Data>::operator++(){
-    if(!(stack.Empty())){
-        if (stack.Top()->HasRightChild() && !(&(stack.Top()->RightChild()) == current)) {
-            current = &(stack.Top()->RightChild());
-            current = DeepestLeftLeaf(current);
-        } else {
-            current = stack.TopNPop();
-        }
-    } else current = nullptr;
+    if(!Terminated()){
+        if(!(stack.Empty())){
+            if (stack.Top()->HasRightChild() && !(&(stack.Top()->RightChild()) == current)) {
+                current = &(stack.Top()->RightChild());
+                current = DeepestLeftLeaf(current);
+            } else {
+                current = stack.TopNPop();
+            }
+        } else current = nullptr;
+    } else throw std::out_of_range("BTPostOrderIterator<Data>::operator++: Iterator is terminated.");
 
     return *this;
 }
@@ -285,8 +285,8 @@ BTInOrderIterator<Data>::BTInOrderIterator(const BinaryTree<Data> &other) {
 
 template <typename Data>
 BTInOrderIterator<Data>::BTInOrderIterator(const BTInOrderIterator& other) {
-    stack(other.stack);
-    root=&other.Root();
+    stack=other.stack;
+    root=other.root;
     current=other.current;
 }
 
@@ -330,12 +330,14 @@ bool BTInOrderIterator<Data>::Terminated() const noexcept {
 
 template <typename Data>
 BTInOrderIterator<Data> &BTInOrderIterator<Data>::operator++() {
-    if((stack.Empty()) && !(current->HasRightChild())) current=nullptr;
-    else { 
-        if(current->HasRightChild()){
-            current = Min2(&current->RightChild());
-        } else current = stack.TopNPop();
-    }
+    if(!Terminated()){
+        if((stack.Empty()) && !(current->HasRightChild())) current=nullptr;
+        else { 
+            if(current->HasRightChild()){
+                current = Min2(&current->RightChild());
+            } else current = stack.TopNPop();
+        }
+    } else throw std::out_of_range("BTInOrderIterator<Data>::operator++: Iterator is terminated.");
     return *this;
 }
 
@@ -371,7 +373,7 @@ BTBreadthIterator<Data>::BTBreadthIterator(const BinaryTree<Data>& other) {
 
 template <typename Data>
 BTBreadthIterator<Data>::BTBreadthIterator(const BTBreadthIterator &other) {
-    stack(other.stack);
+    queue = other.queue;
     root = current = other.current;
 }
 
@@ -415,13 +417,13 @@ bool BTBreadthIterator<Data>::Terminated() const noexcept {
 
 template <typename Data>
 BTBreadthIterator<Data>& BTBreadthIterator<Data>::operator++() {
-    if (current != nullptr) {
+    if (!Terminated()) {
         if (current->HasLeftChild()) queue.Enqueue(&(current->LeftChild())); 
         if (current->HasRightChild()) queue.Enqueue(&(current->RightChild()));
         
         if (!queue.Empty()) current = queue.HeadNDequeue();
         else current = nullptr;
-    }
+    }else throw std::out_of_range("BTBreadthIterator<Data>::operator++: Iterator is terminated.");
     return *this;
 }
 

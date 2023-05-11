@@ -14,7 +14,7 @@ BST<Data>::BST(const MappableContainer<Data>& other){
 template <typename Data>
 BST<Data>::BST(MutableMappableContainer<Data>&& other) noexcept{
   other.Map(
-    [this](const Data& dat){
+    [this](Data& dat){
         Insert(std::move(dat));
     }
   );

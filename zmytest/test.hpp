@@ -20,10 +20,16 @@
 #include "../stack/lst/stacklst.hpp"
 #include "../stack/vec/stackvec.hpp"
 
+#include "../binarytree/binarytree.hpp"
+#include "../binarytree/vec/binarytreevec.hpp"
+#include "../binarytree/lnk/binarytreelnk.hpp"
+#include "../bst/bst.hpp"
+
 
 /* ************************************************************************** */
 
-bool davtest();
+bool davtest_ex1();
+bool davtest_ex2();
 
 /* ************************************************************************** */
 

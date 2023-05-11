@@ -28,19 +28,19 @@ protected:
 
   private:
 
-    BinaryTreeVec<Data>* bt;
-    int i;
-
-
   protected:
 
     const ulong Index() const { return i; }//{ return (this)-(bt->Nodes->Elements); }
 
   public:
 
+    BinaryTreeVec<Data>* bt;
+    int i;
+
+
     NodeVec(const Data &dat, int i, BinaryTreeVec<Data>* bt);
     NodeVec(Data&& dat, int i, BinaryTreeVec<Data>* bt);
-    ~NodeVec() { bt->Nodes[Index()]=nullptr; };
+    ~NodeVec() { if(!(bt->Nodes.Empty())) bt->Nodes[Index()]=nullptr; };
 
     NodeVec& operator=(const NodeVec& other);
     NodeVec& operator=(NodeVec&& other) noexcept;
@@ -97,8 +97,8 @@ public:
   /* ************************************************************************ */
 
   // Comparison operators
-  inline bool operator==(const BinaryTreeVec& other) const noexcept { return Elements==other.Elements; };
-  inline bool operator!=(const BinaryTreeVec& other) const noexcept { return !(operator==(other)); };
+  bool operator==(const BinaryTreeVec& other) const noexcept { return (Elements==other.Elements); };
+  bool operator!=(const BinaryTreeVec& other) const noexcept { return !(this->operator==(other)); };
 
   /* ************************************************************************ */
 
@@ -116,7 +116,7 @@ public:
 
   // Specific member function (inherited from ClearableContainer)
 
-  virtual inline void Clear() override { Elements.Clear(); Nodes.Clear(); this->size=0; }; // Override ClearableContainer member (throw std::length_error when empty)
+  virtual void Clear() override; // Override ClearableContainer member (throw std::length_error when empty)
 
   /* ************************************************************************ */
 

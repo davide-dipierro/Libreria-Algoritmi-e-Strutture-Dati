@@ -41,7 +41,7 @@ public:
 
     // Comparison operators
     bool operator==(const Node& other) const noexcept { return (this->Element()==other.Element()); }; // Comparison of abstract types is possible, but should not be visible.
-    inline bool operator!=(const Node& other) const noexcept { return (!(operator==(other))); }; // Comparison of abstract types is possible, but should not be visible.
+    inline bool operator!=(const Node& other) const noexcept { return (!(this->operator==(other))); }; // Comparison of abstract types is possible, but should not be visible.
 
   public:
 
@@ -91,8 +91,8 @@ public:
   /* ************************************************************************ */
 
   // Comparison operators
-  bool operator==(const BinaryTree& other) const; // Comparison of abstract binary tree is possible.
-  inline bool operator!=(const BinaryTree& other) const noexcept { return !(operator==(other)); } // Comparison of abstract binary tree is possible.
+  bool operator==(const BinaryTree& other) const noexcept; // Comparison of abstract binary tree is possible.
+  bool operator!=(const BinaryTree& other) const noexcept { return !(this->operator==(other)); } // Comparison of abstract binary tree is possible.
 
   /* ************************************************************************ */
 
@@ -334,7 +334,7 @@ public:
 
   // Comparison operators
   bool operator==(const BTPreOrderIterator& other) const noexcept;
-  inline bool operator!=(const BTPreOrderIterator& other) const noexcept { return !(operator==(other)); }
+  inline bool operator!=(const BTPreOrderIterator& other) const noexcept { return !(this->operator==(other)); }
 
   /* ************************************************************************ */
 

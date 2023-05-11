@@ -6,6 +6,9 @@
 #include <stack>
 #include <queue>
 
+
+#include "../container/mappable.hpp"
+
 #include "test.hpp"
 
 using namespace std;
@@ -823,7 +826,7 @@ bool TestSortVec(){
     return correct;
 }
 
-bool davtest(){
+bool davtest_ex1(){
 
     cout<<"\n\n*********** CONFIGURAZIONE DEI TEST: ***********"<<endl;
     cout<<"Necessiti degli output di debug?"<<endl;
@@ -1083,5 +1086,779 @@ bool davtest(){
 
     return true;
 }
+
+
+/************************************************************************************************
+
+
+
+ *          INIZIO TEST SU BT
+
+
+
+*************************************************************************************************/
+
+
+
+
+
+
+
+bool TestEqualBT(){
+    bool correct=true;
+    int temp_size = genSize(gen)+1;
+    lasd::Vector<int> v1(temp_size);
+    for(int i=0; i<temp_size; i++){
+        int temp_num = genNum(gen);
+        v1[i]=temp_num;
+    } 
+    lasd::BinaryTreeLnk<int> s1(v1);
+    lasd::BinaryTreeVec<int> s2(v1);
+    correct&=(s1.BinaryTree<int>::operator==(s2));
+    v1[genSize(gen)%temp_size]=genNum(gen);
+    lasd::BinaryTreeVec<int> s3(v1);
+    correct&=(s1.BinaryTree<int>::operator!=(s3));
+    s1.Clear();
+    s2.Clear();
+    correct&=(s1.BinaryTree<int>::operator==(s2));
+    return correct;
+}
+
+bool TestEqualBTLnk(){
+    bool correct=true;
+    int temp_size = genSize(gen)+1;
+    lasd::Vector<int> v1(temp_size);
+    for(int i=0; i<temp_size; i++){
+        int temp_num = genNum(gen);
+        v1[i]=temp_num;
+    } 
+    lasd::BinaryTreeLnk<int> s1(v1);
+    lasd::BinaryTreeLnk<int> s2(v1);
+    v1[genSize(gen)%temp_size]=genNum(gen);
+    lasd::BinaryTreeLnk<int> s3(v1);
+    correct&=(s1==s2);
+    correct&=(s1!=s3);
+    s2.Clear();
+    correct&=(s1!=s2);
+    s1.Clear();
+    correct&=(s1==s2);
+    return correct;
+}
+
+bool TestEqualBTVec(){
+    bool correct=true;
+    int temp_size = genSize(gen)+1;
+    lasd::Vector<int> v1(temp_size);
+    for(int i=0; i<temp_size; i++){
+        int temp_num = genNum(gen);
+        v1[i]=temp_num;
+    } 
+    lasd::BinaryTreeVec<int> s1(v1);
+    lasd::BinaryTreeVec<int> s2(v1);
+    v1[genSize(gen)%temp_size]=genNum(gen);
+    lasd::BinaryTreeVec<int> s3(v1);
+    correct&=(s1==s2);
+    correct&=(s1!=s3);
+    s2.Clear();
+    correct&=(s1!=s2);
+    s1.Clear();
+    correct&=(s1==s2);
+    return correct;
+}
+
+bool TestEqualBST(){
+    bool correct=true;
+    int temp_size = genSize(gen)+1;
+    lasd::Vector<int> v1(temp_size);
+    for(int i=0; i<temp_size; i++){
+        int temp_num = genNum(gen);
+        v1[i]=temp_num;
+    } 
+    lasd::BST<int> s1(v1);
+    lasd::BST<int> s2(v1);
+    v1[genSize(gen)%temp_size]=genNum(gen);
+    lasd::BST<int> s3(v1);
+    correct&=(s1==s2);
+    correct&=(s1!=s3);
+    s2.Clear();
+    correct&=(s1!=s2);
+    s1.Clear();
+    correct&=(s1==s2);
+    return correct;
+}
+
+bool TestAssBTVec(){
+    bool correct=true;
+    int temp_size = genSize(gen);
+    lasd::Vector<int> v1(temp_size);
+    for(int i=0; i<temp_size; i++) v1[i]=genNum(gen);
+    lasd::BinaryTreeVec<int> s1(v1);
+    lasd::BinaryTreeVec<int> s2;
+    s2 = s1;
+    correct&=(s1==s2);
+    s2.Clear();
+    s1.Clear();
+    correct&=(s1==s2);
+    return correct;
+}
+
+bool TestAssBTLnk(){
+    bool correct=true;
+    int temp_size = genSize(gen);
+    lasd::Vector<int> v1(temp_size);
+    for(int i=0; i<temp_size; i++) v1[i]=genNum(gen);
+    lasd::BinaryTreeLnk<int> s1(v1);
+    lasd::BinaryTreeLnk<int> s2;
+    s2 = s1;
+    correct&=(s1==s2);
+    s2.Clear();
+    s1.Clear();
+    correct&=(s1==s2);
+    return correct;
+}
+
+bool TestAssBST(){
+    bool correct=true;
+    int temp_size = genSize(gen);
+    lasd::Vector<int> v1(temp_size);
+    for(int i=0; i<temp_size; i++) v1[i]=genNum(gen);
+    lasd::BST<int> s1(v1);
+    lasd::BST<int> s2;
+    s2 = s1;
+    correct&=(s1==s2);
+    s2.Clear();
+    s1.Clear();
+    correct&=(s1==s2);
+    return correct;
+}
+
+bool TestMAssBTVec(){
+    bool correct=true;
+    int temp_size1 = genSize(gen);
+    int temp_size2 = genSize(gen);
+    lasd::Vector<int> v1(temp_size1);
+    lasd::Vector<int> v2(temp_size2);
+    for(int i=0; i<v1.Size(); i++) v1[i]=genNum(gen);
+    for(int i=0; i<v2.Size(); i++) v2[i]=genNum(gen);
+    lasd::BinaryTreeVec<int> s1(v1);
+    int r1 = s1.Root().Element();
+    lasd::BinaryTreeVec<int> s2(v2);
+    int r2 = s2.Root().Element();
+    lasd::BinaryTreeVec<int> s3(v1);
+    lasd::BinaryTreeVec<int> s4(v2);
+    lasd::BinaryTreeVec<int> s5;
+    s2 = move(s1);
+    correct&= (s2.Root().Element() == r1);
+    correct&=(s1==s4);
+    s1.Map(
+        [](int& dat){
+            dat+=dat;
+        }
+    );
+    correct&=(s1!=s4);
+    correct&=(s2==s3);
+    s1 = move(s5);
+    correct&=(s1.Empty());
+    s2.Clear();
+    correct&=(s1==s2);
+    return correct;
+}
+
+bool TestMAssBTLnk(){
+    bool correct=true;
+    int temp_size1 = genSize(gen);
+    int temp_size2 = genSize(gen);
+    lasd::Vector<int> v1(temp_size1);
+    lasd::Vector<int> v2(temp_size2);
+    for(int i=0; i<v1.Size(); i++) v1[i]=genNum(gen);
+    for(int i=0; i<v2.Size(); i++) v2[i]=genNum(gen);
+    lasd::BinaryTreeLnk<int> s1(v1);
+    int r1 = s1.Root().Element();
+    lasd::BinaryTreeLnk<int> s2(v2);
+    int r2 = s2.Root().Element();
+    lasd::BinaryTreeLnk<int> s3(v1);
+    lasd::BinaryTreeLnk<int> s4(v2);
+    lasd::BinaryTreeLnk<int> s5;
+    s2 = move(s1);
+    correct&= (s2.Root().Element() == r1);
+    correct&=(s1==s4);
+    s1.Map(
+        [](int& dat){
+            dat+=dat;
+        }
+    );
+    correct&=(s1!=s4);
+    correct&=(s2==s3);
+    s1 = move(s5);
+    correct&=(s1.Empty());
+    s2.Clear();
+    correct&=(s1==s2);
+    return correct;
+}
+
+bool TestMAssBST(){
+    bool correct=true;
+    int temp_size = genSize(gen);
+    lasd::Vector<int> v1(temp_size);
+    for(int i=0; i<temp_size; i++){
+        v1[i]=genNum(gen);
+    }
+    lasd::BST<int> s1(v1);
+    lasd::BST<int> s2;
+    s2 = move(s1);
+    correct&=(s1.Empty());
+    s2.Clear();
+    correct&=(s1==s2);
+    return correct;
+}
+
+bool CCBTLnk(){
+    if(output) cout<<"\n**********TEST MCVec**********\n";
+    bool correct=true;
+    lasd::Vector<int> v1(genSize(gen));
+    for(ulong i=0; i<v1.Size(); i++) v1[i]=genNum(gen);
+    lasd::BinaryTreeLnk<int> s1(v1);
+    lasd::BinaryTreeLnk<int> s2(s1);
+    correct&=(s1==s2);
+    s1.Map(
+        [](int& dat){
+            dat+=dat;
+        }
+    );
+    correct&=(s1!=s2);
+    s1.Clear();
+    correct&=(s1.Empty());
+    s2.Clear();
+    correct&=(s1==s2);
+    return correct;
+}
+
+bool CCBTVec(){
+    if(output) cout<<"\n**********TEST MCVec**********\n";
+    bool correct=true;
+    lasd::Vector<int> v1(genSize(gen));
+    for(ulong i=0; i<v1.Size(); i++) v1[i]=genNum(gen);
+    lasd::BinaryTreeVec<int> s1(v1);
+    lasd::BinaryTreeVec<int> s2(s1);
+    correct&=(s1==s2);
+    s1.Map(
+        [](int& dat){
+            dat+=dat;
+        }
+    );
+    correct&=(s1!=s2);
+    s1.Clear();
+    correct&=(s1.Empty());
+    s2.Clear();
+    correct&=(s1==s2);
+    return correct;
+}
+
+bool CCBST(){
+    if(output) cout<<"\n**********TEST MCVec**********\n";
+    bool correct=true;
+    lasd::Vector<int> v1(genSize(gen));
+    for(ulong i=0; i<v1.Size(); i++) v1[i]=genNum(gen);
+    lasd::BST<int> s1(v1);
+    lasd::BST<int> s2(s1);
+    correct&=(s1==s2);
+    s2.Clear();
+    s1.Clear();
+    correct&=(s1==s2);
+    return correct;
+}
+
+bool MCBTLnk(){
+    bool correct=true;
+    int temp_size1 = genSize(gen);
+    lasd::Vector<int> v1(temp_size1);
+    for(int i=0; i<v1.Size(); i++) v1[i]=genNum(gen);
+    lasd::BinaryTreeLnk<int> s1(v1);
+    lasd::BinaryTreeLnk<int> s2(v1);
+    lasd::BinaryTreeLnk<int> s3(move(s1));
+    correct&=(s1.Empty());
+    correct&=(s2==s3);
+    s2.Map(
+        [](int& dat){
+            dat+=dat;
+        }
+    );
+    correct&=(s2!=s3);
+    s3.Clear();
+    correct&=(s3.Empty());
+    s2.Clear();
+    correct&=(s3==s2);
+    return correct;
+}
+
+bool MCBTVec(){
+    bool correct=true;
+    int temp_size1 = genSize(gen);
+    lasd::Vector<int> v1(temp_size1);
+    for(int i=0; i<v1.Size(); i++) v1[i]=genNum(gen);
+    lasd::BinaryTreeVec<int> s1(v1);
+    lasd::BinaryTreeVec<int> s2(v1);
+    lasd::BinaryTreeVec<int> s3(move(s1));
+    correct&=(s1.Empty());
+    correct&=(s2==s3);
+    s2.Map(
+        [](int& dat){
+            dat+=dat;
+        }
+    );
+    correct&=(s2!=s3);
+    s3.Clear();
+    correct&=(s3.Empty());
+    s2.Clear();
+    correct&=(s3==s2);
+    return correct;
+}
+
+bool MCBST(){
+    bool correct=true;
+    lasd::Vector<int> v1(genSize(gen));
+    for(int i=0; i<v1.Size(); i++)v1[i]=genNum(gen);
+    lasd::BST<int> s1(v1);
+    lasd::BST<int> s2(move(s1));
+    correct&=(s1.Empty());
+    s2.Clear();
+    correct&=(s1==s2);
+    return correct;
+}
+
+template <typename Data>
+bool MSCBTLnk(lasd::MutableMappableContainer<Data>* cont){
+    lasd::BinaryTreeLnk<int> s1(*cont);
+    bool correct=true;
+    lasd::BTBreadthIterator<int> itr(s1);
+    (*cont).Map(
+        [&correct, &itr](const Data& dat){
+            correct&= ((*itr)==dat);
+            ++itr;
+        }
+    );
+    return correct;
+}
+
+bool MSCBTLnkVec(){
+    bool correct=true;
+    lasd::Vector<int> s1(genSize(gen));
+    for(int i=0; i<s1.Size(); i++)s1[i]=genNum(gen);
+    correct&=(MSCBTLnk(&s1));
+    return correct;
+}
+
+bool MSCBTLnkLst(){
+    bool correct=true;
+    lasd::List<int> s1;
+    int temp_size = genSize(gen);
+    for(int i=0; i<temp_size; i++) s1.Insert(genNum(gen));
+    correct&=MSCBTLnk(&s1);
+    return correct;
+}
+
+template <typename Data>
+bool MSCBTVec(lasd::MutableMappableContainer<Data>* cont){
+    lasd::BinaryTreeVec<int> s1(*cont);
+    bool correct=true;
+    lasd::BTBreadthIterator<int> itr(s1);
+    (*cont).Map(
+        [&correct, &itr](const Data& dat){
+            correct&= ((*itr)==dat);
+            ++itr;
+        }
+    );
+    return correct;
+}
+
+bool MSCBTVecVec(){
+    bool correct=true;
+    lasd::Vector<int> s1(genSize(gen));
+    for(int i=0; i<s1.Size(); i++)s1[i]=genNum(gen);
+    correct&=(MSCBTVec(&s1));
+    return correct;
+}
+
+bool MSCBTVecLst(){
+    bool correct=true;
+    lasd::List<int> s1;
+    int temp_size = genSize(gen);
+    for(int i=0; i<temp_size; i++) s1.Insert(genNum(gen));
+    correct&=MSCBTVec(&s1);
+    return correct;
+}
+
+template <typename Data>
+bool MSCBST(lasd::MutableMappableContainer<Data>* cont){
+    lasd::BST<int> s1(*cont);
+    bool correct=true;
+    (*cont).Map(
+        [&correct, &s1](const Data& dat){
+            correct&=s1.Exists(dat);
+        }
+    );
+    return correct;
+}
+
+bool MSCBSTVec(){
+    bool correct=true;
+    lasd::Vector<int> s1(genSize(gen));
+    for(int i=0; i<s1.Size(); i++) s1[i]=genNum(gen);
+    correct&=(MSCBST(&s1));
+    return correct;
+}
+
+bool MSCBSTLst(){
+    bool correct=true;
+    lasd::List<int> s1;
+    int temp_size = genSize(gen);
+    for(int i=0; i<temp_size; i++) s1.Insert(genNum(gen));
+    correct&=MSCBST(&s1);
+    return correct;
+}
+
+template <typename Data>
+bool SCBTLnk(const lasd::MappableContainer<Data>* cont){
+    const lasd::BinaryTreeLnk<int> s1(*cont);
+    bool correct=true;
+    lasd::BTBreadthIterator<int> itr(s1);
+    (*cont).Map(
+        [&correct, &itr](const Data& dat){
+            correct&= ((*itr)==dat);
+            ++itr;
+        }
+    );
+    return correct;
+}
+
+bool SCBTLnkVec(){
+    bool correct=true;
+    lasd::Vector<int> s1(genSize(gen));
+    for(int i=0; i<s1.Size(); i++)s1[i]=genNum(gen);
+    const lasd::Vector<int>s2(s1);
+    correct&=(SCBTLnk(&s1));
+    return correct;
+}
+
+bool SCBTLnkLst(){
+    bool correct=true;
+    lasd::List<int> s1;
+    int temp_size = genSize(gen);
+    for(int i=0; i<temp_size; i++) s1.Insert(genNum(gen));
+    const lasd::List<int>s2(s1);
+    correct&=SCBTLnk(&s2);
+    return correct;
+}
+
+template <typename Data>
+bool SCBTVec(const lasd::MappableContainer<Data>* cont){
+    const lasd::BinaryTreeVec<int> s1(*cont);
+    bool correct=true;
+    lasd::BTBreadthIterator<int> itr(s1);
+    (*cont).Map(
+        [&correct, &itr](const Data& dat){
+            correct&= ((*itr)==dat);
+            ++itr;
+        }
+    );
+    return correct;
+}
+
+bool SCBTVecVec(){
+    bool correct=true;
+    lasd::Vector<int> s1(genSize(gen));
+    for(int i=0; i<s1.Size(); i++)s1[i]=genNum(gen);
+    const lasd::Vector<int>s2(s1);
+    correct&=(SCBTVec(&s2));
+    return correct;
+}
+
+bool SCBTVecLst(){
+    bool correct=true;
+    lasd::List<int> s1;
+    int temp_size = genSize(gen);
+    for(int i=0; i<temp_size; i++) s1.Insert(genNum(gen));
+    const lasd::List<int>s2(s1);
+    correct&=SCBTVec(&s2);
+    return correct;
+}
+
+template <typename Data>
+bool SCBST(const lasd::MappableContainer<Data>* cont){
+    const lasd::BST<int> s1(*cont);
+    bool correct=true;
+    (*cont).Map(
+        [&correct, &s1](const Data& dat){
+            correct&=s1.Exists(dat);
+        }
+    );
+    return correct;
+}
+
+bool SCBSTVec(){
+    bool correct=true;
+    lasd::Vector<int> s1(genSize(gen));
+    for(int i=0; i<s1.Size(); i++) s1[i]=genNum(gen);
+    const lasd::Vector<int>s2(s1);
+    correct&=(SCBST(&s2));
+    return correct;
+}
+
+bool SCBSTLst(){
+    bool correct=true;
+    lasd::List<int> s1;
+    int temp_size = genSize(gen);
+    for(int i=0; i<temp_size; i++) s1.Insert(genNum(gen));
+    const lasd::List<int>s2(s1);
+    correct&=SCBST(&s2);
+    return correct;
+}
+
+
+
+bool davtest_ex2(){
+
+    // cout<<"\n\n*********** CONFIGURAZIONE DEI TEST: ***********"<<endl;
+    // cout<<"Necessiti degli output di debug?"<<endl;
+    // cout<<"1. Voglio visualizzare gli output di debug. (La dimensione delle strutture sara' ridotta)."<<endl;
+    // cout<<"2. No, voglio proseguire senza visualizzare gli output di debug."<<endl;
+    // cout<<"Inserisci l'opzione: ";
+    // int choose = -1;
+    // while(choose!=1 && choose!=2) cin>>choose;
+    // output = (choose==1);
+    // cout<<"\nChe tipo di test vuoi eseguire?"<<endl;
+    // cout<<"1. Test su casi limite (La dimensione massima delle strutture sara' impostata ad 1 in modo da forzare interazioni tra strutture vuote)"<<endl;
+    // cout<<"2. Test generale (L'esecuzione puo' apparire rallentata)"<<endl;
+    // cout<<"Inserisci l'opzione: ";
+    // choose = -1;
+    // while(choose!=1 && choose!=2) cin>>choose;
+    // if(choose==1){
+    //     MAX_SIZE = 1;
+    // }else{
+    //     MAX_SIZE = (output) ? 20 : 100;
+    // }
+    // uniform_int_distribution<int> select_genSize(MIN_SIZE,MAX_SIZE);
+    // genSize = select_genSize;
+    // cout<<"\nL'output sara' sospeso per velocizzare l'esecuzione se i test devono essere ripetuti piu' di 50 volte.";
+    // cout<<"\nInserisci il numero di iterazioni del test (consigliato 50): ";
+    // choose = -1;
+    // while(choose<0) cin>>choose;
+
+    // ITERAZIONI = choose;
+    // if(ITERAZIONI>50) output=false;
+    // bool total = true;
+
+    // while(ITERAZIONI>0){
+        
+        //Operator==
+        bool testEqualBT = false;
+        bool testEqualBTVec = false;
+        bool testEqualBTLnk = false;
+        bool testEqualBST = false;
+
+        //Assignement
+        bool testAssBTVec = false;
+        bool testAssBTLnk = false;
+        bool testAssBST = false;
+        bool testMAssBTVec = false;
+        bool testMAssBTLnk = false;
+        bool testMAssBST = false;
+
+        //Constructor
+        bool testCCBTLnk = false;
+        bool testMCBTLnk = false;
+        bool testCCBTVec = false;
+        bool testMCBTVec = false;
+        bool testCCBST = false;
+        bool testMCBST = false;
+
+        //Specific constructor (Non mutable)
+        bool testSCBTLnkVec = false;
+        bool testSCBTLnkLst = false;
+        bool testSCBTVecVec = false;
+        bool testSCBTVecLst = false;
+        bool testSCBSTVec = false;
+        bool testSCBSTLst = false;
+
+        //Specific constructor (Mutable)
+        bool testMSCBTLnkVec = false;
+        bool testMSCBTLnkLst = false;
+        bool testMSCBTVecVec = false;
+        bool testMSCBTVecLst = false;
+        bool testMSCBSTVec = false;
+        bool testMSCBSTLst = false;
+
+        //Iterator
+        // bool testPreOrderIterator = false;
+        // bool testPostOrderIterator = false;
+        // bool testMSCBTVecVec = false;
+        // bool testMSCBTVecLst = false;
+        // bool testMSCBSTVec = false;
+        // bool testMSCBSTLst = false;
+
+        // if(!output) cout<<"\nComparison with STD...";
+        // try { StackVSSTD = TestStackVSSTD(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        // try { QueueVSSTD = TestQueueVSSTD(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+
+        // if(!output) cout<<"\nTesting sort...";
+        // try { testSort = TestSortVec(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+
+        if(!output) cout<<"\nTesting comparison operators...";
+        try { testEqualBT = TestEqualBT(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        try { testEqualBTVec = TestEqualBTVec(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        try { testEqualBTLnk = TestEqualBTLnk(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        try { testEqualBST = TestEqualBST(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+
+        if(!output) cout<<"\nTesting assignment operators...";
+        try { testAssBTVec = TestAssBTVec(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        try { testAssBTLnk = TestAssBTLnk(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        try { testAssBST = TestAssBST(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+
+        if(!output) cout<<"\nTesting move assignment operators...";
+        try { testMAssBTVec = TestMAssBTVec(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        try { testMAssBTLnk = TestMAssBTLnk(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        try { testMAssBST = TestMAssBST(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+
+        if(!output) cout<<"\nTesting constructors...";
+        try { testCCBTLnk = CCBTLnk(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        try { testCCBTVec = CCBTVec(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        try { testCCBST = CCBST(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+
+        
+        if(!output) cout<<"\nTesting move constructors...";
+        try { testMCBTLnk = MCBTLnk(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        try { testMCBTVec = MCBTVec(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        try { testMCBST = MCBST(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+
+        if(!output) cout<<"\nTesting non-mutable specific constructors...";
+        try { testSCBTLnkVec = SCBTLnkVec(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        try { testSCBTLnkLst = SCBTLnkLst(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        try { testSCBTVecVec = SCBTVecVec(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        try { testSCBTVecLst = SCBTVecLst(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        try { testSCBSTVec = SCBSTVec(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        try { testSCBSTLst = SCBSTLst(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+
+        if(!output) cout<<"\nTesting mutable specific constructors...";
+        try { testMSCBTLnkVec = MSCBTLnkVec(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        try { testMSCBTLnkLst = MSCBTLnkLst(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        try { testMSCBTVecVec = MSCBTVecVec(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        try { testMSCBTVecLst = MSCBTVecLst(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        try { testMSCBSTVec = MSCBSTVec(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        try { testMSCBSTLst = MSCBSTLst(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+
+        // if(!output) cout<<"\nTesting Map...";
+
+
+
+
+
+        if(true) {
+            cout<<"\n\n*********** RESULTS ***********"<<endl;
+
+            cout<<"\nCOMPARISION OPERATORS:"<<endl;
+            cout<<"BinaryTree == BinaryTree: "<<((testEqualBT) ? "Corretto" : "Errore")<<endl;
+            cout<<"BinaryTreeLnk == BTLnk: "<<((testEqualBTLnk) ? "Corretto" : "Errore")<<endl;
+            cout<<"BinaryTreeVec == BinaryTreeVec: "<<((testEqualBTVec) ? "Corretto" : "Errore")<<endl;
+            cout<<"BinarySearchTree == BinarySearchTree: "<<((testEqualBST) ? "Corretto" : "Errore")<<endl;
+
+            cout<<"\nASSIGNAMENT OPERATORS:"<<endl;
+            cout<<"BinaryTreeLnk = BinaryTreeLnk: "<<((testAssBTLnk) ? "Corretto" : "Errore")<<endl;
+            cout<<"BinaryTreeVec = BinaryTreeVec: "<<((testAssBTVec) ? "Corretto" : "Errore")<<endl;
+            cout<<"BinarySearchTree = BinarySearchTree: "<<((testAssBST) ? "Corretto" : "Errore")<<endl;
+
+            cout<<"\nMOVE ASSIGNAMENT OPERATORS:"<<endl;
+            cout<<"BinaryTreeLnk = move(BinaryTreeLnk): "<<((testMAssBTLnk) ? "Corretto" : "Errore")<<endl;
+            cout<<"BinaryTreeVec = move(BinaryTreeVec): "<<((testMAssBTVec) ? "Corretto" : "Errore")<<endl;
+            cout<<"BinarySearchTree = move(BinarySearchTree): "<<((testMAssBST) ? "Corretto" : "Errore")<<endl;
+
+            cout<<"\nCOPY CONSTRUCTORS: "<<endl;
+            cout<<"BinaryTreeLnk(BinaryTreeLnk): "<<((testCCBTLnk) ? "Corretto" : "Errore")<<endl;
+            cout<<"BinaryTreeVec(BinaryTreeVec): "<<((testCCBTVec) ? "Corretto" : "Errore")<<endl;
+            cout<<"BinarySearchTree(BinarySearchTree): "<<((testCCBST) ? "Corretto" : "Errore")<<endl;
+
+            cout<<"\nMOVE CONSTRUCTORS: "<<endl;
+            cout<<"BinaryTreeLnk(move(BinaryTreeLnk)): "<<((testMCBTLnk) ? "Corretto" : "Errore")<<endl;
+            cout<<"BinaryTreeVec(move(BinaryTreeVec)): "<<((testMCBTVec) ? "Corretto" : "Errore")<<endl;
+            cout<<"BinarySearchTree(move(BinarySearchTree)): "<<((testMCBST) ? "Corretto" : "Errore")<<endl;
+            
+            cout<<"\nSPECIFIC NON-MUTABLE SPECIFIC CONSTRUCTORS: "<<endl;
+            cout<<"BinaryTreeLnk(Vector): "<<((testSCBTLnkVec) ? "Corretto" : "Errore")<<endl;
+            cout<<"BinaryTreeLnk(List): "<<((testSCBTLnkLst) ? "Corretto" : "Errore")<<endl;
+            cout<<"BinaryTreeVec(Vector): "<<((testSCBTVecVec) ? "Corretto" : "Errore")<<endl;
+            cout<<"BinaryTreeVec(List): "<<((testSCBTVecLst) ? "Corretto" : "Errore")<<endl;
+            cout<<"BinarySearchTree(Vector): "<<((testSCBSTVec) ? "Corretto" : "Errore")<<endl;
+            cout<<"BinarySearchTree(List): "<<((testSCBSTVec) ? "Corretto" : "Errore")<<endl;
+
+            cout<<"\nSPECIFIC MUTABLE SPECIFIC CONSTRUCTORS: "<<endl;
+            cout<<"BinaryTreeLnk(Vector): "<<((testMSCBTLnkVec) ? "Corretto" : "Errore")<<endl;
+            cout<<"BinaryTreeLnk(List): "<<((testMSCBTLnkLst) ? "Corretto" : "Errore")<<endl;
+            cout<<"BinaryTreeVec(Vector): "<<((testMSCBTVecVec) ? "Corretto" : "Errore")<<endl;
+            cout<<"BinaryTreeVec(List): "<<((testMSCBTVecLst) ? "Corretto" : "Errore")<<endl;
+            cout<<"BinarySearchTree(Vector): "<<((testMSCBSTVec) ? "Corretto" : "Errore")<<endl;
+            cout<<"BinarySearchTree(List): "<<((testMSCBSTVec) ? "Corretto" : "Errore")<<endl;
+        }
+
+        // if (StackVSSTD && QueueVSSTD && testSort && testEqualLinear && testEqualVector && testEqualList && testEqualStackLst 
+        //     && testEqualStackVec && testEqualQueueLst && testEqualQueueVec && testAssVector && testAssList && testAssStackLst 
+        //     && testAssStackVec && testAssQueueLst && testAssQueueVec && testCCVec && testMCVec && testCCList && testMCList 
+        //     && testCCStackVec && testMCStackVec && testCCStackLst && testMCStackLst && testCCQueueLst && testMCQueueLst 
+        //     && testCCQueueVec && testMCQueueVec && testSCVecFromList && testSCListFromVector && testSCStackVecFromList 
+        //     && testSCStackVecFromVector && testSCStackLstFromList && testSCStackLstFromVector && testSCQueueVecFromList 
+        //     && testSCQueueVecFromVector && testSCQueueLstFromList && testSCQueueLstFromVector && testMSCVecFromList 
+        //     && testMSCListFromVector && testMSCStackVecFromList && testMSCStackVecFromVector && testMSCStackLstFromList 
+        //     && testMSCStackLstFromVector && testMSCQueueVecFromList && testMSCQueueVecFromVector && testMSCQueueLstFromList 
+        //     && testMSCQueueLstFromVector
+        // )
+        // {
+        //     total&=true;
+        // } else {
+        //     total&=false;
+        // }
+
+        // if(!total) break;
+
+        // ITERAZIONI--;
+    // }
+
+    // if(total==true){
+    //     cout<<"\nTUTTI I TEST SONO STATI SUPERATI!! :D ";
+    // }else{
+    //     cout<<"\nCi sono test che non sono stati superati :(";
+    // }
+
+    cout<<endl;
+
+    return true;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #endif
