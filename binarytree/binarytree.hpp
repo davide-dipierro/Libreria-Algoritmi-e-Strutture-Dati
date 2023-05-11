@@ -141,6 +141,12 @@ public:
 
   virtual void BreadthMap(MapFunctor) const override; // Override BreadthMappableContainer member
 
+  // SE FUNZIONASSE...
+  void printBT(const std::string& prefix, const BinaryTree<Data>::Node* node, bool isLeft) const;
+  void printBT() const {
+    printBT("", &Root(), false);    
+  }
+
 protected:
 
   // Auxiliary member function (for PreOrderMappableContainer)

@@ -17,6 +17,8 @@ int MIN_SIZE = 0;
 int MAX_SIZE = 100;
 int MIN_NUM INT16_MIN;
 int MAX_NUM = INT16_MAX;
+int MIN_SMALL_NUM = 0;
+int MAX_SMALL_NUM = 0;
 int ITERAZIONI = 1;
 
 bool output;
@@ -24,6 +26,7 @@ bool output;
 default_random_engine gen(random_device{}());
 uniform_int_distribution<int> genSize(MIN_SIZE,MAX_SIZE);
 uniform_int_distribution<int> genNum(MIN_NUM,MAX_NUM);
+uniform_int_distribution<int> genSmallNum(0,9);
 
 /*
 
@@ -1797,12 +1800,65 @@ bool TestBSTSucc(){
     return correct;
 }
 
+void MapPrint(int value){
+  cout<<"\t"<<value;
+}
+
+bool TestMapsBTLnk(){
+    cout<<"\n**********TEST TestMapsBTLnk**********\n";
+    lasd::Vector<int> v1(genSize(gen));
+    for(int i=0; i<v1.Size(); i++) v1[i]=genNum(gen);
+    cout<<"\nVettore: ";
+    v1.PreOrderMap(MapPrint);
+    lasd::BinaryTreeLnk<int> bt(v1);
+    cout<<"\nBTLnk:\n";
+    bt.printBT();
+    cout<<"\nPreOrderMap: ";
+    bt.PreOrderMap(MapPrint);
+    cout<<"\nPostOrderMap: ";
+    bt.PostOrderMap(MapPrint);
+    cout<<"\nInOrderMap: ";
+    bt.InOrderMap(MapPrint);
+    cout<<"\nBreadthMap: ";
+    bt.BreadthMap(MapPrint);
+    cout<<endl<<"Si prega di verificare l'esattezza delle map e comunicarne il risultato:\n1. Le map sono corrette\n2. Le map non sono corrette\nInserisci l'opzione: ";
+    int choose = -1;
+    while(choose!=1 && choose!=2) cin>>choose;
+    return (choose==1);
+}
+
+bool TestMapsBTVec(){
+    cout<<"\n**********TEST TestMapsBTVec**********\n";
+    lasd::Vector<int> v1(genSize(gen));
+    for(int i=0; i<v1.Size(); i++) v1[i]=genNum(gen);
+    cout<<"\nVettore: ";
+    v1.PreOrderMap(MapPrint);
+    lasd::BinaryTreeVec<int> bt(v1);
+    cout<<"\nBTVec:\n";
+    bt.printBT();
+    cout<<"\nPreOrderMap: ";
+    bt.PreOrderMap(MapPrint);
+    cout<<"\nPostOrderMap: ";
+    bt.PostOrderMap(MapPrint);
+    cout<<"\nInOrderMap: ";
+    bt.InOrderMap(MapPrint);
+    cout<<"\nBreadthMap: ";
+    bt.BreadthMap(MapPrint);
+    cout<<endl<<"Si prega di verificare l'esattezza delle map e comunicarne il risultato:\n1. Le map sono corrette\n2. Le map non sono corrette\nInserisci l'opzione: ";
+    int choose = -1;
+    while(choose!=1 && choose!=2) cin>>choose;
+    return (choose==1);
+}
+
+
+
+
 bool davtest_ex2(){
 
     cout<<"\n\n*********** CONFIGURAZIONE DEI TEST: ***********"<<endl;
     cout<<"Necessiti degli output di debug?"<<endl;
     cout<<"1. Voglio visualizzare gli output di debug. (La dimensione delle strutture sara' ridotta)."<<endl;
-    cout<<"2. No, voglio proseguire senza visualizzare gli output di debug."<<endl;
+    cout<<"2. No, voglio proseguire senza visualizzare gli output di debug. (Consigliato)"<<endl;
     cout<<"Inserisci l'opzione: ";
     int choose = -1;
     while(choose!=1 && choose!=2) cin>>choose;
@@ -1821,7 +1877,7 @@ bool davtest_ex2(){
     uniform_int_distribution<int> select_genSize(MIN_SIZE,MAX_SIZE);
     genSize = select_genSize;
     cout<<"\nL'output sara' sospeso per velocizzare l'esecuzione se i test devono essere ripetuti piu' di 50 volte.";
-    cout<<"\nInserisci il numero di iterazioni del test (consigliato 50): ";
+    cout<<"\nInserisci il numero di iterazioni del test (consigliato 20): ";
     choose = -1;
     while(choose<0) cin>>choose;
 
@@ -1829,6 +1885,7 @@ bool davtest_ex2(){
     if(ITERAZIONI>50) output=false;
     bool total = true;
 
+    // while(false){
     while(ITERAZIONI>0){
         
         //Operator==
@@ -1874,21 +1931,6 @@ bool davtest_ex2(){
         bool testBSTMin = false;
         bool testBSTSucc = false;
         bool testBSTPred = false;
-
-        //Iterator
-        // bool testPreOrderIterator = false;
-        // bool testPostOrderIterator = false;
-        // bool testMSCBTVecVec = false;
-        // bool testMSCBTVecLst = false;
-        // bool testMSCBSTVec = false;
-        // bool testMSCBSTLst = false;
-
-        // if(!output) cout<<"\nComparison with STD...";
-        // try { StackVSSTD = TestStackVSSTD(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
-        // try { QueueVSSTD = TestQueueVSSTD(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
-
-        // if(!output) cout<<"\nTesting sort...";
-        // try { testSort = TestSortVec(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
 
         if(!output) cout<<"\nTesting comparison operators...";
         try { testEqualBT = TestEqualBT(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
@@ -1938,7 +1980,7 @@ bool davtest_ex2(){
         try { testBSTPred = TestBSTPred(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
         try { testBSTSucc = TestBSTSucc(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
 
-        if(true) {
+        if(output) {
             cout<<"\n\n*********** RESULTS ***********"<<endl;
 
             cout<<"\nCOMPARISION OPERATORS:"<<endl;
@@ -2004,10 +2046,34 @@ bool davtest_ex2(){
 
         if(!total) break;
 
+        if(ITERAZIONI==1){
+            //Maps
+            bool testMapsBTVec = true;
+            bool testMapsBTLnk = true;
+            cout<<"\n\n*********** SEZIONE DI TEST STATICI ***********";
+            cout<<"\nVuoi eseguire dei test per la verifica delle map? Sara' necessaria l'attenzione dell'utente."<<endl;
+            cout<<"1. Voglio procedere con il test."<<endl;
+            cout<<"2. No, voglio proseguire senza eseguire i test (Risulteranno superati)."<<endl;
+            cout<<"Inserisci l'opzione: ";
+            choose = -1;
+            while(choose!=1 && choose!=2) cin>>choose;
+            if(choose==1){
+                MAX_SIZE = 10;
+                MIN_SIZE = 6;
+                MIN_NUM = -9;
+                MAX_NUM = 9;
+                uniform_int_distribution<int> select_genSize(MIN_SIZE,MAX_SIZE); genSize = select_genSize;
+                uniform_int_distribution<int> select_genNum(MIN_SIZE,MAX_SIZE); genNum = select_genNum;
+                try { testMapsBTLnk = TestMapsBTLnk(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+                try { testMapsBTVec = TestMapsBTVec(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+            }
+            total&= (testMapsBTVec && testMapsBTLnk);
+        }
+
         ITERAZIONI--;
     }
 
-    if(total==true){
+    if(total){
         cout<<"\nTUTTI I TEST SONO STATI SUPERATI!! :D ";
     }else{
         cout<<"\nCi sono test che non sono stati superati :(";
