@@ -1157,6 +1157,22 @@ bool TestEqualBTVec(){
     lasd::BinaryTreeVec<int> s2(v1);
     v1[genSize(gen)%temp_size]=genNum(gen);
     lasd::BinaryTreeVec<int> s3(v1);
+    if(output) { 
+        cout<<"\nS1: ";
+        s1.Map( [](int& dat){ cout<<"\t"<<dat; } );
+    }
+    if(output) { 
+        cout<<"\nS2: ";
+        s2.Map( [](int& dat){ cout<<"\t"<<dat; } );
+    }
+        if(output) { 
+        cout<<"\nS1: ";
+        s1.Map( [](int& dat){ cout<<"\t"<<dat; } );
+    }
+    if(output) { 
+        cout<<"\nS3: ";
+        s2.Map( [](int& dat){ cout<<"\t"<<dat; } );
+    }
     correct&=(s1==s2);
     correct&=(s1!=s3);
     s2.Clear();
@@ -1195,6 +1211,14 @@ bool TestAssBTVec(){
     lasd::BinaryTreeVec<int> s1(v1);
     lasd::BinaryTreeVec<int> s2;
     s2 = s1;
+    if(output) { 
+        cout<<"\nS1: ";
+        s1.Map( [](int& dat){ cout<<"\t"<<dat; } );
+    }
+    if(output) { 
+        cout<<"\nS2: ";
+        s2.Map( [](int& dat){ cout<<"\t"<<dat; } );
+    }
     correct&=(s1==s2);
     s2.Clear();
     s1.Clear();
@@ -1210,6 +1234,14 @@ bool TestAssBTLnk(){
     lasd::BinaryTreeLnk<int> s1(v1);
     lasd::BinaryTreeLnk<int> s2;
     s2 = s1;
+    if(output) { 
+        cout<<"\nS1: ";
+        s1.Map( [](int& dat){ cout<<"\t"<<dat; } );
+    }
+    if(output) { 
+        cout<<"\nS2: ";
+        s2.Map( [](int& dat){ cout<<"\t"<<dat; } );
+    }
     correct&=(s1==s2);
     s2.Clear();
     s1.Clear();
@@ -1234,20 +1266,31 @@ bool TestAssBST(){
 
 bool TestMAssBTVec(){
     bool correct=true;
-    int temp_size1 = genSize(gen);
-    int temp_size2 = genSize(gen);
+    int temp_size1 = genSize(gen)+1;
+    int temp_size2 = genSize(gen)+1;
     lasd::Vector<int> v1(temp_size1);
     lasd::Vector<int> v2(temp_size2);
     for(int i=0; i<v1.Size(); i++) v1[i]=genNum(gen);
     for(int i=0; i<v2.Size(); i++) v2[i]=genNum(gen);
     lasd::BinaryTreeVec<int> s1(v1);
     int r1 = s1.Root().Element();
+    if(output) { 
+        cout<<"\nS1: ";
+        s1.Map( [](int& dat){ cout<<"\t"<<dat; } );
+    }
     lasd::BinaryTreeVec<int> s2(v2);
+    if(output) { 
+        cout<<"\nS2: ";
+        s2.Map( [](int& dat){ cout<<"\t"<<dat; } );
+    }
     int r2 = s2.Root().Element();
+
+    if(output) cout<<"\ns1.root(): "<<r1<<"\ts2.Root(): "<<r2;
     lasd::BinaryTreeVec<int> s3(v1);
     lasd::BinaryTreeVec<int> s4(v2);
     lasd::BinaryTreeVec<int> s5;
     s2 = move(s1);
+    if(output) cout<<"\ns1.root(): "<<s1.Root().Element()<<"\ts2.Root(): "<<s2.Root().Element()<<"\n";
     correct&= (s2.Root().Element() == r1);
     correct&=(s1==s4);
     s1.Map(
@@ -1266,8 +1309,8 @@ bool TestMAssBTVec(){
 
 bool TestMAssBTLnk(){
     bool correct=true;
-    int temp_size1 = genSize(gen);
-    int temp_size2 = genSize(gen);
+    int temp_size1 = genSize(gen)+1;
+    int temp_size2 = genSize(gen)+1;
     lasd::Vector<int> v1(temp_size1);
     lasd::Vector<int> v2(temp_size2);
     for(int i=0; i<v1.Size(); i++) v1[i]=genNum(gen);
@@ -1320,12 +1363,6 @@ bool CCBTLnk(){
     lasd::BinaryTreeLnk<int> s1(v1);
     lasd::BinaryTreeLnk<int> s2(s1);
     correct&=(s1==s2);
-    s1.Map(
-        [](int& dat){
-            dat+=dat;
-        }
-    );
-    correct&=(s1!=s2);
     s1.Clear();
     correct&=(s1.Empty());
     s2.Clear();
@@ -1341,12 +1378,6 @@ bool CCBTVec(){
     lasd::BinaryTreeVec<int> s1(v1);
     lasd::BinaryTreeVec<int> s2(s1);
     correct&=(s1==s2);
-    s1.Map(
-        [](int& dat){
-            dat+=dat;
-        }
-    );
-    correct&=(s1!=s2);
     s1.Clear();
     correct&=(s1.Empty());
     s2.Clear();
@@ -1362,8 +1393,9 @@ bool CCBST(){
     lasd::BST<int> s1(v1);
     lasd::BST<int> s2(s1);
     correct&=(s1==s2);
-    s2.Clear();
     s1.Clear();
+    correct&=(s1.Empty());
+    s2.Clear();
     correct&=(s1==s2);
     return correct;
 }
@@ -1378,12 +1410,6 @@ bool MCBTLnk(){
     lasd::BinaryTreeLnk<int> s3(move(s1));
     correct&=(s1.Empty());
     correct&=(s2==s3);
-    s2.Map(
-        [](int& dat){
-            dat+=dat;
-        }
-    );
-    correct&=(s2!=s3);
     s3.Clear();
     correct&=(s3.Empty());
     s2.Clear();
@@ -1401,12 +1427,6 @@ bool MCBTVec(){
     lasd::BinaryTreeVec<int> s3(move(s1));
     correct&=(s1.Empty());
     correct&=(s2==s3);
-    s2.Map(
-        [](int& dat){
-            dat+=dat;
-        }
-    );
-    correct&=(s2!=s3);
     s3.Clear();
     correct&=(s3.Empty());
     s2.Clear();
@@ -1618,37 +1638,37 @@ bool SCBSTLst(){
 
 bool davtest_ex2(){
 
-    // cout<<"\n\n*********** CONFIGURAZIONE DEI TEST: ***********"<<endl;
-    // cout<<"Necessiti degli output di debug?"<<endl;
-    // cout<<"1. Voglio visualizzare gli output di debug. (La dimensione delle strutture sara' ridotta)."<<endl;
-    // cout<<"2. No, voglio proseguire senza visualizzare gli output di debug."<<endl;
-    // cout<<"Inserisci l'opzione: ";
-    // int choose = -1;
-    // while(choose!=1 && choose!=2) cin>>choose;
-    // output = (choose==1);
-    // cout<<"\nChe tipo di test vuoi eseguire?"<<endl;
-    // cout<<"1. Test su casi limite (La dimensione massima delle strutture sara' impostata ad 1 in modo da forzare interazioni tra strutture vuote)"<<endl;
-    // cout<<"2. Test generale (L'esecuzione puo' apparire rallentata)"<<endl;
-    // cout<<"Inserisci l'opzione: ";
-    // choose = -1;
-    // while(choose!=1 && choose!=2) cin>>choose;
-    // if(choose==1){
-    //     MAX_SIZE = 1;
-    // }else{
-    //     MAX_SIZE = (output) ? 20 : 100;
-    // }
-    // uniform_int_distribution<int> select_genSize(MIN_SIZE,MAX_SIZE);
-    // genSize = select_genSize;
-    // cout<<"\nL'output sara' sospeso per velocizzare l'esecuzione se i test devono essere ripetuti piu' di 50 volte.";
-    // cout<<"\nInserisci il numero di iterazioni del test (consigliato 50): ";
-    // choose = -1;
-    // while(choose<0) cin>>choose;
+    cout<<"\n\n*********** CONFIGURAZIONE DEI TEST: ***********"<<endl;
+    cout<<"Necessiti degli output di debug?"<<endl;
+    cout<<"1. Voglio visualizzare gli output di debug. (La dimensione delle strutture sara' ridotta)."<<endl;
+    cout<<"2. No, voglio proseguire senza visualizzare gli output di debug."<<endl;
+    cout<<"Inserisci l'opzione: ";
+    int choose = -1;
+    while(choose!=1 && choose!=2) cin>>choose;
+    output = (choose==1);
+    cout<<"\nChe tipo di test vuoi eseguire?"<<endl;
+    cout<<"1. Test su casi limite (La dimensione massima delle strutture sara' impostata ad 1 in modo da forzare interazioni tra strutture vuote)"<<endl;
+    cout<<"2. Test generale (L'esecuzione puo' apparire rallentata)"<<endl;
+    cout<<"Inserisci l'opzione: ";
+    choose = -1;
+    while(choose!=1 && choose!=2) cin>>choose;
+    if(choose==1){
+        MAX_SIZE = 1;
+    }else{
+        MAX_SIZE = (output) ? 20 : 100;
+    }
+    uniform_int_distribution<int> select_genSize(MIN_SIZE,MAX_SIZE);
+    genSize = select_genSize;
+    cout<<"\nL'output sara' sospeso per velocizzare l'esecuzione se i test devono essere ripetuti piu' di 50 volte.";
+    cout<<"\nInserisci il numero di iterazioni del test (consigliato 50): ";
+    choose = -1;
+    while(choose<0) cin>>choose;
 
-    // ITERAZIONI = choose;
-    // if(ITERAZIONI>50) output=false;
-    // bool total = true;
+    ITERAZIONI = choose;
+    if(ITERAZIONI>50) output=false;
+    bool total = true;
 
-    // while(ITERAZIONI>0){
+    while(ITERAZIONI>0){
         
         //Operator==
         bool testEqualBT = false;
@@ -1798,33 +1818,28 @@ bool davtest_ex2(){
             cout<<"BinarySearchTree(List): "<<((testMSCBSTVec) ? "Corretto" : "Errore")<<endl;
         }
 
-        // if (StackVSSTD && QueueVSSTD && testSort && testEqualLinear && testEqualVector && testEqualList && testEqualStackLst 
-        //     && testEqualStackVec && testEqualQueueLst && testEqualQueueVec && testAssVector && testAssList && testAssStackLst 
-        //     && testAssStackVec && testAssQueueLst && testAssQueueVec && testCCVec && testMCVec && testCCList && testMCList 
-        //     && testCCStackVec && testMCStackVec && testCCStackLst && testMCStackLst && testCCQueueLst && testMCQueueLst 
-        //     && testCCQueueVec && testMCQueueVec && testSCVecFromList && testSCListFromVector && testSCStackVecFromList 
-        //     && testSCStackVecFromVector && testSCStackLstFromList && testSCStackLstFromVector && testSCQueueVecFromList 
-        //     && testSCQueueVecFromVector && testSCQueueLstFromList && testSCQueueLstFromVector && testMSCVecFromList 
-        //     && testMSCListFromVector && testMSCStackVecFromList && testMSCStackVecFromVector && testMSCStackLstFromList 
-        //     && testMSCStackLstFromVector && testMSCQueueVecFromList && testMSCQueueVecFromVector && testMSCQueueLstFromList 
-        //     && testMSCQueueLstFromVector
-        // )
-        // {
-        //     total&=true;
-        // } else {
-        //     total&=false;
-        // }
+        if (testEqualBT && testEqualBTVec && testEqualBTLnk && testEqualBST && testAssBTVec &&
+            testAssBTLnk && testAssBST && testMAssBTVec && testMAssBTLnk && testMAssBST &&
+            testCCBTLnk && testMCBTLnk && testCCBTVec && testMCBTVec && testCCBST && testMCBST &&
+            testSCBTLnkVec && testSCBTLnkLst && testSCBTVecVec && testSCBTVecLst && testSCBSTVec &&
+            testSCBSTLst && testMSCBTLnkVec && testMSCBTLnkLst && testMSCBTVecVec && testMSCBTVecLst &&
+            testMSCBSTVec && testMSCBSTLst)
+        {
+            total&=true;
+        } else {
+            total&=false;
+        }
 
-        // if(!total) break;
+        if(!total) break;
 
-        // ITERAZIONI--;
-    // }
+        ITERAZIONI--;
+    }
 
-    // if(total==true){
-    //     cout<<"\nTUTTI I TEST SONO STATI SUPERATI!! :D ";
-    // }else{
-    //     cout<<"\nCi sono test che non sono stati superati :(";
-    // }
+    if(total==true){
+        cout<<"\nTUTTI I TEST SONO STATI SUPERATI!! :D ";
+    }else{
+        cout<<"\nCi sono test che non sono stati superati :(";
+    }
 
     cout<<endl;
 

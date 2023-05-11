@@ -35,6 +35,7 @@ protected:
   public:
 
     BinaryTreeVec<Data>* bt;
+    Data dat;
     int i;
 
 
@@ -55,18 +56,18 @@ protected:
     virtual const NodeVec& LeftChild() const override;
 
 
-    virtual inline Data& Element() noexcept override { return bt->Elements[Index()]; }
-    virtual inline const Data& Element() const noexcept override { return bt->Elements[Index()]; }
+    virtual inline Data& Element() noexcept override { return dat; }
+    virtual inline const Data& Element() const noexcept override { return dat; }
 
   };
 
-  Vector<Data> Elements;// = Vector<Data>(0);
+  // Vector<Data> Elements;// = Vector<Data>(0);
   Vector<NodeVec*> Nodes;// = Vector<NodeVec*>(0);
 
 public:
 
   // Default constructor
-  BinaryTreeVec() : Elements(0), Nodes(0) {;};
+  BinaryTreeVec() : Nodes(0) {;};
 
   /* ************************************************************************ */
 
@@ -97,7 +98,7 @@ public:
   /* ************************************************************************ */
 
   // Comparison operators
-  bool operator==(const BinaryTreeVec& other) const noexcept { return (Elements==other.Elements); };
+  bool operator==(const BinaryTreeVec& other) const noexcept { return BinaryTree<Data>::operator==(other); };
   bool operator!=(const BinaryTreeVec& other) const noexcept { return !(this->operator==(other)); };
 
   /* ************************************************************************ */
