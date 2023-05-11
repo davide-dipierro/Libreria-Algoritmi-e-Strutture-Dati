@@ -13,12 +13,12 @@
 
 using namespace std;
 
+
+
 int MIN_SIZE = 0;
 int MAX_SIZE = 100;
-int MIN_NUM INT16_MIN;
+int MIN_NUM = INT16_MIN;
 int MAX_NUM = INT16_MAX;
-int MIN_SMALL_NUM = 0;
-int MAX_SMALL_NUM = 0;
 int ITERAZIONI = 1;
 
 bool output;
@@ -26,10 +26,8 @@ bool output;
 default_random_engine gen(random_device{}());
 uniform_int_distribution<int> genSize(MIN_SIZE,MAX_SIZE);
 uniform_int_distribution<int> genNum(MIN_NUM,MAX_NUM);
-uniform_int_distribution<int> genSmallNum(0,9);
 
 /*
-
 
 
     L'UTILIZZO DELLE FUNZIONI E' AL TERMINE DELLA LORO DEFINIZIONE
@@ -831,6 +829,11 @@ bool TestSortVec(){
 
 bool davtest_ex1(){
 
+    MIN_SIZE = 0;
+    MAX_SIZE = 100;
+    MIN_NUM = INT16_MIN;
+    MAX_NUM = INT16_MAX;
+
     cout<<"\n\n*********** CONFIGURAZIONE DEI TEST: ***********"<<endl;
     cout<<"Necessiti degli output di debug?"<<endl;
     cout<<"1. Voglio visualizzare gli output di debug. (La dimensione delle strutture sara' ridotta)."<<endl;
@@ -1104,9 +1107,6 @@ bool davtest_ex1(){
 
 
 
-
-
-
 bool TestEqualBT(){
     if(output) cout<<"\n**********TEST TestEqualBT**********\n";
     bool correct=true;
@@ -1137,7 +1137,7 @@ bool TestEqualBT(){
 }
 
 bool TestEqualBTLnk(){
-    if(output) cout<<"\n**********TEST TestEqualBT**********\n";
+    if(output) cout<<"\n**********TEST TestEqualBTLnk**********\n";
     bool correct=true;
     int temp_size = genSize(gen)+1;
     lasd::Vector<int> v1(temp_size);
@@ -1171,7 +1171,7 @@ bool TestEqualBTLnk(){
 }
 
 bool TestEqualBTVec(){
-    if(output) cout<<"\n**********TEST TestEqualBT**********\n";
+    if(output) cout<<"\n**********TEST TestEqualBTVec**********\n";
     bool correct=true;
     int temp_size = genSize(gen)+1;
     lasd::Vector<int> v1(temp_size);
@@ -1209,7 +1209,7 @@ bool TestEqualBTVec(){
 }
 
 bool TestEqualBST(){
-    if(output) cout<<"\n**********TEST TestEqualBT**********\n";
+    if(output) cout<<"\n**********TEST TestEqualBST**********\n";
     bool correct=true;
     int temp_size = genSize(gen)+1;
     lasd::Vector<int> v1(temp_size);
@@ -1231,7 +1231,7 @@ bool TestEqualBST(){
 }
 
 bool TestAssBTVec(){
-    if(output) cout<<"\n**********TEST TestEqualBT**********\n";
+    if(output) cout<<"\n**********TEST TestAssBTVec**********\n";
     bool correct=true;
     int temp_size = genSize(gen);
     lasd::Vector<int> v1(temp_size);
@@ -1255,7 +1255,7 @@ bool TestAssBTVec(){
 }
 
 bool TestAssBTLnk(){
-    if(output) cout<<"\n**********TEST TestEqualBT**********\n";
+    if(output) cout<<"\n**********TEST TestAssBTLnk**********\n";
     bool correct=true;
     int temp_size = genSize(gen);
     lasd::Vector<int> v1(temp_size);
@@ -1279,7 +1279,7 @@ bool TestAssBTLnk(){
 }
 
 bool TestAssBST(){
-    if(output) cout<<"\n**********TEST TestEqualBT**********\n";
+    if(output) cout<<"\n**********TEST TestAssBST**********\n";
     bool correct=true;
     int temp_size = genSize(gen);
     lasd::Vector<int> v1(temp_size);
@@ -1295,7 +1295,7 @@ bool TestAssBST(){
 }
 
 bool TestMAssBTVec(){
-    if(output) cout<<"\n**********TEST TestEqualBT**********\n";
+    if(output) cout<<"\n**********TEST TestMAssBTVec**********\n";
     bool correct=true;
     int temp_size1 = genSize(gen)+1;
     int temp_size2 = genSize(gen)+1;
@@ -1339,7 +1339,7 @@ bool TestMAssBTVec(){
 }
 
 bool TestMAssBTLnk(){
-    if(output) cout<<"\n**********TEST TestEqualBT**********\n";
+    if(output) cout<<"\n**********TEST TestMAssBTLnk**********\n";
     bool correct=true;
     int temp_size1 = genSize(gen)+1;
     int temp_size2 = genSize(gen)+1;
@@ -1388,7 +1388,7 @@ bool TestMAssBTLnk(){
 }
 
 bool TestMAssBST(){
-    if(output) cout<<"\n**********TEST TestEqualBT**********\n";
+    if(output) cout<<"\n**********TEST TestMAssBST**********\n";
     bool correct=true;
     int temp_size = genSize(gen);
     lasd::Vector<int> v1(temp_size);
@@ -1405,7 +1405,7 @@ bool TestMAssBST(){
 }
 
 bool CCBTLnk(){
-    if(output) cout<<"\n**********TEST MCVec**********\n";
+    if(output) cout<<"\n**********TEST CCBTLnk**********\n";
     bool correct=true;
     lasd::Vector<int> v1(genSize(gen));
     for(ulong i=0; i<v1.Size(); i++) v1[i]=genNum(gen);
@@ -1428,7 +1428,7 @@ bool CCBTLnk(){
 }
 
 bool CCBTVec(){
-    if(output) cout<<"\n**********TEST MCVec**********\n";
+    if(output) cout<<"\n**********TEST CCBTVec**********\n";
     bool correct=true;
     lasd::Vector<int> v1(genSize(gen));
     for(ulong i=0; i<v1.Size(); i++) v1[i]=genNum(gen);
@@ -1451,7 +1451,7 @@ bool CCBTVec(){
 }
 
 bool CCBST(){
-    if(output) cout<<"\n**********TEST MCVec**********\n";
+    if(output) cout<<"\n**********TEST CCBST**********\n";
     bool correct=true;
     lasd::Vector<int> v1(genSize(gen));
     for(ulong i=0; i<v1.Size(); i++) v1[i]=genNum(gen);
@@ -1466,7 +1466,7 @@ bool CCBST(){
 }
 
 bool MCBTLnk(){
-    if(output) cout<<"\n**********TEST TestEqualBT**********\n";
+    if(output) cout<<"\n**********TEST MCBTLnk**********\n";
     bool correct=true;
     int temp_size1 = genSize(gen);
     lasd::Vector<int> v1(temp_size1);
@@ -1484,7 +1484,7 @@ bool MCBTLnk(){
 }
 
 bool MCBTVec(){
-    if(output) cout<<"\n**********TEST TestEqualBT**********\n";
+    if(output) cout<<"\n**********TEST MCBTVec**********\n";
     bool correct=true;
     int temp_size1 = genSize(gen);
     lasd::Vector<int> v1(temp_size1);
@@ -1502,7 +1502,7 @@ bool MCBTVec(){
 }
 
 bool MCBST(){
-    if(output) cout<<"\n**********TEST TestEqualBT**********\n";
+    if(output) cout<<"\n**********TEST MCBST**********\n";
     bool correct=true;
     lasd::Vector<int> v1(genSize(gen));
     for(int i=0; i<v1.Size(); i++)v1[i]=genNum(gen);
@@ -1529,7 +1529,7 @@ bool MSCBTLnk(lasd::MutableMappableContainer<Data>* cont){
 }
 
 bool MSCBTLnkVec(){
-    if(output) cout<<"\n**********TEST TestEqualBT**********\n";
+    if(output) cout<<"\n**********TEST MSCBTLnkVec**********\n";
     bool correct=true;
     lasd::Vector<int> s1(genSize(gen));
     for(int i=0; i<s1.Size(); i++)s1[i]=genNum(gen);
@@ -1538,7 +1538,7 @@ bool MSCBTLnkVec(){
 }
 
 bool MSCBTLnkLst(){
-    if(output) cout<<"\n**********TEST TestEqualBT**********\n";
+    if(output) cout<<"\n**********TEST MSCBTLnkLst**********\n";
     bool correct=true;
     lasd::List<int> s1;
     int temp_size = genSize(gen);
@@ -1562,7 +1562,7 @@ bool MSCBTVec(lasd::MutableMappableContainer<Data>* cont){
 }
 
 bool MSCBTVecVec(){
-    if(output) cout<<"\n**********TEST TestEqualBT**********\n";
+    if(output) cout<<"\n**********TEST MSCBTVecVec**********\n";
     bool correct=true;
     lasd::Vector<int> s1(genSize(gen));
     for(int i=0; i<s1.Size(); i++)s1[i]=genNum(gen);
@@ -1571,7 +1571,7 @@ bool MSCBTVecVec(){
 }
 
 bool MSCBTVecLst(){
-    if(output) cout<<"\n**********TEST TestEqualBT**********\n";
+    if(output) cout<<"\n**********TEST MSCBTVecLst**********\n";
     bool correct=true;
     lasd::List<int> s1;
     int temp_size = genSize(gen);
@@ -1593,7 +1593,7 @@ bool MSCBST(lasd::MutableMappableContainer<Data>* cont){
 }
 
 bool MSCBSTVec(){
-    if(output) cout<<"\n**********TEST TestEqualBT**********\n";
+    if(output) cout<<"\n**********TEST MSCBSTVec**********\n";
     bool correct=true;
     lasd::Vector<int> s1(genSize(gen));
     for(int i=0; i<s1.Size(); i++) s1[i]=genNum(gen);
@@ -1602,7 +1602,7 @@ bool MSCBSTVec(){
 }
 
 bool MSCBSTLst(){
-    if(output) cout<<"\n**********TEST TestEqualBT**********\n";
+    if(output) cout<<"\n**********TEST MSCBSTLst**********\n";
     bool correct=true;
     lasd::List<int> s1;
     int temp_size = genSize(gen);
@@ -1626,7 +1626,7 @@ bool SCBTLnk(const lasd::MappableContainer<Data>* cont){
 }
 
 bool SCBTLnkVec(){
-    if(output) cout<<"\n**********TEST TestEqualBT**********\n";
+    if(output) cout<<"\n**********TEST SCBTLnkVec**********\n";
     bool correct=true;
     lasd::Vector<int> s1(genSize(gen));
     for(int i=0; i<s1.Size(); i++)s1[i]=genNum(gen);
@@ -1636,7 +1636,7 @@ bool SCBTLnkVec(){
 }
 
 bool SCBTLnkLst(){
-    if(output) cout<<"\n**********TEST TestEqualBT**********\n";
+    if(output) cout<<"\n**********TEST SCBTLnkLst**********\n";
     bool correct=true;
     lasd::List<int> s1;
     int temp_size = genSize(gen);
@@ -1661,7 +1661,7 @@ bool SCBTVec(const lasd::MappableContainer<Data>* cont){
 }
 
 bool SCBTVecVec(){
-    if(output) cout<<"\n**********TEST TestEqualBT**********\n";
+    if(output) cout<<"\n**********TEST SCBTVecVec**********\n";
     bool correct=true;
     lasd::Vector<int> s1(genSize(gen));
     for(int i=0; i<s1.Size(); i++)s1[i]=genNum(gen);
@@ -1671,7 +1671,7 @@ bool SCBTVecVec(){
 }
 
 bool SCBTVecLst(){
-    if(output) cout<<"\n**********TEST TestEqualBT**********\n";
+    if(output) cout<<"\n**********TEST SCBTVecLst**********\n";
     bool correct=true;
     lasd::List<int> s1;
     int temp_size = genSize(gen);
@@ -1694,7 +1694,7 @@ bool SCBST(const lasd::MappableContainer<Data>* cont){
 }
 
 bool SCBSTVec(){
-    if(output) cout<<"\n**********TEST TestEqualBT**********\n";
+    if(output) cout<<"\n**********TEST SCBSTVec**********\n";
     bool correct=true;
     lasd::Vector<int> s1(genSize(gen));
     for(int i=0; i<s1.Size(); i++) s1[i]=genNum(gen);
@@ -1704,7 +1704,7 @@ bool SCBSTVec(){
 }
 
 bool SCBSTLst(){
-    if(output) cout<<"\n**********TEST TestEqualBT**********\n";
+    if(output) cout<<"\n**********TEST SCBSTLst**********\n";
     bool correct=true;
     lasd::List<int> s1;
     int temp_size = genSize(gen);
@@ -1715,86 +1715,98 @@ bool SCBSTLst(){
 }
 
 bool TestBSTMax(){
-    if(output) cout<<"\n**********TEST TestEqualBT**********\n";
+    if(output) cout<<"\n**********TEST TestBSTMax**********\n";
     bool correct=true;
     int temp_size = genSize(gen);
     lasd::Vector<int> v1(temp_size);
+    lasd::List<int> l1;
     for(int i=0; i<v1.Size(); i++) v1[i]=genNum(gen);
-    lasd::BST<int> bst(v1);
     v1.Sort();
+    for(int i{0}; i<v1.Size(); i++) l1.Insert(v1[i]);
+    temp_size = l1.Size();
+    lasd::BST<int> bst(l1);
     if(output) { 
-        cout<<"\nSorted vector1: ";
-        v1.PostOrderMap( [](int& dat){ cout<<"\t"<<dat; } );
+        cout<<"\nSorted list1: ";
+        l1.PostOrderMap( [](int& dat){ cout<<"\t"<<dat; } );
     }
     temp_size--;
     if(output) cout<<"\nBST: ";
     while(!(bst.Empty())){
         if(output) cout<<"\t"<<bst.Max();
-        correct&=(bst.MaxNRemove()==v1[temp_size--]);
+        correct&=(bst.MaxNRemove()==l1[temp_size--]);
     }
     return correct;
 }
 
 bool TestBSTMin(){
-    if(output) cout<<"\n**********TEST TestEqualBT**********\n";
+    if(output) cout<<"\n**********TEST TestBSTMin**********\n";
     bool correct=true;
     int temp_size = genSize(gen);
     lasd::Vector<int> v1(temp_size);
+    lasd::List<int> l1;
     for(int i=0; i<v1.Size(); i++) v1[i]=genNum(gen);
-    lasd::BST<int> bst(v1);
     v1.Sort();
+    for(int i{0}; i<v1.Size(); i++) l1.Insert(v1[i]);
+    temp_size = l1.Size();
+    lasd::BST<int> bst(l1);
     if(output) { 
-        cout<<"\nSorted vector1: ";
-        v1.PreOrderMap( [](int& dat){ cout<<"\t"<<dat; } );
+        cout<<"\nSorted list1: ";
+        l1.PostOrderMap( [](int& dat){ cout<<"\t"<<dat; } );
     }
     int cursor=0 ;
     if(output) cout<<"\nBST: ";
     while(!(bst.Empty())){
         if(output) cout<<"\t"<<bst.Min();
-        correct&=(bst.MinNRemove()==v1[cursor++]);
+        correct&=(bst.MinNRemove()==l1[cursor++]);
     }
     return correct;
 }
 
 bool TestBSTPred(){
-    if(output) cout<<"\n**********TEST TestEqualBT**********\n";
+    if(output) cout<<"\n**********TEST TestBSTPred**********\n";
     bool correct=true;
     int temp_size = genSize(gen);
     lasd::Vector<int> v1(temp_size);
+    lasd::List<int> l1;
     for(int i=0; i<v1.Size(); i++) v1[i]=genNum(gen);
-    lasd::BST<int> bst(v1);
     v1.Sort();
+    for(int i{0}; i<v1.Size(); i++) l1.Insert(v1[i]);
+    temp_size = l1.Size();
+    lasd::BST<int> bst(l1);
     if(output) { 
-        cout<<"\nSorted vector1: ";
-        v1.PreOrderMap( [](int& dat){ cout<<"\t"<<dat; } );
+        cout<<"\nSorted list1: ";
+        l1.PostOrderMap( [](int& dat){ cout<<"\t"<<dat; } );
     }
     temp_size--;
     if(output) cout<<"\nBST: ";
     while(bst.Size()>1){
-        if(output) cout<<"\t"<<bst.Predecessor(v1[temp_size]);
-        correct&=(bst.PredecessorNRemove(v1[temp_size])==v1[temp_size-1]);
+        if(output) cout<<"\t"<<bst.Predecessor(l1[temp_size]);
+        correct&=(bst.PredecessorNRemove(l1[temp_size])==l1[temp_size-1]);
         temp_size--;
     }
     return correct;
 }
 
 bool TestBSTSucc(){
-    if(output) cout<<"\n**********TEST TestEqualBT**********\n";
+    if(output) cout<<"\n**********TEST TestBSTSucc**********\n";
     bool correct=true;
     int temp_size = genSize(gen);
     lasd::Vector<int> v1(temp_size);
+    lasd::List<int> l1;
     for(int i=0; i<v1.Size(); i++) v1[i]=genNum(gen);
-    lasd::BST<int> bst(v1);
     v1.Sort();
+    for(int i{0}; i<v1.Size(); i++) l1.Insert(v1[i]);
+    temp_size = l1.Size();
+    lasd::BST<int> bst(l1);
     if(output) { 
-        cout<<"\nSorted vector1: ";
-        v1.PreOrderMap( [](int& dat){ cout<<"\t"<<dat; } );
+        cout<<"\nSorted list1: ";
+        l1.PostOrderMap( [](int& dat){ cout<<"\t"<<dat; } );
     }
     if(output) cout<<"\nBST: ";
     int cursor = 0;
     while(bst.Size()>1){
-        if(output) cout<<"\t"<<bst.Successor(v1[cursor]);
-        correct&=(bst.SuccessorNRemove(v1[cursor])==v1[cursor+1]);
+        if(output) cout<<"\t"<<bst.Successor(l1[cursor]);
+        correct&=(bst.SuccessorNRemove(l1[cursor])==l1[cursor+1]);
         cursor++;
     }
     return correct;
@@ -1821,7 +1833,7 @@ bool TestMapsBTLnk(){
     bt.InOrderMap(MapPrint);
     cout<<"\nBreadthMap: ";
     bt.BreadthMap(MapPrint);
-    cout<<endl<<"Si prega di verificare l'esattezza delle map e comunicarne il risultato:\n1. Le map sono corrette\n2. Le map non sono corrette\nInserisci l'opzione: ";
+    cout<<endl<<"Si prega di verificare l'esattezza delle map e comunicarne il risultato:\n1. Le map sono corrette\n2. Una o piu' map non sono corrette.\nInserisci l'opzione: ";
     int choose = -1;
     while(choose!=1 && choose!=2) cin>>choose;
     return (choose==1);
@@ -1844,7 +1856,7 @@ bool TestMapsBTVec(){
     bt.InOrderMap(MapPrint);
     cout<<"\nBreadthMap: ";
     bt.BreadthMap(MapPrint);
-    cout<<endl<<"Si prega di verificare l'esattezza delle map e comunicarne il risultato:\n1. Le map sono corrette\n2. Le map non sono corrette\nInserisci l'opzione: ";
+    cout<<endl<<"Si prega di verificare l'esattezza delle map e comunicarne il risultato:\n1. Le map sono corrette.\n2. Una o piu' map non sono corrette.\nInserisci l'opzione: ";
     int choose = -1;
     while(choose!=1 && choose!=2) cin>>choose;
     return (choose==1);
@@ -1854,6 +1866,11 @@ bool TestMapsBTVec(){
 
 
 bool davtest_ex2(){
+
+    MIN_SIZE = 0;
+    MAX_SIZE = 100;
+    MIN_NUM = INT16_MIN;
+    MAX_NUM = INT16_MAX;
 
     cout<<"\n\n*********** CONFIGURAZIONE DEI TEST: ***********"<<endl;
     cout<<"Necessiti degli output di debug?"<<endl;
@@ -1872,10 +1889,11 @@ bool davtest_ex2(){
     if(choose==1){
         MAX_SIZE = 1;
     }else{
-        MAX_SIZE = (output) ? 20 : 100;
+        MAX_SIZE = 100; //(output) ? 20 :
     }
-    uniform_int_distribution<int> select_genSize(MIN_SIZE,MAX_SIZE);
-    genSize = select_genSize;
+    uniform_int_distribution<int> select_genSize(MIN_SIZE,MAX_SIZE); genSize = select_genSize;
+    uniform_int_distribution<int> select_genNum(MIN_NUM,MAX_NUM); genNum = select_genNum;
+
     cout<<"\nL'output sara' sospeso per velocizzare l'esecuzione se i test devono essere ripetuti piu' di 50 volte.";
     cout<<"\nInserisci il numero di iterazioni del test (consigliato 20): ";
     choose = -1;
@@ -2063,7 +2081,7 @@ bool davtest_ex2(){
                 MIN_NUM = -9;
                 MAX_NUM = 9;
                 uniform_int_distribution<int> select_genSize(MIN_SIZE,MAX_SIZE); genSize = select_genSize;
-                uniform_int_distribution<int> select_genNum(MIN_SIZE,MAX_SIZE); genNum = select_genNum;
+                uniform_int_distribution<int> select_genNum(MIN_NUM,MAX_NUM); genNum = select_genNum;
                 try { testMapsBTLnk = TestMapsBTLnk(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
                 try { testMapsBTVec = TestMapsBTVec(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
             }

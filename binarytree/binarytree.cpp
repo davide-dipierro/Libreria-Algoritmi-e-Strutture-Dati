@@ -46,11 +46,8 @@ void BinaryTree<Data>::printBT(const std::string &prefix, const BinaryTree<Data>
     if( node != nullptr ) {
         std::cout << prefix;
         std::cout << (isLeft ? "├──" : "└──" );
-
-        // print the value of the node
         std::cout << node->Element() << std::endl;
 
-        // enter the next tree level - left and right branch
         if(node->HasLeftChild())printBT( prefix + (isLeft ? "│   " : "    "), &node->LeftChild(), true);
         if(node->HasRightChild())printBT( prefix + (isLeft ? "│   " : "    "), &node->RightChild(), false);
     }
