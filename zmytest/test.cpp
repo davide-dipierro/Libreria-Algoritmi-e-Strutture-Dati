@@ -1885,8 +1885,235 @@ bool TestMapsBST(){
     return (choose==1);
 }
 
+bool TestInsertRemoveBST(){
+    bool correct = true;
+    lasd::Vector<int> v1(genSize(gen));
+    for(int i{0}; i<v1.Size(); i++) v1[i]=genNum(gen);
+    lasd::BST<int> bst(v1);
+    int actual_size = bst.Size();
+    for(int i{0}; i<v1.Size(); i++){
+        if(genNum(gen)%2==0) if(bst.Insert(genNum(gen))) actual_size++;
+        else while(!(bst.Remove(genNum(gen)))) actual_size--;
+    }
+    correct&=(actual_size==bst.Size());
+    return correct;
+}
 
+bool TestPreOrdItrLnk(){
+    if(output)cout<<"\n**********TEST TestPreOrdItrLnk**********\n";
+    bool correct = true;
+    int temp_size = genSize(gen);
+    lasd::List<int> l1;
+    for(int i{0}; i<temp_size; i++) l1.Insert(genNum(gen));
+    temp_size = l1.Size();
+    lasd::BinaryTreeLnk<int> bt(l1);
+    lasd::BTPreOrderIterator<int> itr(bt);
+    bt.PreOrderMap(
+        [&itr, &correct](const int dat){
+            correct&= ((*itr)==dat);
+            ++itr;
+        }
+    );
+    itr.Reset();
+    bt.PreOrderMap(
+        [&itr, &correct](const int dat){
+            correct&= ((*itr)==dat);
+            ++itr;
+        }
+    );
+    try{ *itr; correct=false; } catch (const std::out_of_range& e) { correct&=true; }
+    try{ ++itr; correct=false; } catch (const std::out_of_range& e) { correct&=true; }
+    return correct;
+}
 
+bool TestPostOrdItrLnk(){
+    if(output)cout<<"\n**********TEST TestPostOrdItrLnk**********\n";
+    bool correct = true;
+    int temp_size = genSize(gen);
+    lasd::List<int> l1;
+    for(int i{0}; i<temp_size; i++) l1.Insert(genNum(gen));
+    temp_size = l1.Size();
+    lasd::BinaryTreeLnk<int> bt(l1);
+    lasd::BTPostOrderIterator<int> itr(bt);
+    bt.PostOrderMap(
+        [&itr, &correct](const int dat){
+            correct&= ((*itr)==dat);
+            ++itr;
+        }
+    );
+    itr.Reset();
+    bt.PostOrderMap(
+        [&itr, &correct](const int dat){
+            correct&= ((*itr)==dat);
+            ++itr;
+        }
+    );
+    try{ *itr; correct=false; } catch (const std::out_of_range& e) { correct&=true; }
+    try{ ++itr; correct=false; } catch (const std::out_of_range& e) { correct&=true; }
+    return correct;
+}
+
+bool TestInOrdItrLnk(){
+    if(output)cout<<"\n**********TEST TestInOrdItrLnk**********\n";
+    bool correct = true;
+    int temp_size = genSize(gen);
+    lasd::List<int> l1;
+    for(int i{0}; i<temp_size; i++) l1.Insert(genNum(gen));
+    temp_size = l1.Size();
+    lasd::BinaryTreeLnk<int> bt(l1);
+    lasd::BTInOrderIterator<int> itr(bt);
+    bt.InOrderMap(
+        [&itr, &correct](const int dat){
+            correct&= ((*itr)==dat);
+            ++itr;
+        }
+    );
+    itr.Reset();
+    bt.InOrderMap(
+        [&itr, &correct](const int dat){
+            correct&= ((*itr)==dat);
+            ++itr;
+        }
+    );
+    try{ *itr; correct=false; } catch (const std::out_of_range& e) { correct&=true; }
+    try{ ++itr; correct=false; } catch (const std::out_of_range& e) { correct&=true; }
+    return correct;
+}
+
+bool TestBreadthItrLnk(){
+    if(output)cout<<"\n**********TEST TestBreadthItrLnk**********\n";
+    bool correct = true;
+    int temp_size = genSize(gen);
+    lasd::List<int> l1;
+    for(int i{0}; i<temp_size; i++) l1.Insert(genNum(gen));
+    temp_size = l1.Size();
+    lasd::BinaryTreeLnk<int> bt(l1);
+    lasd::BTBreadthIterator<int> itr(bt);
+    bt.BreadthMap(
+        [&itr, &correct](const int dat){
+            correct&= ((*itr)==dat);
+            ++itr;
+        }
+    );
+    itr.Reset();
+    bt.BreadthMap(
+        [&itr, &correct](const int dat){
+            correct&= ((*itr)==dat);
+            ++itr;
+        }
+    );
+    try{ *itr; correct=false; } catch (const std::out_of_range& e) { correct&=true; }
+    try{ ++itr; correct=false; } catch (const std::out_of_range& e) { correct&=true; }
+    return correct;
+}
+
+bool TestPreOrdItrVec(){
+    if(output)cout<<"\n**********TEST TestPreOrdItrVec**********\n";
+    bool correct = true;
+    int temp_size = genSize(gen);
+    lasd::List<int> l1;
+    for(int i{0}; i<temp_size; i++) l1.Insert(genNum(gen));
+    temp_size = l1.Size();
+    lasd::BinaryTreeVec<int> bt(l1);
+    lasd::BTPreOrderIterator<int> itr(bt);
+    bt.PreOrderMap(
+        [&itr, &correct](const int dat){
+            correct&= ((*itr)==dat);
+            ++itr;
+        }
+    );
+    itr.Reset();
+    bt.PreOrderMap(
+        [&itr, &correct](const int dat){
+            correct&= ((*itr)==dat);
+            ++itr;
+        }
+    );
+    try{ *itr; correct=false; } catch (const std::out_of_range& e) { correct&=true; }
+    try{ ++itr; correct=false; } catch (const std::out_of_range& e) { correct&=true; }
+    return correct;
+}
+
+bool TestPostOrdItrVec(){
+    if(output)cout<<"\n**********TEST TestPostOrdItrVec**********\n";
+    bool correct = true;
+    int temp_size = genSize(gen);
+    lasd::List<int> l1;
+    for(int i{0}; i<temp_size; i++) l1.Insert(genNum(gen));
+    temp_size = l1.Size();
+    lasd::BinaryTreeVec<int> bt(l1);
+    lasd::BTPostOrderIterator<int> itr(bt);
+    bt.PostOrderMap(
+        [&itr, &correct](const int dat){
+            correct&= ((*itr)==dat);
+            ++itr;
+        }
+    );
+    itr.Reset();
+    bt.PostOrderMap(
+        [&itr, &correct](const int dat){
+            correct&= ((*itr)==dat);
+            ++itr;
+        }
+    );
+    try{ *itr; correct=false; } catch (const std::out_of_range& e) { correct&=true; }
+    try{ ++itr; correct=false; } catch (const std::out_of_range& e) { correct&=true; }
+    return correct;
+}
+
+bool TestInOrdItrVec(){
+    if(output)cout<<"\n**********TEST TestInOrdItrVec**********\n";
+    bool correct = true;
+    int temp_size = genSize(gen);
+    lasd::List<int> l1;
+    for(int i{0}; i<temp_size; i++) l1.Insert(genNum(gen));
+    temp_size = l1.Size();
+    lasd::BinaryTreeVec<int> bt(l1);
+    lasd::BTInOrderIterator<int> itr(bt);
+    bt.InOrderMap(
+        [&itr, &correct](const int dat){
+            correct&= ((*itr)==dat);
+            ++itr;
+        }
+    );
+    itr.Reset();
+    bt.InOrderMap(
+        [&itr, &correct](const int dat){
+            correct&= ((*itr)==dat);
+            ++itr;
+        }
+    );
+    try{ *itr; correct=false; } catch (const std::out_of_range& e) { correct&=true; }
+    try{ ++itr; correct=false; } catch (const std::out_of_range& e) { correct&=true; }
+    return correct;
+}
+
+bool TestBreadthItrVec(){
+    if(output)cout<<"\n**********TEST TestBreadthItrVec**********\n";
+    bool correct = true;
+    int temp_size = genSize(gen);
+    lasd::List<int> l1;
+    for(int i{0}; i<temp_size; i++) l1.Insert(genNum(gen));
+    temp_size = l1.Size();
+    lasd::BinaryTreeVec<int> bt(l1);
+    lasd::BTBreadthIterator<int> itr(bt);
+    bt.BreadthMap(
+        [&itr, &correct](const int dat){
+            correct&= ((*itr)==dat);
+            ++itr;
+        }
+    );
+    itr.Reset();
+    bt.BreadthMap(
+        [&itr, &correct](const int dat){
+            correct&= ((*itr)==dat);
+            ++itr;
+        }
+    );
+    try{ *itr; correct=false; } catch (const std::out_of_range& e) { correct&=true; }
+    try{ ++itr; correct=false; } catch (const std::out_of_range& e) { correct&=true; }
+    return correct;
+}
 
 bool davtest_ex2(){
 
@@ -1972,6 +2199,17 @@ bool davtest_ex2(){
         bool testBSTMin = false;
         bool testBSTSucc = false;
         bool testBSTPred = false;
+        bool testInsertRemoveBST = false;
+
+        //Iterators
+        bool testPreOrdItrLnk = false;
+        bool testPostOrdItrLnk = false;
+        bool testInOrdItrLnk = false;
+        bool testBreadthItrLnk = false;
+        bool testPreOrdItrVec = false;
+        bool testPostOrdItrVec = false;
+        bool testInOrdItrVec = false;
+        bool testBreadthItrVec = false;
 
         if(!output) cout<<"\nTesting comparison operators...";
         try { testEqualBT = TestEqualBT(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
@@ -2020,6 +2258,17 @@ bool davtest_ex2(){
         try { testBSTMin = TestBSTMin(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
         try { testBSTPred = TestBSTPred(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
         try { testBSTSucc = TestBSTSucc(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        try { testInsertRemoveBST = TestInsertRemoveBST(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+
+        if(!output) cout<<"\nTesting iterators...";
+        try { testPreOrdItrLnk = TestPreOrdItrLnk(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        try { testPostOrdItrLnk = TestPostOrdItrLnk(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        try { testInOrdItrLnk = TestInOrdItrLnk(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        try { testBreadthItrLnk = TestBreadthItrLnk(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        try { testPreOrdItrVec = TestPreOrdItrVec(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        try { testPostOrdItrVec = TestPostOrdItrVec(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        try { testInOrdItrVec = TestInOrdItrVec(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        try { testBreadthItrVec = TestBreadthItrVec(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
 
         if(output) {
             cout<<"\n\n*********** RESULTS ***********"<<endl;
@@ -2071,6 +2320,17 @@ bool davtest_ex2(){
             cout<<"BST.Min(): "<<((testBSTMin) ? "Corretto" : "Errore")<<endl;
             cout<<"BST.Predecessor(): "<<((testBSTPred) ? "Corretto" : "Errore")<<endl;
             cout<<"BST.Successor(): "<<((testBSTSucc) ? "Corretto" : "Errore")<<endl;
+            cout<<"BST.Insert/Remove(): "<<((testInsertRemoveBST) ? "Corretto" : "Errore")<<endl;
+
+            cout<<"\nITERATORS: "<<endl;
+            cout<<"PreOrderIterator(BTLnk): "<<((testPreOrdItrLnk) ? "Corretto" : "Errore")<<endl;
+            cout<<"PostOrderIterator(BTLnk): "<<((testPostOrdItrLnk) ? "Corretto" : "Errore")<<endl;
+            cout<<"InOrderIterator(BTLnk): "<<((testInOrdItrLnk) ? "Corretto" : "Errore")<<endl;
+            cout<<"BreadthIterator(BTLnk): "<<((testBreadthItrLnk) ? "Corretto" : "Errore")<<endl;
+            cout<<"PreOrderIterator(BTVec): "<<((testPreOrdItrVec) ? "Corretto" : "Errore")<<endl;
+            cout<<"PostOrderIterator(BTVec): "<<((testPostOrdItrVec) ? "Corretto" : "Errore")<<endl;
+            cout<<"InOrderIterator(BTVec): "<<((testInOrdItrVec) ? "Corretto" : "Errore")<<endl;
+            cout<<"BreadthIterator(BTVec): "<<((testBreadthItrVec) ? "Corretto" : "Errore")<<endl;
         }
 
         if (testEqualBT && testEqualBTVec && testEqualBTLnk && testEqualBST && testAssBTVec &&
@@ -2078,7 +2338,9 @@ bool davtest_ex2(){
             testCCBTLnk && testMCBTLnk && testCCBTVec && testMCBTVec && testCCBST && testMCBST &&
             testSCBTLnkVec && testSCBTLnkLst && testSCBTVecVec && testSCBTVecLst && testSCBSTVec &&
             testSCBSTLst && testMSCBTLnkVec && testMSCBTLnkLst && testMSCBTVecVec && testMSCBTVecLst &&
-            testMSCBSTVec && testMSCBSTLst && testBSTMax && testBSTPred && testBSTSucc)
+            testMSCBSTVec && testMSCBSTLst && testBSTMax && testBSTPred && testBSTSucc && testPreOrdItrLnk &&
+            testPostOrdItrLnk && testInOrdItrLnk && testBreadthItrLnk && testPreOrdItrVec &&
+            testPostOrdItrVec && testInOrdItrVec && testBreadthItrVec && testInsertRemoveBST)
         {
             total&=true;
         } else {
@@ -2110,7 +2372,7 @@ bool davtest_ex2(){
                 try { testMapsBTVec = TestMapsBTVec(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
                 try { testMapsBST = TestMapsBST(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
             }
-            total&= (testMapsBTVec && testMapsBTLnk);
+            total&= (testMapsBTVec && testMapsBTLnk && testMapsBST);
         }
 
         ITERAZIONI--;

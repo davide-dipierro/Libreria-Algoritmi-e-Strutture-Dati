@@ -143,7 +143,7 @@ BinaryTreeLnk<Data>::BinaryTreeLnk(MutableMappableContainer<Data> &&other) noexc
     QueueVec<NodeLnk * *> coda;
     coda.Enqueue(&root);
     other.Map(
-        [&coda](const Data& dat){
+        [&coda](Data& dat){
             NodeLnk *& cur = *coda.HeadNDequeue();
             cur = new NodeLnk(std::move(dat));
             coda.Enqueue(&cur->lChild);

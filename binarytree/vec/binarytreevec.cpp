@@ -85,7 +85,7 @@ template <typename Data>
 BinaryTreeVec<Data>::BinaryTreeVec(MutableMappableContainer<Data> &&other) noexcept : Nodes(other.Size()) {
     int i = 0;
     other.Map(
-        [this, &i](const Data& dat){
+        [this, &i](Data& dat){
             this->Nodes[i] = new NodeVec(std::move(dat), i, this); i++;
         }
     );

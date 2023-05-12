@@ -43,14 +43,13 @@ void BinaryTree<Data>::BreadthMap(MapFunctor func) const {
 
 template <typename Data>
 void BinaryTree<Data>::printBT(const std::string &prefix, const BinaryTree<Data>::Node* node, bool isLeft) const {
-    if( node != nullptr ) {
-        std::cout << prefix;
-        std::cout << (isLeft ? "├──" : "└──" );
-        std::cout << node->Element() << std::endl;
+    if(node==nullptr) return;
+    std::cout<<prefix;
+    std::cout<<(isLeft ? "├──" : "└──" );
+    std::cout<<node->Element()<<std::endl;
 
-        if(node->HasLeftChild())printBT( prefix + (isLeft ? "│   " : "    "), &node->LeftChild(), true);
-        if(node->HasRightChild())printBT( prefix + (isLeft ? "│   " : "    "), &node->RightChild(), false);
-    }
+    if(node->HasLeftChild()) printBT(prefix + (isLeft ? "│   " : "    "), &node->LeftChild(), true);
+    if(node->HasRightChild()) printBT(prefix + (isLeft ? "│   " : "    "), &node->RightChild(), false);
 }
 
 /* ************************************************************************** */
