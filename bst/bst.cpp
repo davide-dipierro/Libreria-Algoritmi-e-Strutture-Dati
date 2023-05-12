@@ -216,8 +216,14 @@ bool BST<Data>::Exists(const Data& valore)const noexcept{
   return (FindPointerTo(root,valore) !=nullptr);
 }
 
+// template <typename Data>
+// void BST<Data>::printBT() const {
+//   std::cout<<"\n\n\tStampa di un BST non disponibile...\n\n";
+// }
+
 template <typename Data>
-Data BST<Data>::DataNDelete(NodeLnk* puntatore) {
+Data BST<Data>::DataNDelete(NodeLnk *puntatore)
+{
   Data valore = puntatore->elem;
   delete puntatore;
   return valore;
@@ -346,17 +352,5 @@ template<typename Data>
 typename BST<Data>::NodeLnk*& BST<Data>::FindPointerToSuccessor(typename BST<Data>::NodeLnk*& Nodo, Data valore) noexcept{
   return const_cast<NodeLnk*&>(static_cast<const BST<Data>*>(this)->FindPointerToSuccessor(Nodo,valore));
 }
-
-// template <typename Data>
-// const typename BST<Data>::NodeLnk& BST<Data>::Root() const{
-//   if (root == nullptr)
-//     throw std::out_of_range("L'albero e' vuoto!");
-//   return static_cast<const NodeLnk &>(BinaryTreeLnk<Data>::Root());
-// }
-
-// template <typename Data>
-// typename BST<Data>::NodeLnk & BST<Data>::Root(){
-//   return const_cast<NodeLnk&>(const_cast<const BST<Data>*>(this)->Root());
-// }
 
 };

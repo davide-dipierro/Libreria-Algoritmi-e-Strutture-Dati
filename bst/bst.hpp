@@ -28,6 +28,12 @@ protected:
 
 public:
 
+  using BinaryTree<Data>::Map;
+  using BinaryTree<Data>::PreOrderMap;
+  using BinaryTree<Data>::PostOrderMap;
+  using BinaryTree<Data>::InOrderMap;
+  using BinaryTree<Data>::BreadthMap;
+
   // Default constructor
   BST() = default;
 
@@ -103,6 +109,9 @@ public:
   // Specific member function (inherited from ClearableContainer)
 
   inline void Clear() override { BinaryTreeLnk<Data>::Clear(); }; // Override ClearableContainer member
+
+  //Non funziona
+  // virtual void printBT() const override;
 
 protected:
 

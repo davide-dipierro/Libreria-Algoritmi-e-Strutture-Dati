@@ -1862,6 +1862,29 @@ bool TestMapsBTVec(){
     return (choose==1);
 }
 
+bool TestMapsBST(){
+    cout<<"\n**********TEST TestMapsBST**********\n";
+    lasd::Vector<int> v1(genSize(gen));
+    for(int i=0; i<v1.Size(); i++) v1[i]=genNum(gen);
+    cout<<"\nVettore: ";
+    v1.PreOrderMap(MapPrint);
+    lasd::BST<int> bt(v1);
+    cout<<"\nBST:\n";
+    bt.printBT();
+    cout<<"\nPreOrderMap: ";
+    bt.PreOrderMap(MapPrint);
+    cout<<"\nPostOrderMap: ";
+    bt.PostOrderMap(MapPrint);
+    cout<<"\nInOrderMap: ";
+    bt.InOrderMap(MapPrint);
+    cout<<"\nBreadthMap: ";
+    bt.BreadthMap(MapPrint);
+    cout<<endl<<"Si prega di verificare l'esattezza delle map e comunicarne il risultato:\n1. Le map sono corrette.\n2. Una o piu' map non sono corrette.\nInserisci l'opzione: ";
+    int choose = -1;
+    while(choose!=1 && choose!=2) cin>>choose;
+    return (choose==1);
+}
+
 
 
 
@@ -1889,7 +1912,7 @@ bool davtest_ex2(){
     if(choose==1){
         MAX_SIZE = 1;
     }else{
-        MAX_SIZE = 100; //(output) ? 20 :
+        MAX_SIZE = (output) ? 20 : 100;
     }
     uniform_int_distribution<int> select_genSize(MIN_SIZE,MAX_SIZE); genSize = select_genSize;
     uniform_int_distribution<int> select_genNum(MIN_NUM,MAX_NUM); genNum = select_genNum;
@@ -2068,6 +2091,7 @@ bool davtest_ex2(){
             //Maps
             bool testMapsBTVec = true;
             bool testMapsBTLnk = true;
+            bool testMapsBST = true;
             cout<<"\n\n*********** SEZIONE DI TEST STATICI ***********";
             cout<<"\nVuoi eseguire dei test per la verifica delle map? Sara' necessaria l'attenzione dell'utente."<<endl;
             cout<<"1. Voglio procedere con il test."<<endl;
@@ -2084,6 +2108,7 @@ bool davtest_ex2(){
                 uniform_int_distribution<int> select_genNum(MIN_NUM,MAX_NUM); genNum = select_genNum;
                 try { testMapsBTLnk = TestMapsBTLnk(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
                 try { testMapsBTVec = TestMapsBTVec(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+                try { testMapsBST = TestMapsBST(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
             }
             total&= (testMapsBTVec && testMapsBTLnk);
         }
@@ -2101,35 +2126,6 @@ bool davtest_ex2(){
 
     return true;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 #endif
