@@ -111,7 +111,8 @@ QueueVec<Data>::QueueVec(MutableMappableContainer<Data>&& cont) noexcept {
     ulong index = 0;
     cont.Map(
         [this, &index](Data& dat) {
-            Elements[index++] = std::move(dat);
+            // Elements[index++] = std::move(dat);
+            std::swap(Elements[index++], dat);
         }
     );
     tail = cont.Size();

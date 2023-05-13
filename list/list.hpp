@@ -28,7 +28,7 @@ protected:
   struct Node {
 
     // Data
-    Data elem;
+    Data elem {};
     Node* next = nullptr;
 
     // Specific constructors

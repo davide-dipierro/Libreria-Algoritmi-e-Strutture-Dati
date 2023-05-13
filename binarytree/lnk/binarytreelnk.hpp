@@ -34,7 +34,7 @@ protected:
 
   public:
 
-    Data elem;
+    Data elem {};
     NodeLnk* lChild = nullptr;
     NodeLnk* rChild = nullptr;
 
@@ -44,8 +44,8 @@ protected:
     NodeLnk(const NodeLnk& other);
     NodeLnk(NodeLnk&& other) noexcept;
 
-    NodeLnk(const Data& newElem) : elem(newElem) {;}; //NOTE: Va bene dichiarare due costruttori? E se il dato è un NodeLnk??
-    NodeLnk(Data&& newElem) noexcept : elem(std::move(newElem)) {;};
+    NodeLnk(const Data& newElem) { elem = newElem; }; //NOTE: Va bene dichiarare due costruttori? E se il dato è un NodeLnk??
+    NodeLnk(Data&& newElem) noexcept { std::swap(elem, newElem); };
 
     // NodeLnk& operator=(const NodeLnk& other);
     // NodeLnk& operator=(NodeLnk&& other) noexcept;

@@ -11,7 +11,7 @@ List<Data>::Node::Node(const Data& new_elem) {
 }
 template <typename Data>
 List<Data>::Node::Node(Data&& new_elem) noexcept {
-    elem = std::move(new_elem);
+    std::swap(elem, new_elem);
     next = nullptr;
 }
 
@@ -26,7 +26,7 @@ List<Data>::Node::Node(const Node& new_node){
 template <typename Data>
 List<Data>::Node::Node(Node&& new_node) noexcept {
     std::swap(elem, new_node.elem);
-    std::swap(next,new_node.next);
+    std::swap(next, new_node.next);
 }
 
 /* ************************************************************************** */

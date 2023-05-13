@@ -8,7 +8,7 @@ template <typename Data>
 BinaryTreeVec<Data>::NodeVec::NodeVec(const Data &dat2, int i2, BinaryTreeVec<Data>* bt2) {
     this->bt = bt2;
     this->i = i2;
-    this->dat=dat2;  
+    this->dat = dat2;  
 }
 
 template <typename Data>

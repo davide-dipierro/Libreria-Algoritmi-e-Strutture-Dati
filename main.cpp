@@ -36,20 +36,25 @@ TODO:
 ************************************************************************** */
 
 void temptest(){
-  lasd::Vector<int> vec(6);
-  for(int i=0; i<6; i++)
-      vec[i]=i;
+lasd::Vector<int> v1(10);
 
-  lasd::BinaryTreeVec<int> btVec1(vec);
-  lasd::BinaryTreeVec<int> btVec2;
+  for(int i=0; i<v1.Size(); i++)
+    v1[i]=i;
+  lasd::BinaryTreeVec<int> btl1(std::move(v1));
 
-  btVec2=std::move(btVec1);
+  lasd::List<int> v2(std::move(btl1));
 
-  lasd::BTPreOrderIterator<int> itr1(btVec2);
-  while(!(itr1.Terminated())){
-    cout<<" - "<<*itr1;
-    ++itr1;
-  }
+  cout<<"list: ";
+  for(int i=0; i<v2.Size(); i++)
+    cout<<v2[i];
+  
+  cout<<endl;
+
+  btl1.Map(
+    [](const int &dat){
+      cout<<dat<<"-";
+    }
+  );
 }
 
 int main(){
