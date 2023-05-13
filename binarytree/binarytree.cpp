@@ -9,7 +9,7 @@ bool BinaryTree<Data>::operator==(const BinaryTree& other) const noexcept {
     if(size!=other.size) return false;
     BTPreOrderIterator i(*this);
     BTPreOrderIterator j(other);
-    while(!(i.Terminated()) && !(j.Terminated())){
+    while(!(i.Terminated())){
         if((*i)!=(*j)) return false;
         ++i; ++j;
     }
@@ -23,22 +23,26 @@ void BinaryTree<Data>::Fold(FoldFunctor func, void *acc) const {
 
 template <typename Data>
 void BinaryTree<Data>::PreOrderMap(MapFunctor func) const {
-    for(BTPreOrderIterator i(*this); !(i.Terminated()); ++i) func(*i);
+    // for(BTPreOrderIterator i(*this); !(i.Terminated()); ++i) func(*i);
+    if(!this->Empty()) PreOrderMap(Root(), func);
 }
 
 template <typename Data>
 void BinaryTree<Data>::PostOrderMap(MapFunctor func) const {
-    for(BTPostOrderIterator i(*this); !(i.Terminated()); ++i) func(*i);
+    // for(BTPostOrderIterator i(*this); !(i.Terminated()); ++i) func(*i);
+    if(!this->Empty()) PostOrderMap(Root(), func);
 }
 
 template <typename Data>
 void BinaryTree<Data>::InOrderMap(MapFunctor func) const {
-    for(BTInOrderIterator i(*this); !(i.Terminated()); ++i) func(*i);
+    // for(BTInOrderIterator i(*this); !(i.Terminated()); ++i) func(*i);
+    if(!this->Empty()) InOrderMap(Root(), func);
 }
 
 template <typename Data>
 void BinaryTree<Data>::BreadthMap(MapFunctor func) const {
     for(BTBreadthIterator i(*this); !(i.Terminated()); ++i) func(*i);
+    // if(!this->Empty()) BreadthMap(Root(), func);
 }
 
 template <typename Data>
@@ -52,27 +56,73 @@ void BinaryTree<Data>::printBT(const std::string &prefix, const BinaryTree<Data>
     if(node->HasRightChild()) printBT(prefix + (isLeft ? "│   " : "    "), &node->RightChild(), false);
 }
 
+template <typename Data>
+void BinaryTree<Data>::PreOrderMap(const Node& node, MapFunctor func) const {
+    func(node.Element());    
+    if(node.HasLeftChild()) PreOrderMap(node.LeftChild(), func); 
+    if(node.HasRightChild()) PreOrderMap(node.RightChild(), func);
+}
+
+template <typename Data>
+void BinaryTree<Data>::InOrderMap(const Node& node, MapFunctor func) const {  
+    if(node.HasLeftChild()) InOrderMap(node.LeftChild(), func); 
+    func(node.Element());  
+    if(node.HasRightChild()) InOrderMap(node.RightChild(), func);
+}
+
+template <typename Data>
+void BinaryTree<Data>::PostOrderMap(const Node& node, MapFunctor func) const {  
+    if(node.HasLeftChild()) PostOrderMap(node.LeftChild(), func); 
+    if(node.HasRightChild()) PostOrderMap(node.RightChild(), func);
+    func(node.Element());  
+}
+
 /* ************************************************************************** */
 
 
 template <typename Data>
 void MutableBinaryTree<Data>::PreOrderMap(MutableMapFunctor func) {
-    for(BTPreOrderMutableIterator<Data> i(*this); !(i.Terminated()); ++i) func(*i);
+    // for(BTPreOrderMutableIterator<Data> i(*this); !(i.Terminated()); ++i) func(*i);
+    if(!this->Empty()) PreOrderMap(Root(), func);
 }
 
 template <typename Data>
 void MutableBinaryTree<Data>::PostOrderMap(MutableMapFunctor func) {
-    for(BTPostOrderMutableIterator<Data> i(*this); !(i.Terminated()); ++i) func(*i);
+    // for(BTPostOrderMutableIterator<Data> i(*this); !(i.Terminated()); ++i) func(*i);
+    if(!this->Empty()) PostOrderMap(Root(), func);
 }
 
 template <typename Data>
 void MutableBinaryTree<Data>::InOrderMap(MutableMapFunctor func) {
-    for(BTInOrderMutableIterator i(*this); !(i.Terminated()); ++i) func(*i);
+    // for(BTInOrderMutableIterator i(*this); !(i.Terminated()); ++i) func(*i);
+    if(!this->Empty()) InOrderMap(Root(), func);
 }
 
 template <typename Data>
 void MutableBinaryTree<Data>::BreadthMap(MutableMapFunctor func) {
     for(BTBreadthMutableIterator i(*this); !(i.Terminated()); ++i) func(*i);
+    // if(!this->Empty()) BreadthMap(Root(), func);
+}
+
+template <typename Data>
+void MutableBinaryTree<Data>::PreOrderMap(MutableNode& node, MutableMapFunctor func) {
+    func(node.Element());    
+    if(node.HasLeftChild()) PreOrderMap(node.LeftChild(), func); 
+    if(node.HasRightChild()) PreOrderMap(node.RightChild(), func);
+}
+
+template <typename Data>
+void MutableBinaryTree<Data>::InOrderMap(MutableNode& node, MutableMapFunctor func) {  
+    if(node.HasLeftChild()) InOrderMap(node.LeftChild(), func); 
+    func(node.Element());  
+    if(node.HasRightChild()) InOrderMap(node.RightChild(), func);
+}
+
+template <typename Data>
+void MutableBinaryTree<Data>::PostOrderMap(MutableNode& node, MutableMapFunctor func) {  
+    if(node.HasLeftChild()) PostOrderMap(node.LeftChild(), func);
+    if(node.HasRightChild()) PostOrderMap(node.RightChild(), func);
+    func(node.Element());  
 }
 
 /* ************************************************************************** */

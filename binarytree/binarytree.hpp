@@ -152,25 +152,25 @@ protected:
 
   // Auxiliary member function (for PreOrderMappableContainer)
 
-  // type PreOrderMap(arguments) specifiers; // Accessory function executing from one node of the tree
+  void PreOrderMap(const Node& node, MapFunctor func) const; // Accessory function executing from one node of the tree
 
   /* ************************************************************************ */
 
   // Auxiliary member function (for PostOrderMappableContainer)
 
-  // type PostOrderMap(arguments) specifiers; // Accessory function executing from one node of the tree
+  void PostOrderMap(const Node& node, MapFunctor func) const; // Accessory function executing from one node of the tree
 
   /* ************************************************************************ */
 
   // Auxiliary member function (for InOrderMappableContainer)
 
-  // type InOrderMap(arguments) specifiers; // Accessory function executing from one node of the tree
+  void InOrderMap(const Node& node, MapFunctor func) const; // Accessory function executing from one node of the tree
 
   /* ************************************************************************ */
 
   // Auxiliary member function (for BreadthMappableContainer)
 
-  // type BreadthMap(arguments) specifiers; // Accessory function executing from one node of the tree
+  // void BreadthMap(const Node *node, MapFunctor func) const; // Accessory function executing from one node of the tree
 
 };
 
@@ -275,25 +275,25 @@ protected:
 
   // Auxiliary member function (for MutablePreOrderMappableContainer)
 
-  // type PreOrderMap(arguments) specifiers; // Accessory function executing from one node of the tree
+  void PreOrderMap(MutableNode& node, MutableMapFunctor func); // Accessory function executing from one node of the tree
 
   /* ************************************************************************ */
 
   // Auxiliary member function (for MutablePostOrderMappableContainer)
 
-  // type PostOrderMap(arguments) specifiers; // Accessory function executing from one node of the tree
+  void PostOrderMap(MutableNode& node, MutableMapFunctor func); // Accessory function executing from one node of the tree
 
   /* ************************************************************************ */
 
   // Auxiliary member function (for MutableInOrderMappableContainer)
 
-  // type InOrderMap(arguments) specifiers; // Accessory function executing from one node of the tree
+  void InOrderMap(MutableNode& node, MutableMapFunctor func); // Accessory function executing from one node of the tree
 
   /* ************************************************************************ */
 
   // Auxiliary member function (for MutableBreadthMappableContainer)
 
-  // type BreadthMap(arguments) specifiers; // Accessory function executing from one node of the tree
+  // voif BreadthMap(const Node *node, MapFunctor func) const; // Accessory function executing from one node of the tree
 
 };
 

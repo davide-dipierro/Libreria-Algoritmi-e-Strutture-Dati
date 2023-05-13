@@ -308,22 +308,20 @@ typename BST<Data>::NodeLnk*& BST<Data>::FindPointerTo(typename BST<Data>::NodeL
 
 template<typename Data>
 typename BST<Data>::NodeLnk* const& BST<Data>::FindPointerToPredecessor(typename BST<Data>::NodeLnk* const& Nodo, Data valore) const noexcept{
-  NodeLnk *const *predecessore = nullptr;
+  NodeLnk *const *predecessor = nullptr;
   NodeLnk *const *corrente = &Nodo;
 
   while ((*corrente) != nullptr && (*corrente)->elem != valore) {
     if ((*corrente)->elem > valore) {
       corrente = &(*corrente)->lChild;
     } else if ((*corrente)->elem < valore) {
-      predecessore = corrente;
+      predecessor = corrente;
       corrente = &(*corrente)->rChild;
     }
   }
-  if ((*corrente) != nullptr && (*corrente)->lChild != nullptr) {
-    predecessore = &FindPointerToMax((*corrente)->lChild);
-  }
+  if ((*corrente) != nullptr && (*corrente)->lChild != nullptr) predecessor = &FindPointerToMax((*corrente)->lChild);
 
-  return *predecessore;
+  return *predecessor;
 }
 
 template<typename Data>

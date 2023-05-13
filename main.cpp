@@ -31,16 +31,26 @@ NOTE:
 
 TODO:
 - Portare IsLeaf in BT
-- Portare Leftchild e RightChild in cpp (BTLnk)
-- Aggiungere eccezioni a Iterator++
 
 
 ************************************************************************** */
 
-void temptest() {
-  //empty
-}
+void temptest(){
+  lasd::Vector<int> vec(6);
+  for(int i=0; i<6; i++)
+      vec[i]=i;
 
+  lasd::BinaryTreeVec<int> btVec1(vec);
+  lasd::BinaryTreeVec<int> btVec2;
+
+  btVec2=std::move(btVec1);
+
+  lasd::BTPreOrderIterator<int> itr1(btVec2);
+  while(!(itr1.Terminated())){
+    cout<<" - "<<*itr1;
+    ++itr1;
+  }
+}
 
 int main(){
 

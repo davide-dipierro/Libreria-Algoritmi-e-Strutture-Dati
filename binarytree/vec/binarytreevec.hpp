@@ -30,12 +30,12 @@ protected:
 
   protected:
 
-    const ulong Index() const { return i; }//{ return (this)-(bt->Nodes->Elements); }
+    const ulong Index() const { return i; } //{ return (this)-(bt->Nodes->Elements); }
 
   public:
 
     BinaryTreeVec<Data>* bt;
-    Data dat;
+    Data dat {};
     int i;
 
 
@@ -123,19 +123,22 @@ public:
 
   // Specific member functions (inherited from BreadthFoldableContainer)
 
-  // type BreadthFold(arguments) specifiers; // Override BreadthFoldableContainer member
+  using typename FoldableContainer<Data>::FoldFunctor;
+  void BreadthFold(FoldFunctor func, void* acc) const override { for(int i{0}; i<Nodes.Size(); i++) func(Nodes[i]->Element(), acc); }; // Override BreadthFoldableContainer member
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from BreadthMappableContainer)
 
-  // type BreadthMap(arguments) specifiers; // Override BreadthMappableContainer member
+  using typename MappableContainer<Data>::MapFunctor;
+  void BreadthMap(MapFunctor func) const override { for(int i{0}; i<Nodes.Size(); i++) func(Nodes[i]->Element()); }; // Override BreadthMappableContainer member
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from MutableBreadthMappableContainer)
 
-  // type BreadthMap(arguments) specifiers; // Override MutableBreadthMappableContainer member
+  using typename MutableMappableContainer<Data>::MutableMapFunctor;
+  void BreadthMap(MutableMapFunctor func) override { for(int i{0}; i<Nodes.Size(); i++) func(Nodes[i]->Element()); }; // Override MutableBreadthMappableContainer member
 
 };
 

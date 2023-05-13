@@ -111,10 +111,10 @@ bool TestEqualLinear(){
     }
     correct&=(v.LinearContainer<int>::operator==(l));
     v[genSize(gen)%temp_size]=genNum(gen);
-    // correct&=(v.LinearContainer<int>::operator!=(l));
+    correct&=(v.LinearContainer<int>::operator!=(l));
     v.Clear();
     l.Clear();
-    // correct&=(v.LinearContainer<int>::operator==(l));
+    correct&=(v.LinearContainer<int>::operator==(l));
     return correct;
 }
 
@@ -125,7 +125,6 @@ bool TestEqualVector(){
     lasd::Vector<int> v2(temp_size);
     for(int i=0; i<temp_size; i++) v2[i]=v1[i]=genNum(gen);
     correct&=(v1==v2);
-    //LIMIT
     v1[genSize(gen)%temp_size]=genNum(gen);
     correct&=!(v1==v2);
     v1.Clear();
@@ -1508,19 +1507,52 @@ bool MCBST(){
     for(int i=0; i<v1.Size(); i++)v1[i]=genNum(gen);
     lasd::BST<int> s1(v1);
     lasd::BST<int> s2(move(s1));
+    lasd::BST<int> s3(v1);
     correct&=(s1.Empty());
+    correct&=(s2==s3);
     s2.Clear();
     correct&=(s1==s2);
     return correct;
 }
 
-template <typename Data>
-bool MSCBTLnk(lasd::MutableMappableContainer<Data>* cont){
-    lasd::BinaryTreeLnk<int> s1(*cont);
+bool MSCBTVecVec(){
+    if(output) cout<<"\n**********TEST MSCBTVecVec**********\n";
     bool correct=true;
+    int temp_size = genSize(gen);
+    lasd::Vector<int> l1(temp_size);
+    lasd::Vector<int> l2(temp_size);
+    for(int i=0; i<temp_size; i++) {
+        int temp_num = genNum(gen);
+        l1[i]=temp_num;
+        l2[i]=temp_num;
+    }
+    lasd::BinaryTreeVec<int> s1(move(l1));
     lasd::BTBreadthIterator<int> itr(s1);
-    (*cont).Map(
-        [&correct, &itr](const Data& dat){
+    l2.PreOrderMap(
+        [&correct, &itr](const int& dat){
+            correct&= ((*itr)==dat);
+            ++itr;
+        }
+    );
+    return correct;
+}
+
+
+bool MSCBTVecLst(){
+    if(output) cout<<"\n**********TEST MSCBTVecLst**********\n";
+    bool correct=true;
+    int temp_size = genSize(gen);
+    lasd::List<int> l1;
+    lasd::List<int> l2;
+    for(int i=0; i<temp_size; i++) {
+        int temp_num = genNum(gen);
+        l1.Insert(temp_num);
+        l2.Insert(temp_num);
+    }
+    lasd::BinaryTreeVec<int> s1(move(l1));
+    lasd::BTBreadthIterator<int> itr(s1);
+    l2.PreOrderMap(
+        [&correct, &itr](const int& dat){
             correct&= ((*itr)==dat);
             ++itr;
         }
@@ -1531,29 +1563,18 @@ bool MSCBTLnk(lasd::MutableMappableContainer<Data>* cont){
 bool MSCBTLnkVec(){
     if(output) cout<<"\n**********TEST MSCBTLnkVec**********\n";
     bool correct=true;
-    lasd::Vector<int> s1(genSize(gen));
-    for(int i=0; i<s1.Size(); i++)s1[i]=genNum(gen);
-    correct&=(MSCBTLnk(&s1));
-    return correct;
-}
-
-bool MSCBTLnkLst(){
-    if(output) cout<<"\n**********TEST MSCBTLnkLst**********\n";
-    bool correct=true;
-    lasd::List<int> s1;
     int temp_size = genSize(gen);
-    for(int i=0; i<temp_size; i++) s1.Insert(genNum(gen));
-    correct&=MSCBTLnk(&s1);
-    return correct;
-}
-
-template <typename Data>
-bool MSCBTVec(lasd::MutableMappableContainer<Data>* cont){
-    lasd::BinaryTreeVec<int> s1(*cont);
-    bool correct=true;
+    lasd::Vector<int> l1(temp_size);
+    lasd::Vector<int> l2(temp_size);
+    for(int i=0; i<temp_size; i++) {
+        int temp_num = genNum(gen);
+        l1[i]=temp_num;
+        l2[i]=temp_num;
+    }
+    lasd::BinaryTreeLnk<int> s1(move(l1));
     lasd::BTBreadthIterator<int> itr(s1);
-    (*cont).Map(
-        [&correct, &itr](const Data& dat){
+    l2.PreOrderMap(
+        [&correct, &itr](const int& dat){
             correct&= ((*itr)==dat);
             ++itr;
         }
@@ -1561,32 +1582,23 @@ bool MSCBTVec(lasd::MutableMappableContainer<Data>* cont){
     return correct;
 }
 
-bool MSCBTVecVec(){
-    if(output) cout<<"\n**********TEST MSCBTVecVec**********\n";
+bool MSCBTLnkLst(){
+    if(output) cout<<"\n**********TEST MSCBTLnkLst**********\n";
     bool correct=true;
-    lasd::Vector<int> s1(genSize(gen));
-    for(int i=0; i<s1.Size(); i++)s1[i]=genNum(gen);
-    correct&=(MSCBTVec(&s1));
-    return correct;
-}
-
-bool MSCBTVecLst(){
-    if(output) cout<<"\n**********TEST MSCBTVecLst**********\n";
-    bool correct=true;
-    lasd::List<int> s1;
     int temp_size = genSize(gen);
-    for(int i=0; i<temp_size; i++) s1.Insert(genNum(gen));
-    correct&=MSCBTVec(&s1);
-    return correct;
-}
-
-template <typename Data>
-bool MSCBST(lasd::MutableMappableContainer<Data>* cont){
-    lasd::BST<int> s1(*cont);
-    bool correct=true;
-    (*cont).Map(
-        [&correct, &s1](const Data& dat){
-            correct&=s1.Exists(dat);
+    lasd::List<int> l1;
+    lasd::List<int> l2;
+    for(int i=0; i<temp_size; i++) {
+        int temp_num = genNum(gen);
+        l1.Insert(temp_num);
+        l2.Insert(temp_num);
+    }
+    lasd::BinaryTreeLnk<int> s1(move(l1));
+    lasd::BTBreadthIterator<int> itr(s1);
+    l2.PreOrderMap(
+        [&correct, &itr](const int& dat){
+            correct&= ((*itr)==dat);
+            ++itr;
         }
     );
     return correct;
@@ -1595,19 +1607,40 @@ bool MSCBST(lasd::MutableMappableContainer<Data>* cont){
 bool MSCBSTVec(){
     if(output) cout<<"\n**********TEST MSCBSTVec**********\n";
     bool correct=true;
-    lasd::Vector<int> s1(genSize(gen));
-    for(int i=0; i<s1.Size(); i++) s1[i]=genNum(gen);
-    correct&=(MSCBST(&s1));
+    int temp_size = genSize(gen);
+    lasd::Vector<int> l1(temp_size);
+    lasd::Vector<int> l2(temp_size);
+    for(int i=0; i<temp_size; i++) {
+        int temp_num = genNum(gen);
+        l1[i]=temp_num;
+        l2[i]=temp_num;
+    }
+    lasd::BST<int> s1(move(l1));
+    l2.PreOrderMap(
+        [&correct, &s1](const int& dat){
+            correct&=s1.Exists(dat);
+        }
+    );
     return correct;
 }
 
 bool MSCBSTLst(){
     if(output) cout<<"\n**********TEST MSCBSTLst**********\n";
     bool correct=true;
-    lasd::List<int> s1;
     int temp_size = genSize(gen);
-    for(int i=0; i<temp_size; i++) s1.Insert(genNum(gen));
-    correct&=MSCBST(&s1);
+    lasd::List<int> l1;
+    lasd::List<int> l2;
+    for(int i=0; i<temp_size; i++) {
+        int temp_num = genNum(gen);
+        l1.Insert(temp_num);
+        l2.Insert(temp_num);
+    }
+    lasd::BST<int> s1(move(l1));
+    l2.PostOrderMap(
+        [&correct, &s1](const int& dat){
+            correct&=s1.Exists(dat);
+        }
+    );
     return correct;
 }
 
@@ -1778,6 +1811,7 @@ bool TestBSTPred(){
         l1.PostOrderMap( [](int& dat){ cout<<"\t"<<dat; } );
     }
     temp_size--;
+    if(bst.Size()>3) correct&= (bst.Successor(bst.Predecessor(bst.Max()))==bst.Max());
     if(output) cout<<"\nBST: ";
     while(bst.Size()>1){
         if(output) cout<<"\t"<<bst.Predecessor(l1[temp_size]);
@@ -1802,6 +1836,7 @@ bool TestBSTSucc(){
         cout<<"\nSorted list1: ";
         l1.PostOrderMap( [](int& dat){ cout<<"\t"<<dat; } );
     }
+    if(bst.Size()>3) correct&= (bst.Predecessor(bst.Successor(bst.Min()))==bst.Min());
     if(output) cout<<"\nBST: ";
     int cursor = 0;
     while(bst.Size()>1){
@@ -1893,9 +1928,15 @@ bool TestInsertRemoveBST(){
     int actual_size = bst.Size();
     for(int i{0}; i<v1.Size(); i++){
         if(genNum(gen)%2==0) if(bst.Insert(genNum(gen))) actual_size++;
-        else while(!(bst.Remove(genNum(gen)))) actual_size--;
+        else {
+            while(!(bst.Remove(genNum(gen)))) ;
+            actual_size--;
+        }
     }
     correct&=(actual_size==bst.Size());
+    bst.Clear();
+    correct&=(!(bst.Remove(genNum(gen))));
+    correct&=(bst.Insert(genNum(gen)));
     return correct;
 }
 
