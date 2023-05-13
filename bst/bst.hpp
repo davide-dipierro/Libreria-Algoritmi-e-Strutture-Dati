@@ -47,10 +47,10 @@ public:
   /* ************************************************************************ */
 
   // Copy constructor
-  BST(const BST& other);
+  BST(const BST& other) : BinaryTreeLnk<Data>::BinaryTreeLnk(other) {;}
 
   // Move constructor
-  BST(BST&& other) noexcept;
+  BST(BST&& other) noexcept : BinaryTreeLnk<Data>::BinaryTreeLnk(std::move(other)) {;}
 
   /* ************************************************************************ */
 
@@ -103,7 +103,7 @@ public:
 
   // Specific member functions (inherited from TestableContainer)
 
-  bool Exists(const Data& dat) const noexcept override; // Override TestableContainer member
+  inline bool Exists(const Data& val) const noexcept override { return (FindPointerTo(root,val) !=nullptr); }; // Override TestableContainer member
 
   /* ************************************************************************ */
 
@@ -125,26 +125,36 @@ protected:
 
   NodeLnk* Detach(NodeLnk*& node) noexcept;
 
-  NodeLnk* DetachMin(NodeLnk*& node) noexcept;
-  NodeLnk* DetachMax(NodeLnk*& node) noexcept;
+  NodeLnk* DetachMin(NodeLnk*& node) noexcept { return Skip2Right(FindPointerToMin(node)); };
+  NodeLnk* DetachMax(NodeLnk*& node) noexcept { return Skip2Left(FindPointerToMax(node)); };
 
   NodeLnk* Skip2Left(NodeLnk*& node) noexcept;
   NodeLnk* Skip2Right(NodeLnk*& node) noexcept;
 
   NodeLnk* const& FindPointerToMin(NodeLnk* const& node) const noexcept;
-  NodeLnk* const& FindPointerToMax(NodeLnk* const& node) const noexcept;
+  NodeLnk*& FindPointerToMin(NodeLnk*& node) noexcept {
+    return const_cast<NodeLnk*&>(static_cast<const BST<Data>*>(this)->FindPointerToMin(node));
+  };
 
-  NodeLnk*& FindPointerToMin(NodeLnk*& node) noexcept;
-  NodeLnk*& FindPointerToMax(NodeLnk*& node) noexcept;
+  NodeLnk* const& FindPointerToMax(NodeLnk* const& node) const noexcept;
+  NodeLnk*& FindPointerToMax(NodeLnk*& node) noexcept {
+    return const_cast<NodeLnk*&>(static_cast<const BST<Data> *>(this)->FindPointerToMax(node));
+  };
 
   NodeLnk* const& FindPointerTo(NodeLnk* const& node, Data val) const noexcept;
-  NodeLnk*& FindPointerTo(NodeLnk*& node, Data val) noexcept;
+  inline NodeLnk*& FindPointerTo(NodeLnk*& node, Data val) noexcept {
+    return const_cast<NodeLnk*&>(static_cast<const BST<Data>*>(this)->FindPointerTo(node,val));
+  };
 
   NodeLnk* const& FindPointerToPredecessor(NodeLnk* const &node, Data val) const noexcept;
+  inline NodeLnk*& FindPointerToPredecessor(NodeLnk*& node, Data val) noexcept {
+    return const_cast<NodeLnk*&>(static_cast<const BST<Data>*>(this)->FindPointerToPredecessor(node,val));
+  };
+  
   NodeLnk* const& FindPointerToSuccessor(NodeLnk* const &node, Data val) const noexcept;
-
-  NodeLnk*& FindPointerToPredecessor(NodeLnk*& node, Data val) noexcept;
-  NodeLnk*& FindPointerToSuccessor(NodeLnk*& node, Data val) noexcept;
+  inline NodeLnk*& FindPointerToSuccessor(NodeLnk*& node, Data val) noexcept {
+    return const_cast<NodeLnk*&>(static_cast<const BST<Data>*>(this)->FindPointerToSuccessor(node,val));
+  };
 
 };
 
