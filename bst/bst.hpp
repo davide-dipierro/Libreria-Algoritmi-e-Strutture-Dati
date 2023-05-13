@@ -47,10 +47,10 @@ public:
   /* ************************************************************************ */
 
   // Copy constructor
-  BST(const BST& other) : BinaryTreeLnk<Data>::BinaryTreeLnk(other) {};
+  BST(const BST& other);
 
   // Move constructor
-  BST(BST&& other) noexcept : BinaryTreeLnk<Data>::BinaryTreeLnk(std::move(other)) {};
+  BST(BST&& other) noexcept;
 
   /* ************************************************************************ */
 
@@ -83,27 +83,27 @@ public:
   Data MaxNRemove(); // (concrete function must throw std::length_error when empty)
   void RemoveMax(); // (concrete function must throw std::length_error when empty)
 
-  const Data& Predecessor(const Data& val) const; // (concrete function must throw std::length_error when not found)
-  Data PredecessorNRemove(const Data& val); // (concrete function must throw std::length_error when not found)
-  void RemovePredecessor(const Data& val); // (concrete function must throw std::length_error when not found)
+  const Data& Predecessor(const Data& dat) const; // (concrete function must throw std::length_error when not found)
+  Data PredecessorNRemove(const Data& dat); // (concrete function must throw std::length_error when not found)
+  void RemovePredecessor(const Data& dat); // (concrete function must throw std::length_error when not found)
 
-  const Data& Successor(const Data& val) const; // (concrete function must throw std::length_error when not found)
-  Data SuccessorNRemove(const Data& val); // (concrete function must throw std::length_error when not found)
-  void RemoveSuccessor(const Data& val); // (concrete function must throw std::length_error when not found)
+  const Data& Successor(const Data& dat) const; // (concrete function must throw std::length_error when not found)
+  Data SuccessorNRemove(const Data& dat); // (concrete function must throw std::length_error when not found)
+  void RemoveSuccessor(const Data& dat); // (concrete function must throw std::length_error when not found)
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from DictionaryContainer)
 
-  bool Insert(const Data& val) override; // Override DictionaryContainer member (Copy of the value)
-  bool Insert(Data&& val) override; // Override DictionaryContainer member (Move of the value)
-  bool Remove(const Data& val) override; // Override DictionaryContainer member
+  bool Insert(const Data& dat) override; // Override DictionaryContainer member (Copy of the value)
+  bool Insert(Data&& dat) override; // Override DictionaryContainer member (Move of the value)
+  bool Remove(const Data& dat) override; // Override DictionaryContainer member
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from TestableContainer)
 
-  inline bool Exists(const Data& val) const noexcept override { return (FindPointerTo(root,val)!=nullptr); }; // Override TestableContainer member
+  bool Exists(const Data& dat) const noexcept override; // Override TestableContainer member
 
   /* ************************************************************************ */
 
@@ -125,37 +125,26 @@ protected:
 
   NodeLnk* Detach(NodeLnk*& node) noexcept;
 
-  inline NodeLnk* DetachMin(NodeLnk*& node) noexcept { return Skip2Left(FindPointerToMin(node)); };
-  inline NodeLnk* DetachMax(NodeLnk*& node) noexcept { return Skip2Right(FindPointerToMin(node)); };
+  NodeLnk* DetachMin(NodeLnk*& node) noexcept;
+  NodeLnk* DetachMax(NodeLnk*& node) noexcept;
 
   NodeLnk* Skip2Left(NodeLnk*& node) noexcept;
   NodeLnk* Skip2Right(NodeLnk*& node) noexcept;
 
-  NodeLnk* const& FindPointerToMax(NodeLnk* const& node) const noexcept;
-  inline NodeLnk*& FindPointerToMax(NodeLnk*& node) noexcept {
-    return const_cast<NodeLnk*&>(static_cast<const BST<Data> *>(this)->FindPointerToMax(node));
-  }
-
   NodeLnk* const& FindPointerToMin(NodeLnk* const& node) const noexcept;
-  inline NodeLnk*& FindPointerToMin(NodeLnk*& node) noexcept {
-    return const_cast<NodeLnk*&>(static_cast<const BST<Data>*>(this)->FindPointerToMin(node));
-  }
+  NodeLnk* const& FindPointerToMax(NodeLnk* const& node) const noexcept;
 
+  NodeLnk*& FindPointerToMin(NodeLnk*& node) noexcept;
+  NodeLnk*& FindPointerToMax(NodeLnk*& node) noexcept;
 
   NodeLnk* const& FindPointerTo(NodeLnk* const& node, Data val) const noexcept;
-  inline NodeLnk*& FindPointerTo(NodeLnk*& node, Data val) noexcept {
-    return const_cast<NodeLnk*&>(static_cast<const BST<Data>*>(this)->FindPointerTo(node,val));
-  };
+  NodeLnk*& FindPointerTo(NodeLnk*& node, Data val) noexcept;
 
   NodeLnk* const& FindPointerToPredecessor(NodeLnk* const &node, Data val) const noexcept;
-  inline NodeLnk*& FindPointerToPredecessor(NodeLnk*& node, Data val) noexcept {
-    return const_cast<NodeLnk*&>(static_cast<const BST<Data>*>(this)->FindPointerToPredecessor(node,val));
-  };
-  
   NodeLnk* const& FindPointerToSuccessor(NodeLnk* const &node, Data val) const noexcept;
-  inline NodeLnk*& FindPointerToSuccessor(NodeLnk*& node, Data val) noexcept {
-    return const_cast<NodeLnk*&>(static_cast<const BST<Data>*>(this)->FindPointerToSuccessor(node,val));
-  };
+
+  NodeLnk*& FindPointerToPredecessor(NodeLnk*& node, Data val) noexcept;
+  NodeLnk*& FindPointerToSuccessor(NodeLnk*& node, Data val) noexcept;
 
 };
 

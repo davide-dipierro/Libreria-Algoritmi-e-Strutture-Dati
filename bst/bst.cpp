@@ -20,6 +20,13 @@ BST<Data>::BST(MutableMappableContainer<Data>&& other) noexcept{
   );
 }
 
+template<typename Data>
+BST<Data>::BST(const BST<Data>& other): BinaryTreeLnk<Data>::BinaryTreeLnk(other) {}
+
+template<typename Data>
+BST<Data>::BST(BST<Data>&& other) noexcept: BinaryTreeLnk<Data>::BinaryTreeLnk(std::move(other)) {}
+
+
 template <typename Data>
 BST<Data>& BST<Data>::operator=(const BST<Data>& other){
   BinaryTreeLnk<Data>::operator=(other);
@@ -33,10 +40,10 @@ BST<Data>& BST<Data>::operator=(BST<Data>&& other)noexcept{
 
 template <typename Data>
 bool BST<Data>::operator==(const BST<Data>& other) const noexcept{
-  if(size!=other.Size()) return false;
+  if (size != other.Size()) return false;
   BTInOrderIterator<Data> IterThis(*this);
   BTInOrderIterator<Data> IterOther(other);
-  while(!IterThis.Terminated()) {
+  while( !IterThis.Terminated() ) {
     if((*IterThis) != (*IterOther)) return false;
     ++IterThis; ++IterOther;
   }
@@ -132,43 +139,44 @@ typename BST<Data>::NodeLnk* const& BST<Data>::FindPointerToMax(typename BST<Dat
 template <typename Data>
 const Data& BST<Data>::Predecessor(const Data& val) const{
   NodeLnk* const* punt=&FindPointerToPredecessor(root,val);
-  if(punt!=nullptr) return (*punt)->elem;
+  if (punt != nullptr) return (*punt)->elem;
   else throw std::length_error("BST<Data>::Predecessor(): Predecessor not found");
 }
-
 template <typename Data>
 const Data& BST<Data>::Successor(const Data& val) const{
   NodeLnk* const* punt=&FindPointerToSuccessor(root,val);
-  if(punt!=nullptr) return (*punt)->elem;
+  if(punt !=nullptr) return (*punt)->elem;
   else throw std::length_error("BST<Data>::Successor(): Successor not found");
 }
-
 template <typename Data>
 Data BST<Data>::PredecessorNRemove(const Data& val){
   NodeLnk** punt=&FindPointerToPredecessor(root,val);
-  if(punt!=nullptr) return DataNDelete(Detach(*punt));
+  if (punt != nullptr) return DataNDelete(Detach(*punt));
   else throw std::length_error("BST<Data>::PredecessorNRemove(): Predecessor not found");
 }
 
 template <typename Data>
 Data BST<Data>::SuccessorNRemove(const Data& val){
   NodeLnk** punt=&FindPointerToSuccessor(root,val);
-  if(punt!=nullptr) return DataNDelete(Detach(*punt));
+  if (punt != nullptr) return DataNDelete(Detach(*punt));
   else throw std::length_error("BST<Data>::SuccessorNRemove(): Successor not found");
 }
-
 template <typename Data>
 void BST<Data>::RemovePredecessor(const Data& val){
   NodeLnk** punt=&FindPointerToPredecessor(root,val);
-  if(punt!=nullptr) delete Detach(*punt);
+  if (punt != nullptr) delete Detach(*punt);
   else throw std::length_error("BST<Data>::RemovePredecessor(): Predecessor not found");
 }
 
 template <typename Data>
 void BST<Data>::RemoveSuccessor(const Data& val){
   NodeLnk** punt = &FindPointerToSuccessor(root, val);
-  if(punt!=nullptr) delete Detach(*punt);
+  if (punt != nullptr) delete Detach(*punt);
   else throw std::length_error("BST<Data>::RemoveSuccessor(): Successor not found");
+}
+template <typename Data>
+bool BST<Data>::Exists(const Data& val)const noexcept{
+  return (FindPointerTo(root,val) !=nullptr);
 }
 
 // template <typename Data>
@@ -184,7 +192,7 @@ Data BST<Data>::DataNDelete(NodeLnk *punt) {
 }
 
 template<typename Data>
-typename BST<Data>::NodeLnk* BST<Data>::Detach(typename BST<Data>::NodeLnk*& node) noexcept {
+typename BST<Data>::NodeLnk* BST<Data>::Detach(typename BST<Data>::NodeLnk*& node) noexcept{
   if(node==nullptr) return nullptr;
   if (node->lChild == nullptr) return Skip2Right(node);
   else if (node->rChild == nullptr) return Skip2Left(node);
@@ -193,6 +201,12 @@ typename BST<Data>::NodeLnk* BST<Data>::Detach(typename BST<Data>::NodeLnk*& nod
     std::swap(node->elem, max->elem);
     return max;
   }
+
+}
+
+template<typename Data>
+typename BST<Data>::NodeLnk* BST<Data>::DetachMax(typename BST<Data>::NodeLnk*& node)noexcept{
+  return Skip2Left(FindPointerToMax(node));
 }
 
 template <typename Data>
@@ -205,7 +219,10 @@ typename BST<Data>::NodeLnk* BST<Data>::Skip2Left(typename BST<Data>::NodeLnk*& 
   }
   return new_lChild;
 }
-
+template<typename Data>
+typename BST<Data>::NodeLnk* BST<Data>::DetachMin(typename BST<Data>::NodeLnk*& node)noexcept{
+  return Skip2Right(FindPointerToMin(node));
+}
 template <typename Data>
 typename BST<Data>::NodeLnk* BST<Data>::Skip2Right(typename BST<Data>::NodeLnk*& node) noexcept{
   NodeLnk* new_rChild = nullptr;
@@ -218,9 +235,19 @@ typename BST<Data>::NodeLnk* BST<Data>::Skip2Right(typename BST<Data>::NodeLnk*&
 }
 
 template<typename Data>
-typename BST<Data>::NodeLnk* const& BST<Data>::FindPointerTo(typename BST<Data>::NodeLnk* const& node, Data val) const noexcept{
-  NodeLnk* const *punt = &node;
-  NodeLnk* current = node;
+typename BST<Data>::NodeLnk*& BST<Data>::FindPointerToMin(typename BST<Data>::NodeLnk*& Nodo) noexcept{
+  return const_cast<NodeLnk*&>(static_cast<const BST<Data>*>(this)->FindPointerToMin(Nodo));
+}
+
+template<typename Data>
+typename BST<Data>::NodeLnk*& BST<Data>::FindPointerToMax(typename BST<Data>::NodeLnk*& Nodo) noexcept{
+  return const_cast<NodeLnk*&>(static_cast<const BST<Data> *>(this)->FindPointerToMax(Nodo));
+}
+
+template<typename Data>
+typename BST<Data>::NodeLnk* const& BST<Data>::FindPointerTo(typename BST<Data>::NodeLnk* const& Nodo, Data val) const noexcept{
+  NodeLnk* const *punt = &Nodo;
+  NodeLnk* current = Nodo;
 
   while (current != nullptr) {
     if (val > current->elem) {
@@ -238,27 +265,32 @@ typename BST<Data>::NodeLnk* const& BST<Data>::FindPointerTo(typename BST<Data>:
 }
 
 template<typename Data>
-typename BST<Data>::NodeLnk* const& BST<Data>::FindPointerToPredecessor(typename BST<Data>::NodeLnk* const& node, Data val) const noexcept{
-  NodeLnk* const* predecessor = nullptr;
-  NodeLnk* const* current = &node;
+typename BST<Data>::NodeLnk*& BST<Data>::FindPointerTo(typename BST<Data>::NodeLnk*& Nodo, Data val) noexcept{
+  return const_cast<NodeLnk*&>(static_cast<const BST<Data>*>(this)->FindPointerTo(Nodo,val));
+}
 
-  while ((*current) != nullptr && (*current)->elem != val) {
-    if ((*current)->elem > val) {
-      current = &(*current)->lChild;
-    } else if ((*current)->elem < val) {
-      predecessor = current;
-      current = &(*current)->rChild;
+template<typename Data>
+typename BST<Data>::NodeLnk* const& BST<Data>::FindPointerToPredecessor(typename BST<Data>::NodeLnk* const& Nodo, Data val) const noexcept{
+  NodeLnk* const* predecessor = nullptr;
+  NodeLnk* const* corrente = &Nodo;
+
+  while ((*corrente) != nullptr && (*corrente)->elem != val) {
+    if ((*corrente)->elem > val) {
+      corrente = &(*corrente)->lChild;
+    } else if ((*corrente)->elem < val) {
+      predecessor = corrente;
+      corrente = &(*corrente)->rChild;
     }
   }
-  if ((*current) != nullptr && (*current)->lChild != nullptr) predecessor = &FindPointerToMax((*current)->lChild);
+  if ((*corrente) != nullptr && (*corrente)->lChild != nullptr) predecessor = &FindPointerToMax((*corrente)->lChild);
 
   return *predecessor;
 }
 
 template<typename Data>
 typename BST<Data>::NodeLnk* const& BST<Data>::FindPointerToSuccessor(typename BST<Data>::NodeLnk* const& node, Data val) const noexcept{
-  NodeLnk *const *successor = nullptr;
-  NodeLnk *const *current = &node;
+  typename BST<Data>::NodeLnk *const *successor = nullptr;
+  typename BST<Data>::NodeLnk *const *current = &node;
 
   while ((*current) != nullptr && (*current)->elem != val) {
     if ((*current)->elem < val) current = &(*current)->rChild;
@@ -270,6 +302,16 @@ typename BST<Data>::NodeLnk* const& BST<Data>::FindPointerToSuccessor(typename B
   if ((*current) != nullptr && (*current)->rChild != nullptr) successor = &FindPointerToMin((*current)->rChild);
 
   return *successor;
+}
+
+template<typename Data>
+typename BST<Data>::NodeLnk*& BST<Data>::FindPointerToPredecessor(typename BST<Data>::NodeLnk*& Nodo, Data val) noexcept{
+  return const_cast<NodeLnk*&>(static_cast<const BST<Data>*>(this)->FindPointerToPredecessor(Nodo,val));
+}
+
+template<typename Data>
+typename BST<Data>::NodeLnk*& BST<Data>::FindPointerToSuccessor(typename BST<Data>::NodeLnk*& Nodo, Data val) noexcept{
+  return const_cast<NodeLnk*&>(static_cast<const BST<Data>*>(this)->FindPointerToSuccessor(Nodo,val));
 }
 
 };
