@@ -125,26 +125,26 @@ protected:
 
   NodeLnk* Detach(NodeLnk*& node) noexcept;
 
-  NodeLnk* DetachMin(NodeLnk *&) noexcept;
-  NodeLnk* DetachMax(NodeLnk *&) noexcept;
+  NodeLnk* DetachMin(NodeLnk*& node) noexcept;
+  NodeLnk* DetachMax(NodeLnk*& node) noexcept;
 
-  NodeLnk* Skip2Left(NodeLnk *&) noexcept;
-  NodeLnk* Skip2Right(NodeLnk *&) noexcept;
+  NodeLnk* Skip2Left(NodeLnk*& node) noexcept;
+  NodeLnk* Skip2Right(NodeLnk*& node) noexcept;
 
-  NodeLnk* const &FindPointerToMin(NodeLnk *const &nod) const noexcept;
-  NodeLnk* const &FindPointerToMax(NodeLnk *const &nod) const noexcept;
+  NodeLnk* const& FindPointerToMin(NodeLnk* const& node) const noexcept;
+  NodeLnk* const& FindPointerToMax(NodeLnk* const& node) const noexcept;
 
-  NodeLnk*& FindPointerToMin(NodeLnk *&nod) noexcept;
-  NodeLnk*& FindPointerToMax(NodeLnk *&nod) noexcept;
+  NodeLnk*& FindPointerToMin(NodeLnk*& node) noexcept;
+  NodeLnk*& FindPointerToMax(NodeLnk*& node) noexcept;
 
-  NodeLnk*const& FindPointerTo(NodeLnk *const &nod, Data dat) const noexcept;
-  NodeLnk*& FindPointerTo(NodeLnk *&nod, Data dat) noexcept;
+  NodeLnk* const& FindPointerTo(NodeLnk* const& node, Data val) const noexcept;
+  NodeLnk*& FindPointerTo(NodeLnk*& node, Data val) noexcept;
 
-  NodeLnk* const& FindPointerToPredecessor(NodeLnk *const &nod, Data dat) const noexcept;
-  NodeLnk* const& FindPointerToSuccessor(NodeLnk *const &nod, Data dat) const noexcept;
+  NodeLnk* const& FindPointerToPredecessor(NodeLnk* const &node, Data val) const noexcept;
+  NodeLnk* const& FindPointerToSuccessor(NodeLnk* const &node, Data val) const noexcept;
 
-  NodeLnk*& FindPointerToPredecessor(NodeLnk *&nod, Data dat) noexcept;
-  NodeLnk*& FindPointerToSuccessor(NodeLnk *&nod, Data dat) noexcept;
+  NodeLnk*& FindPointerToPredecessor(NodeLnk*& node, Data val) noexcept;
+  NodeLnk*& FindPointerToSuccessor(NodeLnk*& node, Data val) noexcept;
 
 };
 
