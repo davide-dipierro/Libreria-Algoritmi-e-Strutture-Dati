@@ -23,6 +23,31 @@ BinaryTreeLnk<Data>::NodeLnk::NodeLnk(NodeLnk&& other) noexcept {
     std::swap(rChild, other.rChild);
 }
 
+template <typename Data>
+typename BinaryTreeLnk<Data>::NodeLnk& BinaryTreeLnk<Data>::NodeLnk::RightChild(){
+    if(HasRightChild()) return *rChild;
+    else throw std::out_of_range("BinaryTreeLnk<Data>::NodeLnk::RightChild(): Not found!"); 
+}
+
+template <typename Data>
+typename BinaryTreeLnk<Data>::NodeLnk& BinaryTreeLnk<Data>::NodeLnk::LeftChild(){
+    if(HasLeftChild()) return *lChild;
+    else throw std::out_of_range("BinaryTreeLnk<Data>::NodeLnk::LeftChild(): Not found!"); 
+}
+
+template <typename Data>
+const typename BinaryTreeLnk<Data>::NodeLnk& BinaryTreeLnk<Data>::NodeLnk::RightChild() const {
+    if(HasRightChild()) return *rChild;
+    else throw std::out_of_range("BinaryTreeLnk<Data>::NodeLnk::RightChild(): Not found!"); 
+}
+
+template <typename Data>
+const typename BinaryTreeLnk<Data>::NodeLnk& BinaryTreeLnk<Data>::NodeLnk::LeftChild() const {
+    if(HasLeftChild()) return *lChild;
+    else throw std::out_of_range("BinaryTreeLnk<Data>::NodeLnk::LeftChild(): Not found!"); 
+}
+    
+
 // template <typename Data>
 // BinaryTreeLnk<Data>::NodeLnk& BinaryTreeLnk<Data>::NodeLnk::operator=(const NodeLnk& other) {
 //     elem = other.elem;

@@ -34,11 +34,11 @@ BST<Data>& BST<Data>::operator=(BST<Data>&& other)noexcept{
 template <typename Data>
 bool BST<Data>::operator==(const BST<Data>& other) const noexcept{
   if (size != other.Size()) return false;
-  BTInOrderIterator<Data> IterThis(*this);
-  BTInOrderIterator<Data> IterOther(other);
-  while( !IterThis.Terminated() ) {
-    if((*IterThis) != (*IterOther)) return false;
-    ++IterThis; ++IterOther;
+  BTInOrderIterator<Data> ItrThis(*this);
+  BTInOrderIterator<Data> ItrOther(other);
+  while(!ItrThis.Terminated()) {
+    if((*ItrThis) != (*ItrOther)) return false;
+    ++ItrThis; ++ItrOther;
   }
   return true;
 }

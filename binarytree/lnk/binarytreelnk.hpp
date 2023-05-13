@@ -58,11 +58,11 @@ protected:
     virtual inline bool HasLeftChild() const noexcept override { return lChild!=nullptr; }
     virtual inline bool HasRightChild() const noexcept override { return rChild!=nullptr; }
 
-    virtual inline NodeLnk& RightChild() override { if(HasRightChild()) return *rChild; else throw std::out_of_range("BinaryTreeLnk<Data>::NodeLnk::RightChild(): Not found!"); }
-    virtual inline const NodeLnk& RightChild() const override { if(HasRightChild()) return *rChild; else throw std::out_of_range("BinaryTreeLnk<Data>::NodeLnk::RightChild(): Not found!"); }
+    virtual NodeLnk& RightChild() override;
+    virtual const NodeLnk& RightChild() const override ;
 
-    virtual inline NodeLnk& LeftChild() override { if(HasLeftChild()) return *lChild; else throw std::out_of_range("BinaryTreeLnk<Data>::NodeLnk::LeftChild(): Not found!"); }
-    virtual inline const NodeLnk& LeftChild() const override { if(HasLeftChild()) return *lChild; else throw std::out_of_range("BinaryTreeLnk<Data>::NodeLnk::LeftChild(): Not found!"); }
+    virtual NodeLnk& LeftChild() override;
+    virtual const NodeLnk& LeftChild() const override;
 
   };
 
