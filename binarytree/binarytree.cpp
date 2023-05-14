@@ -487,7 +487,7 @@ bool BTBreadthIterator<Data>::Terminated() const noexcept {
 
 template <typename Data>
 BTBreadthIterator<Data>& BTBreadthIterator<Data>::operator++() {
-    if (!Terminated()) {
+    if(!Terminated()) {
         if (current->HasLeftChild()) queue.Enqueue(&(current->LeftChild())); 
         if (current->HasRightChild()) queue.Enqueue(&(current->RightChild()));
         

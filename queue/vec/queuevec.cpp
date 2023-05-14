@@ -58,7 +58,7 @@ void QueueVec<Data>::CheckNExpand() {
         ulong new_size = size * const_exp_set;
         Data* nuovo = new Data[new_size] {};
         for(ulong i = 0; i < size; ++i) {
-            nuovo[i] = Elements[(i + head) % size];
+            nuovo[i] = Elements[(i+head)%size];
         }
         std::swap(Elements, nuovo);
         delete[] nuovo;

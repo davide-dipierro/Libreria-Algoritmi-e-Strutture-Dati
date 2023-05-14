@@ -227,9 +227,7 @@ typename BST<Data>::NodeLnk* const& BST<Data>::FindPointerTo(typename BST<Data>:
     } else if (val < current->elem) {
       punt = &current->lChild;
       current = current->lChild;
-    } else {
-      break;
-    }
+    } else break;
   }
   return *punt;
 
