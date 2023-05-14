@@ -83,7 +83,7 @@ void StackVec<Data>::Push(const Data& elem) {
 template <typename Data>
 void StackVec<Data>::Push(Data&& elem) {
     CheckNExpand();
-    Vector<Data>::operator[](riempimento++) = std::move(elem);
+    std::swap(Vector<Data>::operator[](riempimento++), elem);
 }
 
 /* ************************************************************************** */

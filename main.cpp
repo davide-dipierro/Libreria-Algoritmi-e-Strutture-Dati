@@ -38,20 +38,18 @@ TODO:
 void temptest(){
 lasd::Vector<int> v1(10);
 
-  for(int i=0; i<v1.Size(); i++)
-    v1[i]=i;
+  for(int i=0; i<v1.Size(); i++) v1[i]=i;
+
   lasd::BinaryTreeVec<int> btl1(std::move(v1));
+  lasd::Vector<int> v2(std::move(btl1));
 
-  lasd::List<int> v2(std::move(btl1));
-
-  cout<<"list: ";
-  for(int i=0; i<v2.Size(); i++)
-    cout<<v2[i];
+  cout<<"Vector: ";
+  for(int i=0; i<v2.Size(); i++) cout<<v2[i];
   
   cout<<endl;
 
   btl1.Map(
-    [](const int &dat){
+    [](const int &dat) {
       cout<<dat<<"-";
     }
   );

@@ -18,31 +18,36 @@ bool BinaryTree<Data>::operator==(const BinaryTree& other) const noexcept {
 
 template <typename Data>
 void BinaryTree<Data>::Fold(FoldFunctor func, void *acc) const {
-    for(BTPreOrderIterator i(*this); !(i.Terminated()); ++i) func(*i, acc);
+    // for(BTPreOrderIterator i(*this); !(i.Terminated()); ++i) func(*i, acc);
+    MappableContainer<Data>::Fold(func, acc);
 }
 
 template <typename Data>
 void BinaryTree<Data>::PreOrderMap(MapFunctor func) const {
+    // std::cout<<"CONST MAP";
     // for(BTPreOrderIterator i(*this); !(i.Terminated()); ++i) func(*i);
     if(!this->Empty()) PreOrderMap(Root(), func);
 }
 
 template <typename Data>
 void BinaryTree<Data>::PostOrderMap(MapFunctor func) const {
+    // std::cout<<"CONST MAP";
     // for(BTPostOrderIterator i(*this); !(i.Terminated()); ++i) func(*i);
     if(!this->Empty()) PostOrderMap(Root(), func);
 }
 
 template <typename Data>
 void BinaryTree<Data>::InOrderMap(MapFunctor func) const {
+    // std::cout<<"CONST MAP";
     // for(BTInOrderIterator i(*this); !(i.Terminated()); ++i) func(*i);
     if(!this->Empty()) InOrderMap(Root(), func);
 }
 
 template <typename Data>
 void BinaryTree<Data>::BreadthMap(MapFunctor func) const {
-    for(BTBreadthIterator i(*this); !(i.Terminated()); ++i) func(*i);
+    // std::cout<<"CONST MAP";
     // if(!this->Empty()) BreadthMap(Root(), func);
+    for(BTBreadthIterator i(*this); !(i.Terminated()); ++i) func(*i);
 }
 
 template <typename Data>
@@ -82,24 +87,28 @@ void BinaryTree<Data>::PostOrderMap(const Node& node, MapFunctor func) const {
 
 template <typename Data>
 void MutableBinaryTree<Data>::PreOrderMap(MutableMapFunctor func) {
+    // std::cout<<"MUTABLE MAP";
     // for(BTPreOrderMutableIterator<Data> i(*this); !(i.Terminated()); ++i) func(*i);
     if(!this->Empty()) PreOrderMap(Root(), func);
 }
 
 template <typename Data>
 void MutableBinaryTree<Data>::PostOrderMap(MutableMapFunctor func) {
+    // std::cout<<"MUTABLE MAP";
     // for(BTPostOrderMutableIterator<Data> i(*this); !(i.Terminated()); ++i) func(*i);
     if(!this->Empty()) PostOrderMap(Root(), func);
 }
 
 template <typename Data>
 void MutableBinaryTree<Data>::InOrderMap(MutableMapFunctor func) {
+    // std::cout<<"MUTABLE MAP";
     // for(BTInOrderMutableIterator i(*this); !(i.Terminated()); ++i) func(*i);
     if(!this->Empty()) InOrderMap(Root(), func);
 }
 
 template <typename Data>
 void MutableBinaryTree<Data>::BreadthMap(MutableMapFunctor func) {
+    // std::cout<<"MUTABLE MAP";
     for(BTBreadthMutableIterator i(*this); !(i.Terminated()); ++i) func(*i);
     // if(!this->Empty()) BreadthMap(Root(), func);
 }

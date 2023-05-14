@@ -1811,6 +1811,7 @@ bool TestBSTPred(){
         l1.PostOrderMap( [](int& dat){ cout<<"\t"<<dat; } );
     }
     temp_size--;
+    if(bst.Size()>3) correct&= ((bst.Predecessor(bst.Min()+1))==bst.Min());
     if(bst.Size()>3) correct&= (bst.Successor(bst.Predecessor(bst.Max()))==bst.Max());
     if(output) cout<<"\nBST: ";
     while(bst.Size()>1){
@@ -1836,6 +1837,7 @@ bool TestBSTSucc(){
         cout<<"\nSorted list1: ";
         l1.PostOrderMap( [](int& dat){ cout<<"\t"<<dat; } );
     }
+    if(bst.Size()>3) correct&= (bst.Successor((bst.Max()-1))==bst.Max());
     if(bst.Size()>3) correct&= (bst.Predecessor(bst.Successor(bst.Min()))==bst.Min());
     if(output) cout<<"\nBST: ";
     int cursor = 0;
@@ -1857,17 +1859,18 @@ bool TestMapsBTLnk(){
     for(int i=0; i<v1.Size(); i++) v1[i]=genNum(gen);
     cout<<"\nVettore: ";
     v1.PreOrderMap(MapPrint);
-    lasd::BinaryTreeLnk<int> bt(v1);
+    lasd::BinaryTreeLnk<int> mbt(v1);
+    lasd::BinaryTreeLnk<int>& bt = mbt;
     cout<<"\nBTLnk:\n";
     bt.printBT();
     cout<<"\nPreOrderMap: ";
-    bt.PreOrderMap(MapPrint);
+    bt.BinaryTree<int>::PreOrderMap(MapPrint);
     cout<<"\nPostOrderMap: ";
-    bt.PostOrderMap(MapPrint);
+    bt.BinaryTree<int>::PreOrderMap(MapPrint);
     cout<<"\nInOrderMap: ";
-    bt.InOrderMap(MapPrint);
+    bt.BinaryTree<int>::PreOrderMap(MapPrint);
     cout<<"\nBreadthMap: ";
-    bt.BreadthMap(MapPrint);
+    bt.BinaryTree<int>::PreOrderMap(MapPrint);
     cout<<endl<<"Si prega di verificare l'esattezza delle map e comunicarne il risultato:\n1. Le map sono corrette\n2. Una o piu' map non sono corrette.\nInserisci l'opzione: ";
     int choose = -1;
     while(choose!=1 && choose!=2) cin>>choose;
@@ -1903,7 +1906,7 @@ bool TestMapsBST(){
     for(int i=0; i<v1.Size(); i++) v1[i]=genNum(gen);
     cout<<"\nVettore: ";
     v1.PreOrderMap(MapPrint);
-    lasd::BST<int> bt(v1);
+    const lasd::BST<int> bt(v1);
     cout<<"\nBST:\n";
     bt.printBT();
     cout<<"\nPreOrderMap: ";
