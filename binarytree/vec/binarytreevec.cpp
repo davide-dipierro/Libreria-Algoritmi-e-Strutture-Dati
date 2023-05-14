@@ -12,7 +12,7 @@ BinaryTreeVec<Data>::NodeVec::NodeVec(const Data &dat2, int i2, BinaryTreeVec<Da
 }
 
 template <typename Data>
-BinaryTreeVec<Data>::NodeVec::NodeVec(Data&& dat2, int i2, BinaryTreeVec<Data>* bt2) {
+BinaryTreeVec<Data>::NodeVec::NodeVec(Data&& dat2, int i2, BinaryTreeVec<Data>* bt2) noexcept {
     this->bt = bt2;
     this->i = i2;
     std::swap(dat, dat2);  

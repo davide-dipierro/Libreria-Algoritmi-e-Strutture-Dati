@@ -86,7 +86,7 @@ int main(){
     cout<<"Inserisci la scelta: ";
     cin>>choose;
     switch(choose){
-      case 1 : davtest_ex1(); break;
+      case 1 : davtest_ex2(); break;
       case 2 : davtest_ex2(); break;
       case 3 : lasdtest(); break;
       case 4 : temptest(); break;

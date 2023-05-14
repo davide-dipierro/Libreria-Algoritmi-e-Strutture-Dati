@@ -40,7 +40,7 @@ protected:
 
 
     NodeVec(const Data &dat, int i, BinaryTreeVec<Data>* bt);
-    NodeVec(Data&& dat, int i, BinaryTreeVec<Data>* bt);
+    NodeVec(Data&& dat, int i, BinaryTreeVec<Data>* bt) noexcept;
     ~NodeVec() { if(!(bt->Nodes.Empty())) bt->Nodes[Index()]=nullptr; };
 
     NodeVec& operator=(const NodeVec& other);
