@@ -190,9 +190,7 @@ protected:
 
 public:
 
-  struct MutableNode : virtual public BinaryTree<Data>::Node { // NOTE: sintassi inventata
-  //struct MutableNode : public virtual typename BinaryTree<Data>::Node<Data> sintassi suggerita da ChatGPT ma che non sembra avere senso
-
+  struct MutableNode : virtual public BinaryTree<Data>::Node { 
 
     friend class MutableBinaryTree<Data>;
 

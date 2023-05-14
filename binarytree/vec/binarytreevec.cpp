@@ -52,7 +52,7 @@ const typename BinaryTreeVec<Data>::NodeVec& BinaryTreeVec<Data>::NodeVec::LeftC
 
 template <typename Data>
 const typename BinaryTreeVec<Data>::NodeVec& BinaryTreeVec<Data>::NodeVec::RightChild() const {
-    if(HasRightChild()) return *(bt->Nodes).operator[](Index()*2+2);//[Index()*2+2];
+    if(HasRightChild()) return *(bt->Nodes).operator[](Index()*2+2);
     else throw std::out_of_range("BinaryTreeVec<Data>::NodeVec::RightChild(): Not found!");
 }
 
@@ -99,7 +99,7 @@ BinaryTreeVec<Data>::BinaryTreeVec(const BinaryTreeVec<Data> &other) : Nodes(oth
 }
 
 template <typename Data>
-BinaryTreeVec<Data>::BinaryTreeVec(BinaryTreeVec<Data> &&other) noexcept  { //, Nodes(std::move(other.Nodes)) {
+BinaryTreeVec<Data>::BinaryTreeVec(BinaryTreeVec<Data> &&other) noexcept  {
     std::swap(Nodes, other.Nodes);
     std::swap(this->size, other.size);
     for(int i=0; i<this->Size(); i++) Nodes[i]->bt = this;

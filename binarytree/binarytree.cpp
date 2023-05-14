@@ -156,7 +156,6 @@ BTPreOrderIterator<Data>::BTPreOrderIterator(BTPreOrderIterator&& other) noexcep
 
 template <typename Data>
 BTPreOrderIterator<Data>& BTPreOrderIterator<Data>::operator=(const BTPreOrderIterator& other) {
-    // if(this == &other) return *this; penso mai messo, ma andrebbe messo ovunque
     current=other.current;
     root=other.root;
     stack=other.stack;
@@ -167,7 +166,7 @@ template <typename Data>
 BTPreOrderIterator<Data>& BTPreOrderIterator<Data>::operator=(BTPreOrderIterator&& other) noexcept {
     current = std::move(other.current);
     root = std::move(other.root);
-    stack = std::move(other.stack); //NOTE: si può fare? secondo me sì perché abbiamo fatto l'operatore && in stack
+    stack = std::move(other.stack);
     return *this;
 }
 
@@ -213,7 +212,6 @@ void BTPreOrderIterator<Data>::Reset() noexcept {
 
 template <typename Data>
 BTPreOrderMutableIterator<Data>& BTPreOrderMutableIterator<Data>::operator=(const BTPreOrderMutableIterator& other) {
-    // if(this == &other) return *this; penso mai messo, ma andrebbe messo ovunque
     this->current=other.current;
     this->root=other.root;
     this->stack=other.stack;
@@ -224,7 +222,7 @@ template <typename Data>
 BTPreOrderMutableIterator<Data>& BTPreOrderMutableIterator<Data>::operator=(BTPreOrderMutableIterator&& other) noexcept {
     this->current = std::move(other.current);
     this->root = std::move(other.root);
-    this->stack = std::move(other.stack); //NOTE: si può fare? secondo me sì perché abbiamo fatto l'operatore && in stack
+    this->stack = std::move(other.stack);
     return *this;
 }
 
@@ -309,7 +307,7 @@ template <typename Data>
 BTPostOrderIterator<Data>& BTPostOrderIterator<Data>::operator=(BTPostOrderIterator&& other) noexcept {
     std::swap(current, other.current);
     std::swap(root, other.root);
-    std::swap(stack, other.stack); //NOTE: si può fare? secondo me sì perché abbiamo fatto l'operatore && in stack
+    std::swap(stack, other.stack);
     return *this;
 }
 

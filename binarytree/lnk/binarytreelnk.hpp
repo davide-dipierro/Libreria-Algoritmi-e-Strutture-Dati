@@ -38,13 +38,13 @@ protected:
     NodeLnk* lChild = nullptr;
     NodeLnk* rChild = nullptr;
 
-    // virtual ~NodeLnk() = default; // NOTE: Da decidere se cancellare i figli, penso di no
+    // virtual ~NodeLnk() = default; // NOTE: Da decidere se cancellare i figli
     virtual ~NodeLnk();
 
     NodeLnk(const NodeLnk& other);
     NodeLnk(NodeLnk&& other) noexcept;
 
-    NodeLnk(const Data& newElem) { elem = newElem; }; //NOTE: Va bene dichiarare due costruttori? E se il dato è un NodeLnk??
+    NodeLnk(const Data& newElem) { elem = newElem; };
     NodeLnk(Data&& newElem) noexcept { std::swap(elem, newElem); };
 
     // NodeLnk& operator=(const NodeLnk& other);
