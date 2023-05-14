@@ -24,35 +24,10 @@ using namespace std;
 
 ALL'INTERNO DI CONTAINER.HPP E' STATO DEFINITO IL TIPO ULONG
 
-NOTE:
-- Lo swap di due nodi in BTVec deve scambiare solo gli elementi relativi ai nodi o anche i puntatori agli alberi/indici?
-- Il distruttore del nodo setta il relativo puntatore al nodo a nullptr, è una pezza a colori molto colorata?
-
-
-TODO:
-- Portare IsLeaf in BT
-
-
 ************************************************************************** */
 
 void temptest(){
-lasd::Vector<int> v1(10);
-
-  for(int i=0; i<v1.Size(); i++) v1[i]=i;
-
-  lasd::BinaryTreeVec<int> btl1(std::move(v1));
-  lasd::Vector<int> v2(std::move(btl1));
-
-  cout<<"Vector: ";
-  for(int i=0; i<v2.Size(); i++) cout<<v2[i];
-  
-  cout<<endl;
-
-  btl1.Map(
-    [](const int &dat) {
-      cout<<dat<<"-";
-    }
-  );
+  cout<<"\nEmpty test\n";
 }
 
 int main(){
@@ -86,7 +61,7 @@ int main(){
     cout<<"Inserisci la scelta: ";
     cin>>choose;
     switch(choose){
-      case 1 : davtest_ex2(); break;
+      case 1 : davtest_ex1(); break;
       case 2 : davtest_ex2(); break;
       case 3 : lasdtest(); break;
       case 4 : temptest(); break;
