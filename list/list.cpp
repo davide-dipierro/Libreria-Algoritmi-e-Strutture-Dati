@@ -300,14 +300,16 @@ void List<Data>::AuxPreOrderMap(Node* nodo, MutableMapFunctor func) {
 
 template <typename Data>
 bool List<Data>::Insert(const Data& elem) {
-    if(FoldableContainer<Data>::Exists(elem)) return false;
+    // std::cout<<"\nCHIAMA & LIST\n";
+    if(List<Data>::Exists(elem)) return false;
     InsertAtBack(elem);
     return true;
 }
 
 template <typename Data>
 bool List<Data>::Insert(Data&& elem) {
-    if(FoldableContainer<Data>::Exists(elem)) return false;
+    // std::cout<<"\nCHIAMA && LIST\n";
+    if(List<Data>::Exists(elem)) return false;
     InsertAtBack(std::move(elem));
     return true;
 }

@@ -11,14 +11,14 @@ inline ulong HashTable<Data>::HashKey(const ulong key) const noexcept {
 /* ************************************************************************** */
 
 template <>
-ulong Hashable<int>::operator()(const int val) const noexcept {        
+inline ulong Hashable<int>::operator()(const int val) const noexcept {        
     // const unsigned char* byteData = reinterpret_cast<const unsigned char*>(&val);
     // return HashByte(byteData);
     return val+1;
 }
 
 template <>
-ulong Hashable<std::string>::operator()(const std::string val) const noexcept {
+inline ulong Hashable<std::string>::operator()(const std::string val) const noexcept {
     unsigned int hashValue = 0;
     // unsigned int prime = 31;
 
@@ -32,11 +32,12 @@ ulong Hashable<std::string>::operator()(const std::string val) const noexcept {
 }
 
 template <>
-ulong Hashable<double>::operator()(const double val) const noexcept {
-    long long intValue = *reinterpret_cast<const unsigned long long*>(&val);
-    unsigned char* byteData = reinterpret_cast<unsigned char*>(&intValue);
+inline ulong Hashable<double>::operator()(const double val) const noexcept {
+    // long long intValue = *reinterpret_cast<const unsigned long long*>(&val);
+    // unsigned char* byteData = reinterpret_cast<unsigned char*>(&intValue);
 
-    return HashByte(byteData);
+    // return HashByte(byteData);
+    return val+1;
 }
 
 template <typename Data>

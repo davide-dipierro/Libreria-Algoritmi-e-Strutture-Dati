@@ -31,13 +31,23 @@ ALL'INTERNO DI CONTAINER.HPP E' STATO DEFINITO IL TIPO ULONG
 ************************************************************************** */
 
 void temptest() {
-  lasd::HashTableClsAdr<int> HT(5);
-  HT.Insert(1);
-  HT.Insert(5);
-  HT.Insert(1);
-  HT.Insert(13);
-  HT.Insert(2);
-  HT.Insert(1);
+  lasd::HashTableClsAdr<int> HT1(4);
+  const int a = 7;
+  HT1.Insert(a);
+  HT1.Insert(5);
+  HT1.Insert(1);
+  HT1.Insert(9);
+  HT1.Insert(7);
+  HT1.Insert(12);
+
+  HT1.Resize(100);
+
+  lasd::HashTableClsAdr<int> HT2(5);
+
+  // lasd::HashTableClsAdr<int> HT2(move(HT1));
+  // HT2=HT1;
+  HT1=move(HT2);
+
 }
 
 int main(){

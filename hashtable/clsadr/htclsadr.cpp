@@ -47,11 +47,13 @@ HashTableClsAdr<Data>::HashTableClsAdr(const HashTableClsAdr<Data> &other) {
 
 template <typename Data>
 HashTableClsAdr<Data>::HashTableClsAdr(HashTableClsAdr<Data> &&other) noexcept {
-    vecSize = other.vecSize;
-    vec = new List<Data>*[vecSize] {};
-    std::swap(this->size, other.Size());
-    this->size = 0;
-    for(ulong i{0}; i<vecSize; i++) if(other.vec[i]!=nullptr) InsertAll(std::move(*other.vec[i]));
+    // vecSize = other.vecSize;
+    // vec = new List<Data>*[vecSize] {};
+    std::swap(this->size, other.size);
+    std::swap(vec, other.vec);
+    std::swap(vecSize, other.vecSize);
+    // this->size = 0;
+    // for(ulong i{0}; i<vecSize; i++) if(other.vec[i]!=nullptr) InsertAll(std::move(*other.vec[i]));
 }
 
 template <typename Data>
@@ -65,6 +67,7 @@ HashTableClsAdr<Data>::~HashTableClsAdr() {
 template <typename Data>
 HashTableClsAdr<Data>& HashTableClsAdr<Data>::operator=(const HashTableClsAdr &other) {
     Clear();
+    delete [] vec;
     vecSize = other.vecSize;
     vec = new List<Data>*[vecSize] {};
     for(ulong i{0}; i<vecSize; i++) if(other.vec[i]!=nullptr) InsertAll(*other.vec[i]);
@@ -73,26 +76,36 @@ HashTableClsAdr<Data>& HashTableClsAdr<Data>::operator=(const HashTableClsAdr &o
 
 template <typename Data>
 HashTableClsAdr<Data>& HashTableClsAdr<Data>::operator=(HashTableClsAdr &&other) noexcept {
-    vecSize = other.vecSize;
-    vec = new List<Data>*[vecSize] {};
     std::swap(this->size, other.size);
-    this->size = 0;
-    for(ulong i{0}; i<vecSize; i++) if(other.vec[i]!=nullptr) InsertAll(std::move(*other.vec[i]));
+    std::swap(vec, other.vec);
+    std::swap(vecSize, other.vecSize);
     return *this;
 }
 
 template <typename Data>
 bool HashTableClsAdr<Data>::operator==(const HashTableClsAdr &other) const noexcept {
+    if(other.size!=this->size) return false;
+    for(int i{0}; i<this->vecSize; i++){
+        if(vec[i]!=nullptr){
+            vec[i]->Map(
+                [&other](const Data& dat){
+                    ulong index = other.HashKey(Hashable<Data>()(dat));
+                    if(!other.vec[index]->Exists(dat)) return false;
+                }
+            );
+        }
+    }
     return true;
 }
 
 template <typename Data>
 bool HashTableClsAdr<Data>::Insert(const Data &val) {
+    // std::cout<<"\nCHIAMA & \n";
     bool result = false;
     ulong index = this->HashKey(Hashable<Data>()(val));
     if(vec[index]==nullptr) vec[index] = new List<Data>();
     
-    result = vec[index]->Insert(val);
+    result = vec[index]->List<Data>::Insert(val);
     if(result) size++;
 
     return result;
@@ -100,12 +113,14 @@ bool HashTableClsAdr<Data>::Insert(const Data &val) {
 
 template <typename Data>
 bool HashTableClsAdr<Data>::Insert(Data &&val) {
+    // std::cout<<"\nCHIAMA && \n";
     bool result = false;
-    ulong index = this->HashKey(Hashable<Data>()(val));
+    ulong index = this->HashKey(Hashable<Data>()(std::move(val)));
+    // std::cout<<"\nindex: "<<index<<"\t sizevec: "<<this->vecSize<<"\t size: "<<this->size<<"\n";
     
     if(vec[index]==nullptr) vec[index] = new List<Data>();
     
-    result = vec[index]->Insert(std::move(val));
+    result = vec[index]->List<Data>::Insert(std::move(val));
     if(result) size++;
 
     return result;
@@ -116,9 +131,9 @@ template <typename Data>
 bool HashTableClsAdr<Data>::Remove(const Data &val) {
     bool result = false;
     ulong index = this->HashKey(Hashable<Data>()(val));
-    if(vec[index]==nullptr) return true;
+    if(vec[index]==nullptr) return false;
     
-    result = vec[index]->Remove(val);
+    result = vec[index]->List<Data>::Remove(val);
     if(result) size--;
 
     return result;
@@ -150,7 +165,6 @@ void HashTableClsAdr<Data>::Resize(const ulong n) {
     }
     for(ulong i{0}; i<tempSize; i++) delete tempVec[i];
     delete [] tempVec;
-
 }
 
 template <typename Data>

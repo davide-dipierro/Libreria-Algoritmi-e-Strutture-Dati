@@ -29,9 +29,9 @@ protected:
 
 public:
 
-  ulong operator()(const std::string val) const noexcept; // (concrete function should not throw exceptions)
-  ulong operator()(const int val) const noexcept; // (concrete function should not throw exceptions)
-  ulong operator()(const double val) const noexcept; // (concrete function should not throw exceptions)
+  inline ulong operator()(const std::string val) const noexcept; // (concrete function should not throw exceptions)
+  inline ulong operator()(const int val) const noexcept; // (concrete function should not throw exceptions)
+  inline ulong operator()(const double val) const noexcept; // (concrete function should not throw exceptions)
 
 };
 
