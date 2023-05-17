@@ -28,9 +28,8 @@ public:
 /* ************************************************************************** */
 
 template <typename Data>
-class HashTable {
-                  // Must extend ResizableContainer,
-                  //             DictionaryContainer<Data>
+class HashTable : virtual public ResizableContainer,
+                  virtual public DictionaryContainer<Data> {
 
 private:
 
@@ -45,21 +44,21 @@ protected:
 public:
 
   // Destructor
-  // ~HashTable() specifiers
+  virtual ~HashTable() = default;
 
   /* ************************************************************************ */
 
   // Copy assignment
-  // type operator=(argument); // Copy assignment of abstract types should not be possible.
+  HashTable& operator=(const HashTable& other) = delete; // Copy assignment of abstract types should not be possible.
 
   // Move assignment
-  // type operator=(argument); // Move assignment of abstract types should not be possible.
+  HashTable& operator=(HashTable&& other) noexcept = delete; // Move assignment of abstract types should not be possible.
 
   /* ************************************************************************ */
 
   // Comparison operators
-  // type operator==(argument) specifiers; // Comparison of abstract hashtable is possible but not required.
-  // type operator!=(argument) specifiers; // Comparison of abstract hashtable is possible but not required.
+  bool operator==(const HashTable& other) const noexcept; // Comparison of abstract hashtable is possible but not required.
+  bool operator!=(HashTable&& other) const noexcept { return !(operator==(other)); }; // Comparison of abstract hashtable is possible but not required.
 
 protected:
 
