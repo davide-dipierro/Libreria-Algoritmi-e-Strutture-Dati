@@ -19,7 +19,9 @@ SRCS=main.cpp \
      zlasdtest/exercise2a/simpletest.cpp \
      zlasdtest/exercise2a/fulltest.cpp \
      zlasdtest/exercise2b/simpletest.cpp \
-     zlasdtest/exercise2b/fulltest.cpp
+     zlasdtest/exercise2b/fulltest.cpp \
+     zlasdtest/exercise3/simpletest.cpp \
+     zlasdtest/exercise3/fulltest.cpp
 
 # Lista di tutti i file oggetto da generare
 OBJS=$(SRCS:.cpp=.o)
