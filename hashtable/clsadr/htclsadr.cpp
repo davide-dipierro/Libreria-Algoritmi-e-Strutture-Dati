@@ -87,12 +87,17 @@ bool HashTableClsAdr<Data>::operator==(const HashTableClsAdr &other) const noexc
     if(other.size!=this->size) return false;
     for(int i{0}; i<this->vecSize; i++){
         if(vec[i]!=nullptr){
+            bool result=true;
             vec[i]->Map(
-                [&other](const Data& dat){
+                [&other, &result](const Data& dat){
                     ulong index = other.HashKey(Hashable<Data>()(dat));
-                    if(!other.vec[index]->Exists(dat)) return false;
+                    if(!other.vec[index]->Exists(dat)){
+                        result = false;
+                        return;
+                    }
                 }
             );
+            if(result = false) return false;
         }
     }
     return true;
