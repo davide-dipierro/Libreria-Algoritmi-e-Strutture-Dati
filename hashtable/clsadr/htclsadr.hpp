@@ -5,7 +5,7 @@
 /* ************************************************************************** */
 
 #include "../hashtable.hpp"
-// #include ...
+#include "../../list/list.hpp"
 
 /* ************************************************************************** */
 
@@ -22,9 +22,11 @@ private:
 
 protected:
 
-  // using HashTable<Data>::???;
+  using HashTable<Data>::a;
+  using HashTable<Data>::b;
 
-  // ...
+  List<Data>* vec[];
+  uint vecSize;
 
 public:
 
@@ -51,7 +53,7 @@ public:
   /* ************************************************************************ */
 
   // Destructor
-  virtual ~HashTableClsAdr() = default;
+  virtual ~HashTableClsAdr();
 
   /* ************************************************************************ */
 

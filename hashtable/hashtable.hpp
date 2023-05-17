@@ -5,6 +5,7 @@
 /* ************************************************************************** */
 
 #include <random>
+#include <string>
 
 /* ************************************************************************** */
 
@@ -19,9 +20,15 @@ namespace lasd {
 template <typename Data>
 class Hashable {
 
+protected:
+
+  uint HashByte(unsigned char* val) const noexcept;
+
 public:
 
-  // type operator()(argument) specifiers; // (concrete function should not throw exceptions)
+  uint operator()(std::string val) const noexcept; // (concrete function should not throw exceptions)
+  uint operator()(int val) const noexcept; // (concrete function should not throw exceptions)
+  uint operator()(double val) const noexcept; // (concrete function should not throw exceptions)
 
 };
 
@@ -37,9 +44,10 @@ private:
 
 protected:
 
-  // using DictionaryContainer<Data>::???;
+  using DictionaryContainer<Data>::size;
 
-  // ...
+  uint a = 3;
+  uint b = 5;
 
 public:
 
@@ -57,14 +65,14 @@ public:
   /* ************************************************************************ */
 
   // Comparison operators
-  bool operator==(const HashTable& other) const noexcept; // Comparison of abstract hashtable is possible but not required.
-  bool operator!=(HashTable&& other) const noexcept { return !(operator==(other)); }; // Comparison of abstract hashtable is possible but not required.
+  bool operator==(const HashTable& other) const noexcept = delete; // Comparison of abstract hashtable is possible but not required.
+  inline bool operator!=(HashTable&& other) const noexcept { return !(operator==(other)); }; // Comparison of abstract hashtable is possible but not required.
 
 protected:
 
   // Auxiliary member functions
 
-  // type HashKey(argument) specifiers;
+  uint HashKey(uint key) const noexcept;
 
 };
 
