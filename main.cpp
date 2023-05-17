@@ -20,6 +20,10 @@ using namespace std;
 #include "vector/vector.hpp"
 #include "list/list.hpp"
 
+#include "hashtable/hashtable.hpp"
+#include "hashtable/clsadr/htclsadr.hpp"
+#include "hashtable/opnadr/htopnadr.hpp"
+
 /* **************************************************************************
 
 ALL'INTERNO DI CONTAINER.HPP E' STATO DEFINITO IL TIPO ULONG
