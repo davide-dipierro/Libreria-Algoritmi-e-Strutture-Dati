@@ -17,20 +17,25 @@ namespace lasd {
 
 /* ************************************************************************** */
 
+#ifndef HASHABLE_HPP
+#define HASHABLE_HPP
+
 template <typename Data>
 class Hashable {
 
 protected:
 
-  uint HashByte(unsigned char* val) const noexcept;
+  ulong HashByte(const unsigned char* val) const noexcept;
 
 public:
 
-  uint operator()(std::string val) const noexcept; // (concrete function should not throw exceptions)
-  uint operator()(int val) const noexcept; // (concrete function should not throw exceptions)
-  uint operator()(double val) const noexcept; // (concrete function should not throw exceptions)
+  ulong operator()(const std::string val) const noexcept; // (concrete function should not throw exceptions)
+  ulong operator()(const int val) const noexcept; // (concrete function should not throw exceptions)
+  ulong operator()(const double val) const noexcept; // (concrete function should not throw exceptions)
 
 };
+
+#endif
 
 /* ************************************************************************** */
 
@@ -44,10 +49,14 @@ private:
 
 protected:
 
-  using DictionaryContainer<Data>::size;
+  using DictionaryContainer<Data>::Insert;
+  using DictionaryContainer<Data>::InsertAll;
+  using DictionaryContainer<Data>::Remove;
 
-  uint a = 3;
-  uint b = 5;
+  ulong a = 3;
+  ulong b = 5;
+
+  ulong vecSize = 0;
 
 public:
 
@@ -72,7 +81,7 @@ protected:
 
   // Auxiliary member functions
 
-  uint HashKey(uint key) const noexcept;
+  ulong HashKey(const ulong key) const noexcept;
 
 };
 

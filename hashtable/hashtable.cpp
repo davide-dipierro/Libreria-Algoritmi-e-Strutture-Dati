@@ -4,20 +4,21 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
-inline uint HashTable<Data>::HashKey(uint key) const noexcept {
-    return (a*key+b)%this->size;
+inline ulong HashTable<Data>::HashKey(const ulong key) const noexcept {
+    return (a*key+b)%vecSize;
 }
 
 /* ************************************************************************** */
 
 template <>
-uint Hashable<int>::operator()(int val) const noexcept {        
-    unsigned char* byteData = reinterpret_cast<unsigned char*>(&val);
-    return HashByte(byteData);
+ulong Hashable<int>::operator()(const int val) const noexcept {        
+    // const unsigned char* byteData = reinterpret_cast<const unsigned char*>(&val);
+    // return HashByte(byteData);
+    return val+1;
 }
 
 template <>
-uint Hashable<std::string>::operator()(std::string val) const noexcept {
+ulong Hashable<std::string>::operator()(const std::string val) const noexcept {
     unsigned int hashValue = 0;
     // unsigned int prime = 31;
 
@@ -31,21 +32,21 @@ uint Hashable<std::string>::operator()(std::string val) const noexcept {
 }
 
 template <>
-uint Hashable<double>::operator()(double val) const noexcept {
-    unsigned long long intValue = *reinterpret_cast<unsigned long long*>(&val);
+ulong Hashable<double>::operator()(const double val) const noexcept {
+    long long intValue = *reinterpret_cast<const unsigned long long*>(&val);
     unsigned char* byteData = reinterpret_cast<unsigned char*>(&intValue);
 
     return HashByte(byteData);
 }
 
 template <typename Data>
-uint Hashable<Data>::HashByte(unsigned char *byteData) const noexcept {
+ulong Hashable<Data>::HashByte(const unsigned char *byteData) const noexcept {
     unsigned int hashValue = 0;
     unsigned int prime = 31;
     for (size_t i = 0; i < sizeof(unsigned long long); ++i) {
         hashValue = hashValue * prime + byteData[i];
     }
-    return uint();
+    return hashValue;
 }
 
 /* ************************************************************************** */

@@ -22,11 +22,15 @@ private:
 
 protected:
 
-  using HashTable<Data>::a;
-  using HashTable<Data>::b;
+  // using DictionaryContainer<Data>::Insert;
+  using DictionaryContainer<Data>::InsertAll;
+  // using DictionaryContainer<Data>::Remove;
+  using Container::size;
 
-  List<Data>* vec[];
-  uint vecSize;
+  List<Data>** vec = nullptr;
+  using HashTable<Data>::vecSize;
+
+  ulong nextPow(ulong num);
 
 public:
 
