@@ -97,7 +97,7 @@ bool HashTableClsAdr<Data>::operator==(const HashTableClsAdr &other) const noexc
                     }
                 }
             );
-            if(result = false) return false;
+            if(!result) return false;
         }
     }
     return true;
