@@ -25,13 +25,12 @@ class Hashable {
 
 protected:
 
-  ulong HashByte(const unsigned char* val) const noexcept;
+  ulong prime = 31;
+  long HashByte(const unsigned char* byteData, size_t siz) const noexcept;
 
 public:
 
-  inline ulong operator()(const std::string val) const noexcept; // (concrete function should not throw exceptions)
-  inline ulong operator()(const int val) const noexcept; // (concrete function should not throw exceptions)
-  inline ulong operator()(const double val) const noexcept; // (concrete function should not throw exceptions)
+  long operator()(const Data& dat) const noexcept; // (concrete function should not throw exceptions)
 
 };
 

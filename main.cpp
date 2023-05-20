@@ -51,15 +51,15 @@ void printfold(const std::string& dat, void* acc){
 
 void temptest() {
   
-  lasd::Vector<int> vec(127);
-    for (uint i = 0; i < 127; i++) {
-      vec[i] = pow(-2, i % 24) * ((61 * i + 29) % 127);
-    }
+  lasd::HashTableOpnAdr<int> ht(8);
+  for(int i{0}; i<1000; i++){
+    ht.Insert(i); ht.Remove(i);
+  }
 
-  lasd::HashTableOpnAdr<int> ht(vec);
+  ht.Exists(10);
+  ht.Exists(12435);
 
-  cout<<"\n\n\nsize"<<ht.Size();
-
+  cout<<"\nTEST PASSATO\n";
 
 }
 
