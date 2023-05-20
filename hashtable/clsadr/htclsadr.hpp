@@ -22,15 +22,15 @@ private:
 
 protected:
 
-  // using DictionaryContainer<Data>::Insert;
+  
+  using HashTable<Data>::nextPow;
   using DictionaryContainer<Data>::InsertAll;
   // using DictionaryContainer<Data>::Remove;
   using Container::size;
 
-  List<Data>** vec = nullptr;
+  List<Data>* vec = nullptr;
   using HashTable<Data>::vecSize;
 
-  ulong nextPow(ulong num);
 
 public:
 
@@ -71,7 +71,7 @@ public:
 
   // Comparison operators
   bool operator==(const HashTableClsAdr& other) const noexcept;
-  bool operator!=(HashTableClsAdr&& other) const noexcept { return !(operator==(other)); };
+  bool operator!=(const HashTableClsAdr& other) const noexcept { return !(operator==(other)); };
 
   /* ************************************************************************ */
 

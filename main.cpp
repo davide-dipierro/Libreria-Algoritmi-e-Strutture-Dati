@@ -5,6 +5,8 @@
 /* ************************************************************************** */
 
 #include <iostream>
+#include <bitset>
+
 using namespace std;
 
 #include "stack/vec/stackvec.hpp"
@@ -28,25 +30,29 @@ using namespace std;
 
 ALL'INTERNO DI CONTAINER.HPP E' STATO DEFINITO IL TIPO ULONG
 
+
+TODO:
+  - Correggere exists (deve essere costante)
+  - Implementare con Vector per facilitare la resize oppure modificare il vettore e renderlo un vettore di liste
+  - Correggere gli inline operator() (farne uno solo generale, è più figo)
+  - Bitest
+
+
 ************************************************************************** */
 
+void printmap(const int& dat){
+  cout<<"\nDAT: "<<dat<<endl;
+}
+
+void printfold(const std::string& dat, void* acc){
+  cout<<"\nDAT: "<<dat<<endl;
+  // *((std::string*)acc) =  *((std::string*)acc)->append(&dat);
+}
+
 void temptest() {
-  lasd::HashTableClsAdr<int> HT1(4);
-  const int a = 7;
-  HT1.Insert(a);
-  HT1.Insert(5);
-  HT1.Insert(1);
-  HT1.Insert(9);
-  HT1.Insert(7);
-  HT1.Insert(12);
+  std::bitset<2> bits[10];
 
-  HT1.Resize(100);
-
-  lasd::HashTableClsAdr<int> HT2(5);
-
-  // lasd::HashTableClsAdr<int> HT2(move(HT1));
-  // HT2=HT1;
-  HT1=move(HT2);
+  for(int i{0}; i<10; i+=2) cout<<"i: "<<bits[i][0]<<"\t"<<bits[i][1]<<endl;
 
 }
 

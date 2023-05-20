@@ -50,6 +50,19 @@ ulong Hashable<Data>::HashByte(const unsigned char *byteData) const noexcept {
     return hashValue;
 }
 
+template <typename Data>
+ulong HashTable<Data>::nextPow(ulong num) {
+    if(num<4) return 4;
+    num--;
+    num |= num >> 1;
+    num |= num >> 2;
+    num |= num >> 4;
+    num |= num >> 8;
+    num |= num >> 16;
+    num |= num >> 32;
+    return num + 1;
+}
+
 /* ************************************************************************** */
 
 }

@@ -5,9 +5,12 @@
 /* ************************************************************************** */
 
 #include "../hashtable.hpp"
-// #include ...
+#include <bitset>
 
 /* ************************************************************************** */
+
+#define full_bit 0
+#define valid_bit 1
 
 namespace lasd {
 
@@ -21,10 +24,16 @@ private:
   // ...
 
 protected:
+  using DictionaryContainer<Data>::InsertAll;
 
-  // using HashTable<Data>::???;
+  using HashTable<Data>::vecSize;
+  using HashTable<Data>::nextPow;
+  using HashTable<Data>::HashKey;
+  using Container::size;
 
-  // ...
+  Data* Elements;
+  std::bitset<2>* Bits; //Vector of 2 bits  -(00) Empty/Deleted -(01) Empty/Valid (Inconsistente)
+//                                          -(10) Full/Deleted  -(11) Full/Valid
 
 public:
 
@@ -34,11 +43,11 @@ public:
   /* ************************************************************************ */
 
   // Specific constructors
-  HashTableOpnAdr(const ulong size); // A hash table of a given size
+  HashTableOpnAdr(const ulong newSize); // A hash table of a given size
   HashTableOpnAdr(const MappableContainer<Data>& other); // A hash table obtained from a MappableContainer
-  HashTableOpnAdr(const ulong size, const MappableContainer<Data>& other); // A hash table of a given size obtained from a MappableContainer
+  HashTableOpnAdr(const ulong newSize, const MappableContainer<Data>& other); // A hash table of a given size obtained from a MappableContainer
   HashTableOpnAdr(MutableMappableContainer<Data>&& other) noexcept; // A hash table obtained from a MutableMappableContainer
-  HashTableOpnAdr(const ulong size, MutableMappableContainer<Data>&& other) noexcept; // A hash table of a given size obtained from a MutableMappableContainer
+  HashTableOpnAdr(const ulong newSize, MutableMappableContainer<Data>&& other) noexcept; // A hash table of a given size obtained from a MutableMappableContainer
 
   /* ************************************************************************ */
 
@@ -65,21 +74,21 @@ public:
 
   // Comparison operators
   bool operator==(const HashTableOpnAdr& other) const noexcept;
-  bool operator!=(HashTableOpnAdr&& other) const noexcept { return !(operator==(other)); };
+  bool operator!=(const HashTableOpnAdr& other) const noexcept { return !(operator==(other)); };
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from DictionaryContainer)
 
-  virtual bool Insert(const Data& val) override; // Override DictionaryContainer member (Copy of the value)
-  virtual bool Insert(Data&& val) override; // Override DictionaryContainer member (Move of the value)
-  virtual bool Remove(const Data& val) override; // Override DictionaryContainer member
+  virtual bool Insert(const Data& dat) override; // Override DictionaryContainer member (Copy of the value)
+  virtual bool Insert(Data&& dat) override; // Override DictionaryContainer member (Move of the value)
+  virtual bool Remove(const Data& dat) override; // Override DictionaryContainer member
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from TestableContainer)
 
-  virtual bool Exists(const Data& val) const noexcept;  // Override TestableContainer member
+  virtual bool Exists(const Data& dat) const noexcept;  // Override TestableContainer member
 
   /* ************************************************************************ */
 
@@ -93,13 +102,13 @@ public:
 
   virtual void Clear() override; // Override Container member
 
-public:
+protected:
 
   // Auxiliary member functions
 
-  // type HashKey(argument) specifiers;
-  // type Find(argument) specifiers;
-  // type FindEmpty(argument) specifiers;
+  ulong HashKey(ulong index, const ulong key) const noexcept;
+  bool Find(ulong& index, const Data& dat) const noexcept;
+  bool FindEmpty(ulong& index, const Data& dat) const noexcept;
   // type Remove(argument) specifiers;
 
 };

@@ -75,13 +75,14 @@ public:
 
   // Comparison operators
   bool operator==(const HashTable& other) const noexcept = delete; // Comparison of abstract hashtable is possible but not required.
-  inline bool operator!=(HashTable&& other) const noexcept { return !(operator==(other)); }; // Comparison of abstract hashtable is possible but not required.
+  inline bool operator!=(const HashTable& other) const noexcept { return !(operator==(other)); }; // Comparison of abstract hashtable is possible but not required.
 
 protected:
 
   // Auxiliary member functions
 
   ulong HashKey(const ulong key) const noexcept;
+  ulong nextPow(ulong num);
 
 };
 

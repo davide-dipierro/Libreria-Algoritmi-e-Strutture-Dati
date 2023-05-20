@@ -72,7 +72,7 @@ typename BinaryTreeVec<Data>::NodeVec& BinaryTreeVec<Data>::NodeVec::RightChild(
 
 template <typename Data>
 BinaryTreeVec<Data>::BinaryTreeVec(const MappableContainer<Data>& other) : Nodes(other.Size()){
-    int i = 0;
+    ulong i = 0;
     other.Map(
         [this, &i](const Data& dat){
             this->Nodes[i] = new NodeVec(dat, i, this); i++;
@@ -83,7 +83,7 @@ BinaryTreeVec<Data>::BinaryTreeVec(const MappableContainer<Data>& other) : Nodes
 
 template <typename Data>
 BinaryTreeVec<Data>::BinaryTreeVec(MutableMappableContainer<Data> &&other) noexcept : Nodes(other.Size()) {
-    int i = 0;
+    ulong i = 0;
     other.Map(
         [this, &i](Data& dat){
             this->Nodes[i] = new NodeVec(std::move(dat), i, this); i++;
