@@ -48,7 +48,7 @@ HashTableOpnAdr<Data>::HashTableOpnAdr(const HashTableOpnAdr<Data> &other) {
     vecSize = other.vecSize;
     Elements = new Data[vecSize] {};
     Bits = new std::bitset<2>[vecSize] {};
-    for(ulong i{0}; i<vecSize; i++) if(other.Bits[i][full_bit]&&other.Bits[i][valid_bit]) Insert(other.Elements[i]);
+    for(ulong i{0}; i<vecSize; i++) if(other.Bits[i].all()) Insert(other.Elements[i]);
 }
 
 template <typename Data>
@@ -60,12 +60,19 @@ HashTableOpnAdr<Data>::HashTableOpnAdr(HashTableOpnAdr<Data> &&other) noexcept {
 }
 
 template <typename Data>
+HashTableOpnAdr<Data>::~HashTableOpnAdr() {
+    delete [] Bits;
+    delete [] Elements; 
+}
+
+template <typename Data>
 HashTableOpnAdr<Data>& HashTableOpnAdr<Data>::operator=(const HashTableOpnAdr &other) {
-    Clear();
+    delete [] Bits;
+    delete [] Elements; 
     vecSize = other.vecSize;
     Elements = new Data[vecSize] {};
     Bits = new std::bitset<2>[vecSize] {};
-    for(ulong i{0}; i<vecSize; i++) if(other.Bits[i][full_bit]&&other.Bits[i][valid_bit]) Insert(other.Elements[i]);
+    for(ulong i{0}; i<vecSize; i++) if(other.Bits[i].all()) Insert(other.Elements[i]);
     return *this;
 }
 
@@ -81,69 +88,88 @@ HashTableOpnAdr<Data>& HashTableOpnAdr<Data>::operator=(HashTableOpnAdr &&other)
 template <typename Data>
 bool HashTableOpnAdr<Data>::operator==(const HashTableOpnAdr &other) const noexcept {
     if(size!=other.Size()) return false;
-    // for(ulong i{0}; i<vecSize; i++){
-    //     if(other.Bits[i].all()){
-    //         if(!other.Exists(Elements[i])) return false;
-    //     }
-    // }
+    for(ulong i{0}; i<vecSize; i++){
+        if(other.Bits[i].all()){
+            if(!other.Exists(Elements[i])) return false;
+        }
+    }
     return true;
 }
 
 template <typename Data>
 bool HashTableOpnAdr<Data>::Insert(const Data& dat) {
     ulong index = HashKey(Hashable<Data>()(dat));
-    if(Bits[index].none()){
-        std::cout<<"\nKEBAB CIPOLA";
-        Elements[index]=dat;
-        Bits[index].set();
-        size++;
-        return true;
-    }else{
-        std::cout<<"\nKEBAB NO CIPOLA";
-        FindEmpty(index, dat);
-        Elements[index]=dat;
-        Bits[index].set();
-        if(Find(index, dat)) { 
-            Bits[index][valid_bit]=0;
-            return false;
-        } else {
+    if(size*2>=vecSize) Resize(vecSize*2);
+    bool result = false;
+    if(Bits[index][valid_bit]==0 || Elements[index]==dat){
+        if(Bits[index][valid_bit]==0){
+            result = true;
+            Elements[index] = dat;
             size++;
-            return true;
+        }
+        Bits[index].set();
+    }else{
+        if(FindEmpty(index, dat)){
+            if(Bits[index][valid_bit]==0){
+                result = true;
+                Elements[index] = dat;
+                size++;
+            }
+            Bits[index].set();
         }
     }
+    if(Find(index, dat)){
+        Bits[index][valid_bit]=0;
+        size--;
+        result = false;
+    }
+    return result;    
 }
 
 template <typename Data>
 bool HashTableOpnAdr<Data>::Insert(Data&& dat) {
     ulong index = HashKey(Hashable<Data>()(dat));
-    if(Bits[index].none()){
-        std::cout<<"\nKEBAB PICANTE";
-        std::swap(Elements[index], dat);
-        Bits[index].set();
-        size++;
-        return true;
-    }else{
-        std::cout<<"\nKEBAB NO PICANTE";
-        FindEmpty(index, dat);
-        std::swap(Elements[index], dat);
-        Bits[index].set();
-        if(Find(index, dat)) { 
-            Bits[index][valid_bit]=0;
-            return false;
-        } else {
+    if(size*2>=vecSize) Resize(vecSize*2);
+    bool result = false;
+    if(Bits[index][valid_bit]==0 || Elements[index]==dat){
+        if(Bits[index][valid_bit]==0){
+            result = true;
+            std::swap(Elements[index], dat);
             size++;
-            return true;
+        }
+        Bits[index].set();
+    }else{
+        if(FindEmpty(index, dat)){
+            if(Bits[index][valid_bit]==0){
+                result = true;
+                std::swap(Elements[index], dat);
+                size++;
+            }
+            Bits[index].set();
         }
     }
+    if(Find(index, dat)){
+        Bits[index][valid_bit]=0;
+        size--;
+        result = false;
+    }
+    return result;  
 }
 
 template <typename Data>
 bool HashTableOpnAdr<Data>::Remove(const Data &dat) {
     ulong index = HashKey(Hashable<Data>()(dat));
-    if(Find(index, dat)){
+    if(size<=vecSize/5) Resize(vecSize/2);
+    if(Bits[index].all() && Elements[index] == dat){
         Bits[index][valid_bit]=0;
         size--;
         return true;
+    }else{
+        if(Find(index, dat)){
+            Bits[index][valid_bit]=0;
+            size--;
+            return true;
+        }
     }
     return false;
 }
@@ -151,7 +177,7 @@ bool HashTableOpnAdr<Data>::Remove(const Data &dat) {
 template <typename Data>
 bool HashTableOpnAdr<Data>::Exists(const Data &dat) const noexcept {
     ulong index = HashKey(Hashable<Data>()(dat));
-    return (Elements[index]==dat) ? true : Find(index, dat);
+    return (Elements[index]==dat && Bits[index].all()) ? true : Find(index, dat);
 }
 
 template <typename Data>
@@ -164,10 +190,12 @@ void HashTableOpnAdr<Data>::Resize(const ulong newSize) {
     std::swap(tmpElements, Elements);
     std::swap(tmpBits, Bits);
 
+    size = 0;
     for(int i{0}; i<tmpvecSize; i++){
         if(tmpBits[i].all()) Insert(tmpElements[i]);
     }
-
+    delete [] tmpElements;
+    delete [] tmpBits;
 }
 
 template <typename Data>
@@ -186,13 +214,13 @@ template <typename Data>
 bool HashTableOpnAdr<Data>::Find(ulong &index, const Data &dat) const noexcept {
     index = HashKey(index, Hashable<Data>()(dat));
     if(Bits[index].none()) return false;
-    if(Bits[index].all()) if(Elements[index]==dat) return true;
+    if(Bits[index].all() && Elements[index]==dat) return true;
     return Find(index, dat);
 }
 
 template <typename Data>
 bool HashTableOpnAdr<Data>::FindEmpty(ulong& index, const Data &dat) const noexcept {
-    while(Bits[index][valid_bit]==1){
+    while(Bits[index][valid_bit]==1 && Elements[index]!=dat){
         index = HashKey(index, Hashable<Data>()(dat));
     }
     return true;

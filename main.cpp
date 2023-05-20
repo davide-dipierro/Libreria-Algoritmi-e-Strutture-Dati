@@ -50,9 +50,16 @@ void printfold(const std::string& dat, void* acc){
 }
 
 void temptest() {
-  std::bitset<2> bits[10];
+  
+  lasd::Vector<int> vec(127);
+    for (uint i = 0; i < 127; i++) {
+      vec[i] = pow(-2, i % 24) * ((61 * i + 29) % 127);
+    }
 
-  for(int i{0}; i<10; i+=2) cout<<"i: "<<bits[i][0]<<"\t"<<bits[i][1]<<endl;
+  lasd::HashTableOpnAdr<int> ht(vec);
+
+  cout<<"\n\n\nsize"<<ht.Size();
+
 
 }
 
