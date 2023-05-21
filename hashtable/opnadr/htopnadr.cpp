@@ -100,6 +100,7 @@ template <typename Data>
 bool HashTableOpnAdr<Data>::Insert(const Data& dat) {
     ulong index = HashKey(Hashable<Data>()(dat));
     if(size*2>=vecSize) Resize(vecSize*2);
+    if(count==vecSize-1) Resize(vecSize);
     bool result = false;
     if(Bits[index][valid_bit]==0 || Elements[index]==dat){
         if(Bits[index][valid_bit]==0){
@@ -123,6 +124,7 @@ bool HashTableOpnAdr<Data>::Insert(const Data& dat) {
         size--;
         result = false;
     }
+    count++;
     return result;    
 }
 
@@ -130,6 +132,7 @@ template <typename Data>
 bool HashTableOpnAdr<Data>::Insert(Data&& dat) {
     ulong index = HashKey(Hashable<Data>()(dat));
     if(size*2>=vecSize) Resize(vecSize*2);
+    if(count==vecSize-1) Resize(vecSize);
     bool result = false;
     if(Bits[index][valid_bit]==0 || Elements[index]==dat){
         if(Bits[index][valid_bit]==0){
@@ -153,6 +156,7 @@ bool HashTableOpnAdr<Data>::Insert(Data&& dat) {
         size--;
         result = false;
     }
+    count++;
     return result;  
 }
 
@@ -190,7 +194,7 @@ void HashTableOpnAdr<Data>::Resize(const ulong newSize) {
     std::swap(tmpElements, Elements);
     std::swap(tmpBits, Bits);
 
-    size = 0;
+    size = 0; count = 0;
     for(int i{0}; i<tmpvecSize; i++){
         if(tmpBits[i].all()) Insert(tmpElements[i]);
     }
@@ -200,7 +204,6 @@ void HashTableOpnAdr<Data>::Resize(const ulong newSize) {
 
 template <typename Data>
 void HashTableOpnAdr<Data>::Clear() {
-    // delete Elements; delete Bits;
     for(int i{0}; i<vecSize; i++) Bits[i][valid_bit]=0;
     size=0;
 }

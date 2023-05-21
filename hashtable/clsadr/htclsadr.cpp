@@ -47,20 +47,13 @@ HashTableClsAdr<Data>::HashTableClsAdr(const HashTableClsAdr<Data> &other) {
 
 template <typename Data>
 HashTableClsAdr<Data>::HashTableClsAdr(HashTableClsAdr<Data> &&other) noexcept {
-    // vecSize = other.vecSize;
-    // vec = new List<Data>*[vecSize] {};
     std::swap(size, other.size);
     std::swap(vec, other.vec);
     std::swap(vecSize, other.vecSize);
-    // this->size = 0;
-    // for(ulong i{0}; i<vecSize; i++) if(other.vec[i]!=nullptr) InsertAll(std::move(*other.vec[i]));
 }
 
 template <typename Data>
 HashTableClsAdr<Data>::~HashTableClsAdr() {
-    // for (ulong i{0}; i<vecSize; i++) {
-    //     delete vec[i];
-    // }
     delete [] vec;
 }
 

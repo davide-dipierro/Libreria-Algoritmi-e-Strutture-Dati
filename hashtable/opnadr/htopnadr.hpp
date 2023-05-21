@@ -31,6 +31,8 @@ protected:
   using HashTable<Data>::HashKey;
   using Container::size;
 
+  ulong count;
+
   Data* Elements;
   std::bitset<2>* Bits; //Vector of 2 bits  -(00) Empty/Deleted -(01) Empty/Valid (Inconsistente)
 //                                          -(10) Full/Deleted  -(11) Full/Valid
@@ -110,6 +112,7 @@ protected:
   bool Find(ulong& index, const Data& dat) const noexcept;
   bool FindEmpty(ulong& index, const Data& dat) const noexcept;
   // type Remove(argument) specifiers;
+  void CheckForClean();
 
 };
 

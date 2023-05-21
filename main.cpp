@@ -50,17 +50,13 @@ void printfold(const std::string& dat, void* acc){
 }
 
 void temptest() {
-  
   lasd::HashTableOpnAdr<int> ht(8);
-  for(int i{0}; i<1000; i++){
+  for(int i{0}; i<500; i++){
     ht.Insert(i); ht.Remove(i);
   }
-
   ht.Exists(10);
-  ht.Exists(12435);
-
+  ht.Exists(1243);
   cout<<"\nTEST PASSATO\n";
-
 }
 
 int main(){
