@@ -98,90 +98,48 @@ bool HashTableOpnAdr<Data>::operator==(const HashTableOpnAdr &other) const noexc
 
 template <typename Data>
 bool HashTableOpnAdr<Data>::Insert(const Data& dat) {
-    ulong index = HashKey(Hashable<Data>()(dat));
     if(size*2>=vecSize) Resize(vecSize*2);
-    if(count==vecSize-1) Resize(vecSize);
-    bool result = false;
-    if(Bits[index][valid_bit]==0 || Elements[index]==dat){
-        if(Bits[index][valid_bit]==0){
-            result = true;
-            Elements[index] = dat;
-            size++;
-        }
-        Bits[index].set();
-    }else{
-        if(FindEmpty(index, dat)){
-            if(Bits[index][valid_bit]==0){
-                result = true;
-                Elements[index] = dat;
-                size++;
-            }
-            Bits[index].set();
-        }
-    }
-    if(Find(index, dat)){
-        Bits[index][valid_bit]=0;
-        size--;
-        result = false;
-    }
-    count++;
-    return result;    
-}
-
-template <typename Data>
-bool HashTableOpnAdr<Data>::Insert(Data&& dat) {
     ulong index = HashKey(Hashable<Data>()(dat));
-    if(size*2>=vecSize) Resize(vecSize*2);
-    if(count==vecSize-1) Resize(vecSize);
-    bool result = false;
-    if(Bits[index][valid_bit]==0 || Elements[index]==dat){
-        if(Bits[index][valid_bit]==0){
-            result = true;
-            std::swap(Elements[index], dat);
-            size++;
-        }
+    index = FindEmpty(index, dat);
+    if(Bits[index][valid_bit]==0){
+        Elements[index] = dat;
         Bits[index].set();
-    }else{
-        if(FindEmpty(index, dat)){
-            if(Bits[index][valid_bit]==0){
-                result = true;
-                std::swap(Elements[index], dat);
-                size++;
-            }
-            Bits[index].set();
-        }
-    }
-    if(Find(index, dat)){
-        Bits[index][valid_bit]=0;
-        size--;
-        result = false;
-    }
-    count++;
-    return result;  
-}
-
-template <typename Data>
-bool HashTableOpnAdr<Data>::Remove(const Data &dat) {
-    ulong index = HashKey(Hashable<Data>()(dat));
-    if(size<=vecSize/5) Resize(vecSize/2);
-    if(Bits[index].all() && Elements[index] == dat){
-        Bits[index][valid_bit]=0;
-        size--;
-        return true;
-    }else{
-        if(Find(index, dat)){
-            Bits[index][valid_bit]=0;
-            size--;
-            return true;
-        }
+        size++;
+        return !Remove(index, dat); 
     }
     return false;
 }
 
 template <typename Data>
+bool HashTableOpnAdr<Data>::Insert(Data&& dat) {
+    if(size*2>=vecSize) Resize(vecSize*2);
+    ulong index = HashKey(Hashable<Data>()(dat));
+    index = FindEmpty(index, dat);
+    if(Bits[index][valid_bit]==0){
+        std::swap(Elements[index], dat);
+        Bits[index].set();
+        size++;
+        return !Remove(index, dat); 
+    }
+    return false; 
+}
+
+template <typename Data>
+bool HashTableOpnAdr<Data>::Remove(const Data &dat) {
+    if(size<vecSize/5) Resize(vecSize/2);
+    ulong index = HashKey(Hashable<Data>()(dat));
+    if(Bits[index].all() && Elements[index] == dat){
+        Bits[index][valid_bit]=0;
+        size--;
+        return true;
+    }
+    return Remove(index, dat);
+}
+
+template <typename Data>
 bool HashTableOpnAdr<Data>::Exists(const Data &dat) const noexcept {
     ulong index = HashKey(Hashable<Data>()(dat));
-    return (Elements[index]==dat && Bits[index].all()) ? true : Find(index, dat);
+    return Find(index, dat);
 }
 
 template <typename Data>
@@ -194,7 +152,7 @@ void HashTableOpnAdr<Data>::Resize(const ulong newSize) {
     std::swap(tmpElements, Elements);
     std::swap(tmpBits, Bits);
 
-    size = 0; count = 0;
+    size = 0;
     for(int i{0}; i<tmpvecSize; i++){
         if(tmpBits[i].all()) Insert(tmpElements[i]);
     }
@@ -209,24 +167,53 @@ void HashTableOpnAdr<Data>::Clear() {
 }
 
 template <typename Data>
-ulong HashTableOpnAdr<Data>::HashKey(ulong index, const ulong key) const noexcept {
-    return (index+1)%vecSize;
+ulong HashTableOpnAdr<Data>::HashKey(const ulong index, ulong &prob_index, const ulong key) const noexcept {
+    return (index+(++prob_index))%vecSize;
 }
 
 template <typename Data>
-bool HashTableOpnAdr<Data>::Find(ulong &index, const Data &dat) const noexcept {
-    index = HashKey(index, Hashable<Data>()(dat));
-    if(Bits[index].none()) return false;
-    if(Bits[index].all() && Elements[index]==dat) return true;
-    return Find(index, dat);
+bool HashTableOpnAdr<Data>::Find(ulong& index, const Data &dat) const noexcept {
+    ulong prob_index = 0;
+    ulong tmp_index = index;
+    do{
+        if(prob_index == vecSize-1) return false;
+        if(Elements[tmp_index]==dat && Bits[tmp_index].all()) {
+            index=tmp_index;
+            return true;
+        }
+        tmp_index = HashKey(index, prob_index, Hashable<Data>()(dat));
+    }while(!Bits[tmp_index].none());
+    return false;
 }
 
 template <typename Data>
-bool HashTableOpnAdr<Data>::FindEmpty(ulong& index, const Data &dat) const noexcept {
-    while(Bits[index][valid_bit]==1 && Elements[index]!=dat){
-        index = HashKey(index, Hashable<Data>()(dat));
+ulong HashTableOpnAdr<Data>::FindEmpty(const ulong index, const Data &dat) noexcept {
+    ulong prob_index = 0;
+    ulong tmp_index = index;
+    while(Bits[tmp_index].all() && Elements[tmp_index]!=dat) {   
+        tmp_index = HashKey(index, prob_index, Hashable<Data>()(dat));
     }
-    return true;
+    return tmp_index;
+}
+
+template <typename Data>
+bool HashTableOpnAdr<Data>::Remove(ulong index, const Data &dat) {
+    ulong prob_index = 0;
+    ulong tmp_index = index;
+    tmp_index = HashKey(index, prob_index, Hashable<Data>()(dat));
+    if(Find(tmp_index, dat)){
+        Bits[tmp_index][valid_bit]=0;
+        size--;
+        return true;
+    }
+    return false;
+}
+
+template <typename Data>
+void HashTableOpnAdr<Data>::CheckDirtyBit() {
+    bool result = true;
+    for(int i{0}; i<vecSize; i++) result&=Bits[i][full_bit] == 1;
+    if(result) std::cout<<"RIEMPITO";
 }
 
 /* ************************************************************************** */

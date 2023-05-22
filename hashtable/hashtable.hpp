@@ -48,16 +48,20 @@ private:
 
 protected:
 
-  using DictionaryContainer<Data>::Insert;
+  // using DictionaryContainer<Data>::Insert;
   using DictionaryContainer<Data>::InsertAll;
-  using DictionaryContainer<Data>::Remove;
+  using DictionaryContainer<Data>::InsertSome;
+  using DictionaryContainer<Data>::RemoveAll;
+  using DictionaryContainer<Data>::RemoveSome;
 
   ulong a = 3;
   ulong b = 5;
 
-  ulong vecSize = 0;
 
 public:
+
+  
+  ulong vecSize = 8;
 
   // Destructor
   virtual ~HashTable() = default;

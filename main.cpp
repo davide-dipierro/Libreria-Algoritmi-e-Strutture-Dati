@@ -51,8 +51,13 @@ void printfold(const std::string& dat, void* acc){
 
 void temptest() {
   lasd::HashTableOpnAdr<int> ht(8);
-  for(int i{0}; i<500; i++){
-    ht.Insert(i); ht.Remove(i);
+  for(int i{0}; i<50; i++){
+    ht.Insert(i);
+    cout<<"\nVecSize: "<<ht.vecSize<<"\tSize: "<<ht.Size();
+    ht.CheckDirtyBit();
+    ht.Remove(i);
+    cout<<"\nVecSize: "<<ht.vecSize<<"\tSize: "<<ht.Size();
+    ht.CheckDirtyBit();
   }
   ht.Exists(10);
   ht.Exists(1243);

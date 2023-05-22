@@ -24,20 +24,27 @@ private:
   // ...
 
 protected:
-  using DictionaryContainer<Data>::InsertAll;
+  // using DictionaryContainer<Data>::InsertAll;
 
-  using HashTable<Data>::vecSize;
+  // using HashTable<Data>::vecSize;
   using HashTable<Data>::nextPow;
   using HashTable<Data>::HashKey;
   using Container::size;
-
-  ulong count;
 
   Data* Elements;
   std::bitset<2>* Bits; //Vector of 2 bits  -(00) Empty/Deleted -(01) Empty/Valid (Inconsistente)
 //                                          -(10) Full/Deleted  -(11) Full/Valid
 
 public:
+
+  using DictionaryContainer<Data>::InsertAll;
+  using DictionaryContainer<Data>::InsertSome;
+  using DictionaryContainer<Data>::RemoveAll;
+  using DictionaryContainer<Data>::RemoveSome;
+  void CheckDirtyBit();
+  
+
+  using HashTable<Data>::vecSize;
 
   // Default constructor
   HashTableOpnAdr() = default;
@@ -108,11 +115,10 @@ protected:
 
   // Auxiliary member functions
 
-  ulong HashKey(ulong index, const ulong key) const noexcept;
+  ulong HashKey(const ulong index, ulong &prob_index, const ulong key) const noexcept;
   bool Find(ulong& index, const Data& dat) const noexcept;
-  bool FindEmpty(ulong& index, const Data& dat) const noexcept;
-  // type Remove(argument) specifiers;
-  void CheckForClean();
+  ulong FindEmpty(const ulong index, const Data& dat) noexcept;
+  bool Remove(ulong index, const Data& dat);
 
 };
 
