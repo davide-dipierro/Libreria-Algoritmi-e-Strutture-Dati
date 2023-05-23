@@ -205,6 +205,7 @@ BTPreOrderIterator<Data>& BTPreOrderIterator<Data>::operator++() {
 
 template <typename Data>
 void BTPreOrderIterator<Data>::Reset() noexcept {
+    stack.Clear();
     current=root;
 }
 
@@ -292,6 +293,7 @@ const typename BinaryTree<Data>::Node* BTPostOrderIterator<Data>::DeepestLeftLea
 
 template <typename Data>
 void BTPostOrderIterator<Data>::Reset() noexcept {
+    stack.Clear();
     current=DeepestLeftLeaf(root);
 }
 
@@ -411,6 +413,7 @@ BTInOrderIterator<Data> &BTInOrderIterator<Data>::operator++() {
 
 template <typename Data>
 void BTInOrderIterator<Data>::Reset() noexcept {
+    stack.Clear();
     current=Min2(root);
 }
 
@@ -497,6 +500,7 @@ BTBreadthIterator<Data>& BTBreadthIterator<Data>::operator++() {
 
 template <typename Data>
 void BTBreadthIterator<Data>::Reset() noexcept {
+    queue.Clear();
     current=root;
 }
 

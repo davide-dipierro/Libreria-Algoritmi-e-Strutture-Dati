@@ -50,18 +50,38 @@ void printfold(const std::string& dat, void* acc){
 }
 
 void temptest() {
-  lasd::HashTableOpnAdr<int> ht(8);
-  for(int i{0}; i<50; i++){
-    ht.Insert(i);
-    cout<<"\nVecSize: "<<ht.vecSize<<"\tSize: "<<ht.Size();
-    ht.CheckDirtyBit();
-    ht.Remove(i);
-    cout<<"\nVecSize: "<<ht.vecSize<<"\tSize: "<<ht.Size();
-    ht.CheckDirtyBit();
+  // lasd::HashTableOpnAdr<int> ht(8);
+  // for(int i{0}; i<50; i++){
+  //   ht.Insert(i);
+  //   cout<<"\nVecSize: "<<ht.vecSize<<"\tSize: "<<ht.Size();
+  //   ht.CheckDirtyBit();
+  //   ht.Remove(i);
+  //   cout<<"\nVecSize: "<<ht.vecSize<<"\tSize: "<<ht.Size();
+  //   ht.CheckDirtyBit();
+  // }
+  // ht.Exists(10);
+  // ht.Exists(1243);
+  // cout<<"\nTEST PASSATO\n";
+
+  lasd::Vector<int> v(50);
+  for(int i{0}; i<v.Size(); i++) v[i]=i;
+
+  lasd::BinaryTreeLnk<int> bt(v);
+
+  lasd::BTBreadthMutableIterator<int> itr(bt);
+
+  cout<<"Albero originale"<<endl;
+  bt.printBT();
+
+  for(int i{0}; i<v.Size(); i++) {
+    (*itr)=50-i;
+    if(i==40) itr.Reset();
+    ++itr;
   }
-  ht.Exists(10);
-  ht.Exists(1243);
-  cout<<"\nTEST PASSATO\n";
+
+  cout<<"Albero invertito"<<endl;
+  bt.printBT();
+
 }
 
 int main(){

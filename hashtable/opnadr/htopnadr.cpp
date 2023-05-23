@@ -89,7 +89,7 @@ template <typename Data>
 bool HashTableOpnAdr<Data>::operator==(const HashTableOpnAdr &other) const noexcept {
     if(size!=other.Size()) return false;
     for(ulong i{0}; i<vecSize; i++){
-        if(other.Bits[i].all()){
+        if(Bits[i].all()){
             if(!other.Exists(Elements[i])) return false;
         }
     }
@@ -210,10 +210,10 @@ bool HashTableOpnAdr<Data>::Remove(ulong index, const Data &dat) {
 }
 
 template <typename Data>
-void HashTableOpnAdr<Data>::CheckDirtyBit() {
+bool HashTableOpnAdr<Data>::CheckDirtyBit() {
     bool result = true;
     for(int i{0}; i<vecSize; i++) result&=Bits[i][full_bit] == 1;
-    if(result) std::cout<<"RIEMPITO";
+    return result;
 }
 
 /* ************************************************************************** */

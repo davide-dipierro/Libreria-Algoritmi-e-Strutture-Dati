@@ -41,7 +41,6 @@ public:
   using DictionaryContainer<Data>::InsertSome;
   using DictionaryContainer<Data>::RemoveAll;
   using DictionaryContainer<Data>::RemoveSome;
-  void CheckDirtyBit();
   
 
   using HashTable<Data>::vecSize;
@@ -110,6 +109,9 @@ public:
   // Specific member functions (inherited from ClearableContainer)
 
   virtual void Clear() override; // Override Container member
+
+  /* ************************************************************************ */  //FUNZIONI SOLO PER TEST
+  bool CheckDirtyBit();
 
 protected:
 
