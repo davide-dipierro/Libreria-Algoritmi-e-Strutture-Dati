@@ -11,42 +11,33 @@ HashTableClsAdr<Data>::HashTableClsAdr(const ulong newSize) {
 }
 
 template <typename Data>
-HashTableClsAdr<Data>::HashTableClsAdr(const MappableContainer<Data> &other) {
-    vecSize =  nextPow(other.Size());
-    vec = new List<Data>[vecSize] {};
+HashTableClsAdr<Data>::HashTableClsAdr(const MappableContainer<Data> &other) : HashTableClsAdr(other.Size()) {
     InsertAll(other);
 }
 
 template <typename Data>
-HashTableClsAdr<Data>::HashTableClsAdr(const ulong newSize, const MappableContainer<Data> &other) {
-    vecSize = nextPow(newSize);
-    vec = new List<Data>[vecSize] {};
+HashTableClsAdr<Data>::HashTableClsAdr(const ulong newSize, const MappableContainer<Data> &other) : HashTableClsAdr(newSize) {
     InsertAll(other);
 }
 
 template <typename Data>
-HashTableClsAdr<Data>::HashTableClsAdr(MutableMappableContainer<Data> &&other) noexcept {
-    vecSize = nextPow(other.Size());
-    vec = new List<Data>[vecSize] {};
+HashTableClsAdr<Data>::HashTableClsAdr(MutableMappableContainer<Data> &&other) noexcept : HashTableClsAdr(other.Size()) {
     InsertAll(std::move(other));
 }
 
 template <typename Data>
-HashTableClsAdr<Data>::HashTableClsAdr(const ulong newSize, MutableMappableContainer<Data> &&other) noexcept {
-    vecSize = nextPow(newSize);
-    vec = new List<Data>[vecSize] {};
+HashTableClsAdr<Data>::HashTableClsAdr(const ulong newSize, MutableMappableContainer<Data> &&other) noexcept : HashTableClsAdr(newSize) {
     InsertAll(std::move(other));
 }
 
 template <typename Data>
-HashTableClsAdr<Data>::HashTableClsAdr(const HashTableClsAdr<Data> &other) {
-    vecSize = other.vecSize;
+HashTableClsAdr<Data>::HashTableClsAdr(const HashTableClsAdr<Data> &other) : HashTable<Data>(other) {
     vec = new List<Data>[vecSize] {};
-    for(ulong i{0}; i<vecSize; i++) InsertAll(other.vec[i]);
+    for(ulong i{0}; i<vecSize; i++) vec[i]=other.vec[i];
 }
 
 template <typename Data>
-HashTableClsAdr<Data>::HashTableClsAdr(HashTableClsAdr<Data> &&other) noexcept {
+HashTableClsAdr<Data>::HashTableClsAdr(HashTableClsAdr<Data> &&other) noexcept : HashTable<Data>(std::move(other)) {
     std::swap(size, other.size);
     std::swap(vec, other.vec);
     std::swap(vecSize, other.vecSize);
@@ -59,11 +50,9 @@ HashTableClsAdr<Data>::~HashTableClsAdr() {
 
 template <typename Data>
 HashTableClsAdr<Data>& HashTableClsAdr<Data>::operator=(const HashTableClsAdr &other) {
-    // Clear();
-    delete [] vec;
-    vecSize = other.vecSize;
-    vec = new List<Data>[vecSize] {};
-    for(ulong i{0}; i<vecSize; i++) InsertAll(other.vec[i]);
+    HashTableClsAdr* tmp = new HashTableClsAdr(other);
+    std::swap(*this, *tmp);
+    delete tmp;
     return *this;
 }
 

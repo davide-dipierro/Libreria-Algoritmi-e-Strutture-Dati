@@ -26,13 +26,43 @@ ulong HashTable<Data>::nextPow(ulong num) {
 
 /* ************************************************************************** */
 
-template <typename Data>
-long Hashable<Data>::operator()(const Data& dat) const noexcept {        
-    // const unsigned char* byteData = reinterpret_cast<const unsigned char*>(&dat);
-    // return HashByte(byteData, sizeof(dat));
-    // return dat+1;
-    return static_cast<long>(std::hash<Data>{}(dat));
-}
+// template <typename Data>
+// long Hashable<Data>::operator()(const Data& dat) const noexcept {        
+//     // const unsigned char* byteData = reinterpret_cast<const unsigned char*>(&dat);
+//     // return HashByte(byteData, sizeof(dat));
+//     // return static_cast<long>(std::hash<Data>{}(dat));
+// }
+
+template <>
+class Hashable<int>{
+    public:
+        ulong operator()(const int val) const noexcept {        
+            // return (val+1)*val;
+            return val;
+            //return val+1; ////RITORNO PER TESTING
+        }
+};
+
+template <>
+class Hashable<std::string>{
+    public:
+        ulong operator()(const std::string val) const noexcept {
+            unsigned int hashValue = 0;
+            for(int i=0; i<val.size(); i++)
+                hashValue += (i*val[i]);
+            return hashValue;
+        }
+};
+
+template <>
+class Hashable<double>{
+    public:
+        ulong operator()(const double val) const noexcept {
+            ulong int_part = floor(val);
+            return (int_part*int_part + ((val-int_part)*(val-int_part))) - int_part;
+            //return val+1; //RITORNO PER TESTING
+        }
+};
 
 template <typename Data>
 long Hashable<Data>::HashByte(const unsigned char* byteData, size_t siz) const noexcept {

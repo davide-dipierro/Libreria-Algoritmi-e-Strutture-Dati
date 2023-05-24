@@ -63,24 +63,34 @@ void temptest() {
   // ht.Exists(1243);
   // cout<<"\nTEST PASSATO\n";
 
-  lasd::Vector<int> v(50);
-  for(int i{0}; i<v.Size(); i++) v[i]=i;
 
-  lasd::BinaryTreeLnk<int> bt(v);
+  lasd::HashTableOpnAdr<int> ht(8);
 
-  lasd::BTBreadthMutableIterator<int> itr(bt);
+  cout<<"\n\nSituazione iniziale: "; ht.printTable();
+  ht.Insert(6);
+  cout<<"\n\nDopo inserito 6: "; ht.printTable();
+  ht.Insert(5);
+  cout<<"\n\nDopo inserito 5: "; ht.printTable();
+  ht.Insert(13);
+  cout<<"\n\nDopo inserito 13(5): "; ht.printTable();
+  ht.Resize(16);
+  ht.Insert(50);
+  cout<<"\n\nDopo inserito 50(2): "; ht.printTable();
+  ht.Insert(5);
+  cout<<"\n\nDopo inserito 5(Esistente): "; ht.printTable();
+  ht.Insert(-45);
+  cout<<"\n\nDopo inserito -45(3): "; ht.printTable();
+  ht.Insert(2);
+  cout<<"\n\nDopo inserito -45(3): "; ht.printTable();
+  
 
-  cout<<"Albero originale"<<endl;
-  bt.printBT();
+  cout<<"\nExists(13): "<<ht.Exists(13);
+  cout<<"\nExists(5): "<<ht.Exists(5);
+  cout<<"\nExists(21): "<<ht.Exists(21);
+  cout<<"\nExists(7): "<<ht.Exists(7);
 
-  for(int i{0}; i<v.Size(); i++) {
-    (*itr)=50-i;
-    if(i==40) itr.Reset();
-    ++itr;
-  }
-
-  cout<<"Albero invertito"<<endl;
-  bt.printBT();
+  // ht.Insert(17);
+  // cout<<"\n\nDopo inserito 17: "; ht.printBits();
 
 }
 

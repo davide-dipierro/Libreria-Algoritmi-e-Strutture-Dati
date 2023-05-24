@@ -112,15 +112,16 @@ public:
 
   /* ************************************************************************ */  //FUNZIONI SOLO PER TEST
   bool CheckDirtyBit();
+  void printTable();
 
 protected:
 
   // Auxiliary member functions
 
-  ulong HashKey(const ulong index, ulong &prob_index, const ulong key) const noexcept;
-  bool Find(ulong& index, const Data& dat) const noexcept;
-  ulong FindEmpty(const ulong index, const Data& dat) noexcept;
-  bool Remove(ulong index, const Data& dat);
+  ulong HashKey2(const ulong index, ulong& prob_index) const noexcept;
+  bool Find(ulong& index, const Data& dat, ulong& prob_index) const noexcept;
+  ulong FindEmpty(const ulong index, const Data& dat, ulong& prob_index) noexcept;
+  bool Remove(const ulong& index, const Data& dat, ulong& prob_index);
 
 };
 
