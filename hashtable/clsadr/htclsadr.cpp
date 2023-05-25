@@ -11,7 +11,7 @@ HashTableClsAdr<Data>::HashTableClsAdr(const ulong newSize) {
 }
 
 template <typename Data>
-HashTableClsAdr<Data>::HashTableClsAdr(const MappableContainer<Data> &other) : HashTableClsAdr(other.Size()) {
+HashTableClsAdr<Data>::HashTableClsAdr(const MappableContainer<Data> &other) : HashTableClsAdr(other.Size()*2) {
     InsertAll(other);
 }
 
@@ -21,7 +21,7 @@ HashTableClsAdr<Data>::HashTableClsAdr(const ulong newSize, const MappableContai
 }
 
 template <typename Data>
-HashTableClsAdr<Data>::HashTableClsAdr(MutableMappableContainer<Data> &&other) noexcept : HashTableClsAdr(other.Size()) {
+HashTableClsAdr<Data>::HashTableClsAdr(MutableMappableContainer<Data> &&other) noexcept : HashTableClsAdr(other.Size()*2) {
     InsertAll(std::move(other));
 }
 
@@ -81,7 +81,6 @@ bool HashTableClsAdr<Data>::operator==(const HashTableClsAdr &other) const noexc
 
 template <typename Data>
 bool HashTableClsAdr<Data>::Insert(const Data &val) {
-    // std::cout<<"\nCHIAMA & \n";
     bool result = false;
     ulong index = this->HashKey(Hashable<Data>()(val));
     result = vec[index].List<Data>::Insert(val);
@@ -92,7 +91,6 @@ bool HashTableClsAdr<Data>::Insert(const Data &val) {
 
 template <typename Data>
 bool HashTableClsAdr<Data>::Insert(Data &&val) {
-    // std::cout<<"\nCHIAMA && \n";
     bool result = false;
     ulong index = this->HashKey(Hashable<Data>()(val));
     result = vec[index].List<Data>::Insert(std::move(val));

@@ -89,16 +89,38 @@ void temptest() {
   // cout<<"\nExists(21): "<<ht.Exists(21);
   // cout<<"\nExists(7): "<<ht.Exists(7);
 
-  cout<<"\nVec: ";
-  lasd::Vector<int> vec(10);
-  for (uint i = 0; i < vec.Size(); i++) {
-    vec[i] = pow(-2, i % 24) * ((61 * i + 29) % 127);
-  }
-  for(int i{0}; i<vec.Size(); i++) cout<<"\t"<<vec[i];
+  // cout<<"\nVec: ";
+  // lasd::Vector<int> vec(10);
+  // for (uint i = 0; i < vec.Size(); i++) {
+  //   vec[i] = pow(-2, i % 24) * ((61 * i + 29) % 127);
+  // }
+  // for(int i{0}; i<vec.Size(); i++) cout<<"\t"<<vec[i];
 
-  lasd::HashTableOpnAdr<int> ht(83, vec);
-  cout<<"\n\nSIZE: "<<ht.Size();
+  // lasd::HashTableOpnAdr<int> ht(83, vec);
+  // cout<<"\n\nSIZE: "<<ht.Size();
 
+
+  
+  // lasd::Vector<int> vec(10);
+  // for (uint i = 0; i < vec.Size(); i++) {
+  //   vec[i] = pow(-2, i % 24) * ((61 * i + 29) % 127);
+  // }
+  // for(int i{0}; i<vec.Size(); i++) cout<<"\t"<<vec[i];
+
+  // lasd::HashTableOpnAdr<int> ht(83, vec);
+  // cout<<"\n\nSIZE: "<<ht.Size();
+
+
+  lasd::HashTableOpnAdr<int> ht(8);
+  ht.Insert(7);
+  ht.Insert(15);
+  ht.Insert(23);
+  ht.Insert(31);
+  ht.printTable();
+  ht.Remove(23);
+  ht.printTable();
+  ht.Insert(31);
+  ht.printTable();
 
 }
 

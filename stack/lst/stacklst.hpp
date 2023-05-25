@@ -15,7 +15,7 @@ namespace lasd {
 
 template <typename Data>
 class StackLst :  virtual public Stack<Data>,
-                  virtual public List<Data> {
+                  virtual protected List<Data> {
 
 private:
 

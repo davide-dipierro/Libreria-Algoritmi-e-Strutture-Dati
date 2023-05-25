@@ -17,7 +17,7 @@ namespace lasd {
 
 template <typename Data>
 class StackVec : virtual public Stack<Data>,
-                 virtual public Vector<Data> {
+                 virtual protected Vector<Data> {
 
 private:
 

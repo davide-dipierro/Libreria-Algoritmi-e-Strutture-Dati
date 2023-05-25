@@ -66,6 +66,7 @@ HashTableOpnAdr<Data>& HashTableOpnAdr<Data>::operator=(const HashTableOpnAdr &o
     for(ulong i{0}; i<vecSize; i++) if(other.Bits[i].all()) Insert(other.Elements[i]);
     return *this;
 
+    //NOTE: Non funziona
     // HashTableOpnAdr* tmp = new HashTableOpnAdr(other);
     // std::swap(*this, *tmp);
     // delete tmp;
@@ -98,9 +99,8 @@ bool HashTableOpnAdr<Data>::Insert(const Data& dat) {
     ulong tmp_index = FindEmpty(dat, prob_index);
     if(Bits[tmp_index][valid_bit]==0){
         Elements[tmp_index] = dat;
-        Bits[tmp_index].set(); //std::cout<<"\nINSERISCE "<<dat<<"\n";
+        Bits[tmp_index].set();
         size++;
-        printTable();
         return !Remove(dat, ++prob_index); 
     }
     prob_index = 0;
@@ -114,7 +114,7 @@ bool HashTableOpnAdr<Data>::Insert(Data&& dat) {
     ulong tmp_index = FindEmpty(dat, prob_index);
     if(Bits[tmp_index][valid_bit]==0){
         Elements[tmp_index] = dat;
-        Bits[tmp_index].set(); //std::cout<<"\nINSERISCE CON MOVE";
+        Bits[tmp_index].set();
         size++;
         return !Remove(dat, ++prob_index); 
     }
@@ -124,15 +124,7 @@ bool HashTableOpnAdr<Data>::Insert(Data&& dat) {
 
 template <typename Data>
 bool HashTableOpnAdr<Data>::Remove(const Data &dat) {
-    // if(size<vecSize/5) Resize(vecSize/2);
-    // ulong index = HashKey(Hashable<Data>()(dat));
     ulong prob_index = 0;
-    // if(Bits[index].all() && Elements[index] == dat){
-    //     Bits[index][valid_bit]=0;
-    //     size--;
-    //     prob_index = 0;
-    //     return true;
-    // }
     return Remove(dat, prob_index);
 }
 
@@ -145,9 +137,6 @@ bool HashTableOpnAdr<Data>::Exists(const Data &dat) const noexcept {
 
 template <typename Data>
 void HashTableOpnAdr<Data>::Resize(const ulong newSize) {
-
-    //std::cout<<"\n************************* START RESIZE ***********************\n";
-
     ulong tmpvecSize = nextPow(newSize);
     Data* tmpElements = new Data[tmpvecSize] {};
     std::bitset<2>* tmpBits = new std::bitset<2>[tmpvecSize] {};
@@ -162,8 +151,6 @@ void HashTableOpnAdr<Data>::Resize(const ulong newSize) {
     }
     delete [] tmpElements;
     delete [] tmpBits;
-
-    //std::cout<<"\n************************* END RESIZE ***********************\n";
 }
 
 template <typename Data>
@@ -189,7 +176,6 @@ bool HashTableOpnAdr<Data>::Find(ulong& index, const Data &dat, ulong& prob_inde
     do{
         if(jumps == vecSize-1) return false;
         if(Elements[tmp_index]==dat && Bits[tmp_index].all()) {
-            //std::cout<<"TROVATO "<<dat<<" in "<<jumps<<" con prob_index = "<<prob_index;
             index=tmp_index;
             return true;
         }
@@ -204,17 +190,14 @@ ulong HashTableOpnAdr<Data>::FindEmpty(const Data &dat, ulong& prob_index) noexc
     while(Bits[tmp_index].all() && Elements[tmp_index]!=dat) {
         tmp_index = HashKey2(dat, ++prob_index);
     }
-    //std::cout<<"\nPosto libero trovato con prob_index: "<<prob_index;
     return tmp_index;
 }
 
 template <typename Data>
 bool HashTableOpnAdr<Data>::Remove(const Data &dat, ulong& prob_index) {
     ulong tmp_index;
-    // ++prob_index;
     if(Find(tmp_index, dat, prob_index)){
         Bits[tmp_index][valid_bit]=0;
-        //std::cout<<"\nCANCELLA: "<<dat;
         size--;
         prob_index = 0;
         return true;
@@ -232,9 +215,9 @@ bool HashTableOpnAdr<Data>::CheckDirtyBit() {
 
 template <typename Data>
 void HashTableOpnAdr<Data>::printTable() {
-    //std::cout<<std::endl;
+    std::cout<<std::endl;
     for(int i{0}; i<vecSize; i++){
-        //std::cout<<"Bits["<<i<<"][0]="<<Bits[i][0]<<"\t["<<i<<"][0]="<<Bits[i][1]<<"\tElements: "<<Elements[i]<<std::endl;
+        std::cout<<"Bits["<<i<<"][0]="<<Bits[i][0]<<"\t["<<i<<"][0]="<<Bits[i][1]<<"\tElements: "<<Elements[i]<<std::endl;
     }
 }
 
