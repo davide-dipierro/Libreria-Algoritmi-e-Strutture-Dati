@@ -3274,7 +3274,7 @@ bool davtest_ex3(){
         testMSCHTOpenVec &&
         testMSCHTCloseVec &&
         stressTestOnExistsOpen &&
-        stressTestOnExistsClose &&
+        stressTestOnExistsClose
         // testResizeHTOpen &&
         // testResizeHTClose
         )
