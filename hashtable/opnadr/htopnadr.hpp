@@ -16,6 +16,8 @@ namespace lasd {
 
 /* ************************************************************************** */
 
+/// @brief Quella che usa i bitset
+/// @tparam Data 
 template <typename Data>
 class HashTableOpnAdr : virtual public HashTable<Data> {
 
@@ -31,9 +33,10 @@ protected:
   using HashTable<Data>::HashKey;
   using Container::size;
 
-  Data* Elements;
-  std::bitset<2>* Bits; //Vector of 2 bits  -(00) Empty/Deleted -(01) Empty/Valid (Inconsistente)
+  Data* Elements = nullptr;
+  std::bitset<2>* Bits = nullptr; //Vector of 2 bits  -(00) Empty/Deleted -(01) Empty/Valid (Inconsistente)
 //                                          -(10) Full/Deleted  -(11) Full/Valid
+
 
 public:
 
@@ -46,7 +49,7 @@ public:
   using HashTable<Data>::vecSize;
 
   // Default constructor
-  HashTableOpnAdr() = default;
+  HashTableOpnAdr() : HashTableOpnAdr(8) {};
 
   /* ************************************************************************ */
 
@@ -119,7 +122,7 @@ protected:
 
   // Auxiliary member functions
 
-  ulong HashKey2(const Data &dat, ulong& prob_index) const noexcept;
+  ulong HashKey(const Data &dat, ulong& prob_index) const noexcept;
   bool Find(ulong& index, const Data& dat, ulong& prob_index) const noexcept;
   ulong FindEmpty(const Data& dat, ulong& prob_index) noexcept;
   bool Remove(const Data& dat, ulong& prob_index);

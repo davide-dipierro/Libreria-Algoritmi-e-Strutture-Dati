@@ -1105,7 +1105,6 @@ bool davtest_ex1(){
 
 
 
-
 bool TestEqualBT(){
     if(output) cout<<"\n**********TEST TestEqualBT**********\n";
     bool correct=true;
@@ -2419,6 +2418,870 @@ bool davtest_ex2(){
         }
 
         ITERAZIONI--;
+    }
+
+    if(total){
+        cout<<"\nTUTTI I TEST SONO STATI SUPERATI!! :D ";
+    }else{
+        cout<<"\nCi sono test che non sono stati superati :(";
+    }
+
+    cout<<endl;
+
+    return true;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/************************************************************************************************
+
+
+
+ *          INIZIO TEST SULLE HT
+
+
+
+*************************************************************************************************/
+
+bool StressTestOpen(){                   // Un test probabilmente inutile ma divertente
+    bool correct=true;
+    int num = 65535;
+    lasd::HashTableOpnAdr<int> s1;
+    cout<<endl;
+    for(int i{0}; i<num; i++){
+
+        if(i%10000==0) std::cout << "\b\b\b\b\b\b\b\b\b\bLoading.." << std::flush;    // Ahahahahahahaha thread?? ahahahahhaa
+        
+        if(i%10000==5000) std::cout << "\b\b\b\b\b\b\b\b\b\bLoading..." << std::flush;
+
+        if(!s1.Size()>1000){
+            int in = genSize(gen);
+            lasd::List<int> l1;
+            for(int j{0}; j<in; j++) l1.Insert(genNum(gen));
+            l1.Map(
+                [&correct, &s1](const int& dat){
+                    correct&= s1.Exists(dat);
+                }
+            );
+        }
+        
+        int out = genSize(gen);
+        lasd::List<int> l2;
+        for(int j{0}; j<out; j++) l2.Insert(genNum(gen));
+        l2.Map(
+            [&correct, &s1](const int& dat){
+                correct&= (!s1.Exists(dat));
+            }
+        );
+    }
+    return correct;
+}
+
+bool StressTestClose(){    // Un test probabilmente inutile ma divertente
+    bool correct=true;
+    int num = 65535;
+    lasd::HashTableClsAdr<int> s1;
+    cout<<endl;
+    for(int i{0}; i<num; i++){
+
+        if(i%10000==0) std::cout << "\b\b\b\b\b\b\b\b\b\bLoading.." << std::flush;    // Ahahahahahahaha thread?? ahahahahhaa
+        
+        if(i%10000==5000) std::cout << "\b\b\b\b\b\b\b\b\b\bLoading..." << std::flush;
+
+        if(!s1.Size()>1000){
+            int in = genSize(gen);
+            lasd::List<int> l1;
+            for(int j{0}; j<in; j++) l1.Insert(genNum(gen));
+            l1.Map(
+                [&correct, &s1](const int& dat){
+                    correct&= s1.Exists(dat);
+                }
+            );
+        }
+        
+        int out = genSize(gen);
+        lasd::List<int> l2;
+        for(int j{0}; j<out; j++) l2.Insert(genNum(gen));
+        l2.Map(
+            [&correct, &s1](const int& dat){
+                correct&= (!s1.Exists(dat));
+            }
+        );
+    }
+    return correct;
+}
+
+bool TestEqualHTOpen(){
+    if(output) cout<<"\n**********TEST TestEqualHTOpen**********\n";
+    bool correct=true;
+    int temp_size = genSize(gen)+1;
+    lasd::Vector<int> v1(temp_size);
+    for(int i=0; i<temp_size; i++){
+        int temp_num = genNum(gen);
+        v1[i]=temp_num;
+    } 
+    lasd::HashTableOpnAdr<int> s1(v1);
+    lasd::HashTableOpnAdr<int> s2(v1);
+    v1[genSize(gen)%temp_size]=genNum(gen);
+    lasd::HashTableOpnAdr<int> s3(v1);
+    if(output) { 
+        cout<<"\nS1: ";
+        s1.printTable();
+    }
+    if(output) { 
+        cout<<"\nS2: ";
+        s2.printTable();
+    }
+        if(output) { 
+        cout<<"\nS1: ";
+        s1.printTable();
+    }
+    if(output) { 
+        cout<<"\nS3: ";
+        s2.printTable();
+    }
+    correct&=(s1==s2);
+    correct&=(s1!=s3);
+    s2.Clear();
+    s2.Resize(0);
+    correct&=(s1!=s2);
+    s1.Clear();
+    s1.Resize(0);
+    correct&=(s1==s2);
+    return correct;
+}
+
+bool TestEqualHTClose(){
+    if(output) cout<<"\n**********TEST TestEqualHTClose**********\n";
+    bool correct=true;
+    int temp_size = genSize(gen)+1;
+    lasd::Vector<int> v1(temp_size);
+    for(int i=0; i<temp_size; i++){
+        int temp_num = genNum(gen);
+        v1[i]=temp_num;
+    } 
+    lasd::HashTableClsAdr<int> s1(v1);
+    lasd::HashTableClsAdr<int> s2(v1);
+    v1[genSize(gen)%temp_size]=genNum(gen);
+    lasd::HashTableClsAdr<int> s3(v1);
+    if(output) { 
+        cout<<"\nS1: ";
+        s1.printTable();
+    }
+    if(output) { 
+        cout<<"\nS2: ";
+        s2.printTable();
+    }
+        if(output) { 
+        cout<<"\nS1: ";
+        s1.printTable();
+    }
+    if(output) { 
+        cout<<"\nS3: ";
+        s2.printTable();
+    }
+    correct&=(s1==s2);
+    correct&=(s1!=s3);
+    s2.Clear();
+    s2.Resize(0);
+    correct&=(s1!=s2);
+    s1.Clear();
+    s1.Resize(0);
+    correct&=(s1==s2);
+    return correct;
+}
+
+bool TestAssHTOpen(){
+    if(output) cout<<"\n**********TEST TestAssHTOpen**********\n";
+    bool correct=true;
+    int temp_size = genSize(gen);
+    lasd::Vector<int> v1(temp_size);
+    for(int i=0; i<temp_size; i++) v1[i]=genNum(gen);
+    lasd::HashTableOpnAdr<int> s1(v1);
+    lasd::HashTableOpnAdr<int> s2(v1);
+    s2 = s1;
+    if(output) { 
+        cout<<"\nS1: ";
+        s1.printTable();
+    }
+    if(output) { 
+        cout<<"\nS2: ";
+        s2.printTable();
+    }
+    correct&=(s1==s2);
+    s2.Clear();
+    s1.Clear();
+    correct&=(s1==s2);
+    return correct;
+}
+
+bool TestAssHTClose(){
+    if(output) cout<<"\n**********TEST TestAssHTClose**********\n";
+    bool correct=true;
+    int temp_size = genSize(gen);
+    lasd::Vector<int> v1(temp_size);
+    for(int i=0; i<temp_size; i++) v1[i]=genNum(gen);
+    lasd::HashTableClsAdr<int> s1(v1);
+    lasd::HashTableClsAdr<int> s2;
+    s2 = s1;
+    if(output) { 
+        cout<<"\nS1: ";
+        s1.printTable();
+    }
+    if(output) { 
+        cout<<"\nS2: ";
+        s2.printTable();
+    }
+    correct&=(s1==s2);
+    s2.Clear();
+    s1.Clear();
+    correct&=(s1==s2);
+    return correct;
+}
+
+bool TestMAssHTOpen(){
+    if(output) cout<<"\n**********TEST TestMAssHTOpen**********\n";
+    bool correct=true;
+    int temp_size1 = genSize(gen)+1;
+    int temp_size2 = genSize(gen)+1;
+    lasd::Vector<int> v1(temp_size1);
+    lasd::Vector<int> v2(temp_size2);
+    for(int i=0; i<v1.Size(); i++) v1[i]=genNum(gen);
+    for(int i=0; i<v2.Size(); i++) v2[i]=genNum(gen);
+    lasd::HashTableOpnAdr<int> s1(v1);
+    if(output) { 
+        cout<<"\nS1: ";
+        s1.printTable();
+    }
+    lasd::HashTableOpnAdr<int> s2(v2);
+    if(output) { 
+        cout<<"\nS2: ";
+        s2.printTable();
+    }
+    lasd::HashTableOpnAdr<int> s3(v1);
+    lasd::HashTableOpnAdr<int> s4(v2);
+    lasd::HashTableOpnAdr<int> s5;
+    s2 = move(s1);
+    correct&=(s1==s4);
+    s1.Insert(genNum(gen));
+    correct&=(s1!=s4);
+    correct&=(s2==s3);
+    s1 = move(s5);
+    correct&=(s1.Empty());
+    s2.Clear();
+    correct&=(s1==s2);
+    return correct;
+}
+
+bool TestMAssHTClose(){
+    if(output) cout<<"\n**********TEST TestMAssHTClose**********\n";
+    bool correct=true;
+    int temp_size1 = genSize(gen)+1;
+    int temp_size2 = genSize(gen)+1;
+    lasd::Vector<int> v1(temp_size1);
+    lasd::Vector<int> v2(temp_size2);
+    for(int i=0; i<v1.Size(); i++) v1[i]=genNum(gen);
+    for(int i=0; i<v2.Size(); i++) v2[i]=genNum(gen);
+    lasd::HashTableClsAdr<int> s1(v1);
+    if(output) { 
+        cout<<"\nS1: ";
+        s1.printTable();
+    }
+    lasd::HashTableClsAdr<int> s2(v2);
+    if(output) { 
+        cout<<"\nS2: ";
+        s2.printTable();
+    }
+    lasd::HashTableClsAdr<int> s3(v1);
+    lasd::HashTableClsAdr<int> s4(v2);
+    lasd::HashTableClsAdr<int> s5;
+    s2 = move(s1);
+    correct&=(s1==s4);
+    s1.Insert(genNum(gen));
+    correct&=(s1!=s4);
+    correct&=(s2==s3);
+    s1 = move(s5);
+    correct&=(s1.Empty());
+    s2.Clear();
+    correct&=(s1==s2);
+    return correct;
+}
+
+bool TestCCHTOpen(){
+    if(output) cout<<"\n**********TEST TestCCHTOpen**********\n";
+    bool correct=true;
+    lasd::Vector<int> v1(genSize(gen));
+    for(ulong i=0; i<v1.Size(); i++) v1[i]=genNum(gen);
+    lasd::HashTableOpnAdr<int> s1(v1);
+    lasd::HashTableOpnAdr<int> s2(s1);
+    if(output) { 
+        cout<<"\nS1: ";
+        s1.printTable();
+    }
+    if(output) { 
+        cout<<"\nS2: ";
+        s2.printTable();
+    }
+    correct&=(s1==s2);
+    s1.Clear();
+    correct&=(s1.Empty());
+    s2.Clear();
+    correct&=(s1==s2);
+    return correct;
+}
+
+bool TestCCHTClose(){
+    if(output) cout<<"\n**********TEST TestCCHTClose**********\n";
+    bool correct=true;
+    lasd::Vector<int> v1(genSize(gen));
+    for(ulong i=0; i<v1.Size(); i++) v1[i]=genNum(gen);
+    lasd::HashTableClsAdr<int> s1(v1);
+    lasd::HashTableClsAdr<int> s2(s1);
+    if(output) { 
+        cout<<"\nS1: ";
+        s1.printTable();
+    }
+    if(output) { 
+        cout<<"\nS2: ";
+        s2.printTable();
+    }
+    correct&=(s1==s2);
+    s1.Clear();
+    correct&=(s1.Empty());
+    s2.Clear();
+    correct&=(s1==s2);
+    return correct;
+}
+
+bool TestMCHTOpen(){
+    if(output) cout<<"\n**********TEST TestMCHTOpen**********\n";
+    bool correct=true;
+    int temp_size1 = genSize(gen);
+    lasd::Vector<int> v1(temp_size1);
+    for(int i=0; i<v1.Size(); i++) v1[i]=genNum(gen);
+    lasd::HashTableOpnAdr<int> s1(v1);
+    lasd::HashTableOpnAdr<int> s2(v1);
+    lasd::HashTableOpnAdr<int> s3(move(s1));
+    correct&=(s1.Empty());
+    correct&=(s2==s3);
+    s3.Clear();
+    correct&=(s3.Empty());
+    s2.Clear();
+    correct&=(s3==s2);
+    return correct;
+}
+
+bool TestMCHTClose(){
+    if(output) cout<<"\n**********TEST TestMCHTClose**********\n";
+    bool correct=true;
+    int temp_size1 = genSize(gen);
+    lasd::Vector<int> v1(temp_size1);
+    for(int i=0; i<v1.Size(); i++) v1[i]=genNum(gen);
+    lasd::HashTableClsAdr<int> s1(v1);
+    lasd::HashTableClsAdr<int> s2(v1);
+    lasd::HashTableClsAdr<int> s3(move(s1));
+    correct&=(s1.Empty());
+    correct&=(s2==s3);
+    s3.Clear();
+    correct&=(s3.Empty());
+    s2.Clear();
+    correct&=(s3==s2);
+    return correct;
+}
+
+bool TestSCSizeHTOpen(){
+    if(output) cout<<"\n**********TEST TestSCSizeHTOpen**********\n";
+    bool correct=true;
+    int temp_size = genSize(gen);
+    lasd::List<int> l1;
+    lasd::Vector<int> v1(temp_size);
+    for(int i=0; i<temp_size; i++) {
+        int temp_num = genNum(gen);
+        v1[i]=temp_num;
+        l1.Insert(temp_num);
+    }
+    lasd::HashTableOpnAdr<int> s1(genSize(gen));
+    for(int i{0}; i<v1.Size(); i++){
+        s1.Insert(v1[i]);
+    }
+    correct&=(s1.Size()==l1.Size());
+    l1.Map(
+        [&correct, &s1](const int& dat){
+            correct&= s1.Exists(dat);
+        }
+    );
+    return correct;
+}
+
+bool TestSCSizeHTClose(){
+    if(output) cout<<"\n**********TEST TestSCSizeHTClose**********\n";
+    bool correct=true;
+    int temp_size = genSize(gen);
+    lasd::List<int> l1;
+    lasd::Vector<int> v1(temp_size);
+    for(int i=0; i<temp_size; i++) {
+        int temp_num = genNum(gen);
+        v1[i]=temp_num;
+        l1.Insert(temp_num);
+    };
+    lasd::HashTableClsAdr<int> s1(genSize(gen));
+    for(int i{0}; i<v1.Size(); i++){
+        s1.Insert(v1[i]);
+    }
+    correct&=(s1.Size()==l1.Size());
+    l1.Map(
+        [&correct, &s1](const int& dat){
+            correct&= s1.Exists(dat);
+        }
+    );
+    return correct;
+}
+
+bool TestSCHTOpenList(){
+    if(output) cout<<"\n**********TEST TestSCHTOpenList**********\n";
+    bool correct=true;
+    int temp_size = genSize(gen);
+    lasd::List<int> l1;
+    lasd::Vector<int> v1(temp_size);
+    for(int i=0; i<temp_size; i++) {
+        int temp_num = genNum(gen);
+        v1[i]=temp_num;
+        l1.Insert(temp_num);
+    };
+    lasd::HashTableOpnAdr<int> s1(l1);
+    for(int i{0}; i<v1.Size(); i++){
+        correct&=(!(s1.Insert(v1[i])));
+    }
+    correct&=(s1.Size()==l1.Size());
+    l1.Map(
+        [&correct, &s1](const int& dat){
+            correct&= s1.Exists(dat);
+        }
+    );
+    return correct;
+}
+
+bool TestSCHTCloseList(){
+    if(output) cout<<"\n**********TEST TestSCHTCloseList**********\n";
+    bool correct=true;
+    int temp_size = genSize(gen);
+    lasd::List<int> l1;
+    lasd::Vector<int> v1(temp_size);
+    for(int i=0; i<temp_size; i++) {
+        int temp_num = genNum(gen);
+        v1[i]=temp_num;
+        l1.Insert(temp_num);
+    };
+    lasd::HashTableClsAdr<int> s1(l1);
+    for(int i{0}; i<v1.Size(); i++){
+        correct&=(!(s1.Insert(v1[i])));
+    }
+    correct&=(s1.Size()==l1.Size());
+    l1.Map(
+        [&correct, &s1](const int& dat){
+            correct&= s1.Exists(dat);
+        }
+    );
+    return correct;
+}
+
+bool TestSCHTOpenVec(){
+    if(output) cout<<"\n**********TEST TestSCHTOpenVec**********\n";
+    bool correct=true;
+    int temp_size = genSize(gen);
+    lasd::List<int> l1;
+    lasd::Vector<int> v1(temp_size);
+    for(int i=0; i<temp_size; i++) {
+        int temp_num = genNum(gen);
+        v1[i]=temp_num;
+        l1.Insert(temp_num);
+    };
+    lasd::HashTableOpnAdr<int> s1(v1);
+    for(int i{0}; i<v1.Size(); i++){
+        correct&=(!(s1.Insert(v1[i])));
+    }
+    correct&=(s1.Size()==l1.Size());
+    l1.Map(
+        [&correct, &s1](const int& dat){
+            correct&= s1.Exists(dat);
+        }
+    );
+    return correct;
+}
+
+bool TestSCHTCloseVec(){
+    if(output) cout<<"\n**********TEST TestSCHTCloseVec**********\n";
+    bool correct=true;
+    int temp_size = genSize(gen);
+    lasd::List<int> l1;
+    lasd::Vector<int> v1(temp_size);
+    for(int i=0; i<temp_size; i++) {
+        int temp_num = genNum(gen);
+        v1[i]=temp_num;
+        l1.Insert(temp_num);
+    };
+    lasd::HashTableClsAdr<int> s1(v1);
+    for(int i{0}; i<v1.Size(); i++){
+        correct&=(!(s1.Insert(v1[i])));
+    }
+    correct&=(s1.Size()==l1.Size());
+    l1.Map(
+        [&correct, &s1](const int& dat){
+            correct&= s1.Exists(dat);
+        }
+    );
+    return correct;
+}
+
+bool TestMSCHTCloseVec(){
+    if(output) cout<<"\n**********TEST TestMSCHTCloseVec**********\n";
+    bool correct=true;
+    int temp_size = genSize(gen);
+    lasd::List<int> l1;
+    lasd::Vector<int> v1(temp_size);
+    for(int i=0; i<temp_size; i++) {
+        int temp_num = genNum(gen);
+        v1[i]=temp_num;
+        l1.Insert(temp_num);
+    };
+    lasd::HashTableClsAdr<int> s1(move(v1));
+    for(int i{0}; i<v1.Size(); i++){
+        correct&=(!(s1.Insert(l1[i])));
+    }
+    correct&=(s1.Size()==l1.Size());
+    v1.Map(
+        [&correct, &s1](const int& dat){
+            correct&= s1.Exists(dat);
+        }
+    );
+    return correct;
+}
+
+bool TestMSCHTOpenVec(){
+    if(output) cout<<"\n**********TEST TestMSCHTOpenVec**********\n";
+    bool correct=true;
+    int temp_size = genSize(gen);
+    lasd::List<int> l1;
+    lasd::Vector<int> v1(temp_size);
+    for(int i=0; i<temp_size; i++) {
+        int temp_num = genNum(gen);
+        v1[i]=temp_num;
+        l1.Insert(temp_num);
+    };
+    lasd::HashTableOpnAdr<int> s1(move(v1));
+    for(int i{0}; i<v1.Size(); i++){
+        correct&=(!(s1.Insert(l1[i])));
+    }
+    correct&=(s1.Size()==l1.Size());
+    v1.Map(
+        [&correct, &s1](const int& dat){
+            correct&= s1.Exists(dat);
+        }
+    );
+    return correct;
+}
+
+bool TestMSCHTCloseList(){
+    if(output) cout<<"\n**********TEST TestMSCHTCloseList**********\n";
+    bool correct=true;
+    int temp_size = genSize(gen);
+    lasd::List<int> l1;
+    lasd::List<int> v1;
+    for(int i=0; i<temp_size; i++) {
+        int temp_num = genNum(gen);
+        v1.InsertAtBack(temp_num);
+        l1.Insert(temp_num);
+    };
+    lasd::HashTableClsAdr<int> s1(move(l1));
+    for(int i{0}; i<v1.Size(); i++){
+        correct&=(!(s1.Insert(v1[i])));
+    }
+    correct&=(s1.Size()==l1.Size());
+    v1.Map(
+        [&correct, &s1](const int& dat){
+            correct&= s1.Exists(dat);
+        }
+    );
+    return correct;
+}
+
+bool TestMSCHTOpenList(){
+    if(output) cout<<"\n**********TEST TestMSCHTOpenList**********\n";
+    bool correct=true;
+    int temp_size = genSize(gen);
+    lasd::List<int> l1;
+    lasd::List<int> v1;
+    for(int i=0; i<temp_size; i++) {
+        int temp_num = genNum(gen);
+        v1.InsertAtBack(temp_num);
+        l1.Insert(temp_num);
+    };
+    lasd::HashTableOpnAdr<int> s1(move(l1));
+    for(int i{0}; i<v1.Size(); i++){
+        correct&=(!(s1.Insert(v1[i])));
+    }
+    correct&=(s1.Size()==l1.Size());
+    v1.Map(
+        [&correct, &s1](const int& dat){
+            correct&= s1.Exists(dat);
+        }
+    );
+    // StressTest(&s1);
+    return correct;
+}
+
+bool davtest_ex3(){
+
+    MIN_SIZE = 0;
+    MAX_SIZE = 500;
+    MIN_NUM = INT16_MIN;
+    MAX_NUM = INT16_MAX;
+
+    cout<<"\n\n*********** CONFIGURAZIONE DEI TEST: ***********"<<endl;
+    cout<<"Necessiti degli output di debug?"<<endl;
+    cout<<"1. Voglio visualizzare gli output di debug. (La dimensione delle strutture sara' ridotta)."<<endl;
+    cout<<"2. No, voglio proseguire senza visualizzare gli output di debug. (Consigliato)"<<endl;
+    cout<<"Inserisci l'opzione: ";
+    int choose = -1;
+    while(choose!=1 && choose!=2) cin>>choose;
+    output = (choose==1);
+    MAX_SIZE = (output) ? 20 : MAX_SIZE;
+    uniform_int_distribution<int> select_genSize(MIN_SIZE,MAX_SIZE); genSize = select_genSize;
+    uniform_int_distribution<int> select_genNum(MIN_NUM,MAX_NUM); genNum = select_genNum;
+
+    cout<<"Vuoi eseguire uno stress test sulle strutture durante alcune fasi del test?"<<endl;
+    cout<<"1. Voglio eseguire lo stress test (L'esecuzione puo' apparire rallentata)."<<endl;
+    cout<<"2. No voglio proseguire velocemente."<<endl;
+    cout<<"Inserisci l'opzione: ";
+    choose = -1;
+    while(choose!=1 && choose!=2) cin>>choose;
+
+    bool total = true;
+
+    
+        
+    //Operator==
+    bool testEqualHTOpen = false;
+    bool testEqualHTClose = false;
+
+    //Assignement
+    bool testAssHTOpen = false;
+    bool testAssHTClose = false;
+    bool testMAssHTOpen = false;
+    bool testMAssHTClose = false;
+
+    //Constructor
+    bool testCCHTOpen = false;
+    bool testMCHTOpen = false;
+    bool testCCHTClose = false;
+    bool testMCHTClose = false;
+
+    //Specific constructor (Non mutable)
+    bool testSCSizeHTOpen = false;
+    bool testSCSizeHTClose = false;
+    bool testSCHTOpenList = false;
+    bool testSCHTCloseList = false;
+    bool testSCHTOpenVec = false;
+    bool testSCHTCloseVec = false;
+
+    //Specific constructor (Mutable)
+    bool testMSCHTOpenList = false;
+    bool testMSCHTCloseList = false;
+    bool testMSCHTOpenVec = false;
+    bool testMSCHTCloseVec = false;
+
+    //Specific functions
+    bool stressTestOnExistsOpen = false;
+    bool stressTestOnExistsClose = false;
+    bool testResizeHTOpen = false;
+    bool testResizeHTClose = false;
+
+
+    cout<<"\nTesting comparison operators...";
+    try { testEqualHTOpen = TestEqualHTOpen(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+    try { testEqualHTClose = TestEqualHTClose(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+
+    cout<<"\nTesting assignment operators...";
+    try { testAssHTOpen = TestAssHTOpen(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+    try { testAssHTClose = TestAssHTClose(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+
+    cout<<"\nTesting move assignment operators...";
+    try { testMAssHTOpen = TestMAssHTOpen(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+    try { testMAssHTClose = TestMAssHTClose(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+
+    cout<<"\nTesting constructors...";
+    try { testCCHTOpen = TestCCHTOpen(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+    try { testCCHTClose = TestCCHTClose(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+
+    cout<<"\nTesting move constructors...";
+    try { testMCHTOpen = TestMCHTOpen(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+    try { testMCHTClose = TestMCHTClose(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+    
+    cout<<"\nTesting non-mutable specific constructors..<.";
+    try { testSCSizeHTOpen = TestSCSizeHTOpen(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+    try { testSCSizeHTClose = TestSCSizeHTClose(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+    try { testSCHTOpenList = TestSCHTOpenList(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+    try { testSCHTCloseList = TestSCHTCloseList(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+    try { testSCHTOpenVec = TestSCHTOpenVec(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+    try { testSCHTCloseVec = TestSCHTCloseVec(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+
+    cout<<"\nTesting mutable specific constructors...";
+    try { testMSCHTOpenList = TestMSCHTOpenList(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+    try { testMSCHTCloseList = TestMSCHTCloseList(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+    try { testMSCHTOpenVec = TestMSCHTOpenVec(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+    try { testMSCHTCloseVec = TestMSCHTCloseVec(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+
+    uniform_int_distribution<int> select2_genSize(0,100); genSize = select2_genSize;
+    uniform_int_distribution<int> select2_genNum(0,1000); genNum = select2_genNum;
+
+    cout<<"\nTesting exists...";
+    try { stressTestOnExistsOpen = StressTestOpen(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+    try { stressTestOnExistsClose = StressTestClose(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+
+
+    cout<<"\n\n*********** RESULTS ***********"<<endl;
+
+    cout<<"\nCOMPARISION OPERATORS:"<<endl;
+    cout<<"HashTableOpnAdr == HashTableOpnAdr: "<<((testEqualHTOpen) ? "Corretto" : "Errore")<<endl;
+    cout<<"HashTableClsAdr == HashTableClsAdr: "<<((testEqualHTClose) ? "Corretto" : "Errore")<<endl;
+
+    cout<<"\nASSIGNAMENT OPERATORS:"<<endl;
+    cout<<"HashTableOpnAdr = HashTableOpnAdr: "<<((testAssHTOpen) ? "Corretto" : "Errore")<<endl;
+    cout<<"HashTableClsAdr = HashTableClsAdr: "<<((testAssHTClose) ? "Corretto" : "Errore")<<endl;
+
+    cout<<"\nMOVE ASSIGNAMENT OPERATORS:"<<endl;
+    cout<<"HashTableOpnAdr = move(HashTableOpnAdr): "<<((testMAssHTOpen) ? "Corretto" : "Errore")<<endl;
+    cout<<"HashTableClsAdr = move(HashTableClsAdr): "<<((testMAssHTClose) ? "Corretto" : "Errore")<<endl;
+
+    cout<<"\nCOPY CONSTRUCTORS: "<<endl;
+    cout<<"HashTableOpnAdr(HashTableOpnAdr): "<<((testCCHTOpen) ? "Corretto" : "Errore")<<endl;
+    cout<<"HashTableClsAdr(HashTableClsAdr): "<<((testCCHTClose) ? "Corretto" : "Errore")<<endl;
+
+    cout<<"\nMOVE CONSTRUCTORS: "<<endl;
+    cout<<"HashTableOpnAdr(move(HashTableOpnAdr)): "<<((testMCHTOpen) ? "Corretto" : "Errore")<<endl;
+    cout<<"HashTableClsAdr(move(HashTableClsAdr)): "<<((testMCHTClose) ? "Corretto" : "Errore")<<endl;
+
+    cout<<"\nSPECIFIC NON-MUTABLE SPECIFIC CONSTRUCTORS: "<<endl;
+    cout<<"HashTableOpnAdr(size): "<<((testSCSizeHTOpen) ? "Corretto" : "Errore")<<endl;
+    cout<<"HashTableClsAdr(size): "<<((testSCSizeHTClose) ? "Corretto" : "Errore")<<endl;
+    cout<<"HashTableOpnAdr(Vector): "<<((testSCHTOpenVec) ? "Corretto" : "Errore")<<endl;
+    cout<<"HashTableOpnAdr(List): "<<((testSCHTOpenList) ? "Corretto" : "Errore")<<endl;
+    cout<<"HashTableClsAdr(Vector): "<<((testSCHTCloseVec) ? "Corretto" : "Errore")<<endl;
+    cout<<"HashTableClsAdr(List): "<<((testSCHTCloseList) ? "Corretto" : "Errore")<<endl;
+
+    cout<<"\nSPECIFIC MUTABLE SPECIFIC CONSTRUCTORS: "<<endl;
+    cout<<"HashTableOpnAdr(Vector): "<<((testSCHTOpenVec) ? "Corretto" : "Errore")<<endl;
+    cout<<"HashTableOpnAdr(List): "<<((testSCHTOpenList) ? "Corretto" : "Errore")<<endl;
+    cout<<"HashTableClsAdr(Vector): "<<((testSCHTCloseVec) ? "Corretto" : "Errore")<<endl;
+    cout<<"HashTableClsAdr(List): "<<((testSCHTCloseList) ? "Corretto" : "Errore")<<endl;
+
+    cout<<"\nSTRESS TEST ON EXISTS: "<<endl;
+    cout<<"HashTableOpnAdr: "<<((stressTestOnExistsOpen) ? "Corretto" : "Errore")<<endl;
+    cout<<"HashTableClsAdr: "<<((stressTestOnExistsClose) ? "Corretto" : "Errore")<<endl;
+
+
+    if (testEqualHTOpen &&
+        testEqualHTClose &&
+        testAssHTOpen &&
+        testAssHTClose &&
+        testMAssHTOpen &&
+        testMAssHTClose &&
+        testCCHTOpen &&
+        testMCHTOpen &&
+        testCCHTClose &&
+        testMCHTClose &&
+        testSCSizeHTOpen &&
+        testSCSizeHTClose &&
+        testSCHTOpenList &&
+        testSCHTCloseList &&
+        testSCHTOpenVec &&
+        testSCHTCloseVec &&
+        testMSCHTOpenList &&
+        testMSCHTCloseList &&
+        testMSCHTOpenVec &&
+        testMSCHTCloseVec &&
+        stressTestOnExistsOpen &&
+        stressTestOnExistsClose &&
+        // testResizeHTOpen &&
+        // testResizeHTClose
+        )
+    {
+        total = true;
+    } else {
+        total = false
     }
 
     if(total){

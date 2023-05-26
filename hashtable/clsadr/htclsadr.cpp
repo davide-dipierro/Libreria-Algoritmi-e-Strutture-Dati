@@ -5,7 +5,7 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
-HashTableClsAdr<Data>::HashTableClsAdr(const ulong newSize) {
+HashTableClsAdr<Data>::HashTableClsAdr(const ulong newSize) : HashTable<Data>() {
     vecSize = nextPow(newSize);
     vec = new List<Data>[vecSize] {};
 }
@@ -38,9 +38,7 @@ HashTableClsAdr<Data>::HashTableClsAdr(const HashTableClsAdr<Data> &other) : Has
 
 template <typename Data>
 HashTableClsAdr<Data>::HashTableClsAdr(HashTableClsAdr<Data> &&other) noexcept : HashTable<Data>(std::move(other)) {
-    std::swap(size, other.size);
     std::swap(vec, other.vec);
-    std::swap(vecSize, other.vecSize);
 }
 
 template <typename Data>
@@ -50,17 +48,17 @@ HashTableClsAdr<Data>::~HashTableClsAdr() {
 
 template <typename Data>
 HashTableClsAdr<Data>& HashTableClsAdr<Data>::operator=(const HashTableClsAdr &other) {
-    HashTableClsAdr* tmp = new HashTableClsAdr(other);
-    std::swap(*this, *tmp);
-    delete tmp;
+    HashTable<Data>::operator=(other);
+    delete[] vec;
+    vec = new List<Data>[vecSize] {};
+    for (ulong i = 0; i < vecSize; i++) vec[i] = other.vec[i];
     return *this;
 }
 
 template <typename Data>
 HashTableClsAdr<Data>& HashTableClsAdr<Data>::operator=(HashTableClsAdr &&other) noexcept {
-    std::swap(size, other.size);
+    HashTable<Data>::operator=(std::move(other));
     std::swap(vec, other.vec);
-    std::swap(vecSize, other.vecSize);
     return *this;
 }
 
@@ -134,7 +132,17 @@ inline void HashTableClsAdr<Data>::Clear() {
     size = 0;
 }
 
-
+template <typename Data>
+void HashTableClsAdr<Data>::printTable() {
+    std::cout<<std::endl;
+    for(int i{0}; i<vecSize; i++){
+        std::cout<<"Array["<<i<<"]=";
+        vec[i].Map(
+            [](const Data& dat) {std::cout<<"\t"<<dat;}
+        );
+        std::cout<<std::endl;
+    }
+}
 
 /* ************************************************************************** */
 

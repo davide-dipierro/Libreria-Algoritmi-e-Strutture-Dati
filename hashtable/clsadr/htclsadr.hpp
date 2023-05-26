@@ -13,6 +13,8 @@ namespace lasd {
 
 /* ************************************************************************** */
 
+/// @brief Quella che usa le liste
+/// @tparam Data 
 template <typename Data>
 class HashTableClsAdr : virtual public HashTable<Data> {
 
@@ -35,7 +37,7 @@ protected:
 public:
 
   // Default constructor
-  HashTableClsAdr() = default;
+  HashTableClsAdr() : HashTableClsAdr(8) {};
 
   /* ************************************************************************ */
 
@@ -98,6 +100,10 @@ public:
   // Specific member functions (inherited from ClearableContainer)
 
   virtual void Clear() override; // Override Container member
+
+  /* ************************************************************************ */  //FUNZIONI SOLO PER TEST
+
+  void printTable();
 
 };
 

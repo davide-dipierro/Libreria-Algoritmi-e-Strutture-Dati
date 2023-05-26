@@ -27,12 +27,10 @@ class Hashable {
 protected:
 
   ulong prime = 31;
-  long HashByte(const unsigned char* byteData, size_t siz) const noexcept;
 
 public:
 
   ulong operator()(const Data& dat) const noexcept; // (concrete function should not throw exceptions)
-
 
 };
 
@@ -64,52 +62,29 @@ protected:
 
   ulong a = 3;
   ulong b = 4;
+  ulong vecSize = 8;
 
 
 public:
 
-
-  ulong vecSize = 8;
-
   //Constructor
   HashTable() {
-    a = 1;//genA(gen)*2+1;
-    b = 0;//nextPow(genB(gen));
+    a = genA(gen)*2+1;
+    b = nextPow(genB(gen));
   }
   
   //Copy constructor
-  HashTable(const HashTable& other) {
-    vecSize = other.vecSize;
-    size = other.size;
-    a = other.a;
-    b = other.b;
-  }
+  HashTable(const HashTable& other);
 
   //Move constructor
-  HashTable(HashTable&& other) noexcept {
-    std::swap(vecSize, other.vecSize);
-    std::swap(size, other.size);
-    std::swap(a, other.a);
-    std::swap(b, other.b);
-  }
+  HashTable(HashTable&& other) noexcept;
 
   //Copy assignament
-  virtual HashTable& operator=(const HashTable& other) {
-    vecSize = other.vecSize;
-    size = other.size;
-    a = other.a;
-    b = other.b;
-    return *this;
-  }
+  HashTable& operator=(const HashTable& other);
 
   //Move assignament
-  virtual HashTable& operator=(HashTable&& other) noexcept {
-    std::swap(vecSize, other.vecSize);
-    std::swap(size, other.size);
-    std::swap(a, other.a);
-    std::swap(b, other.b);
-    return *this;
-  }
+  HashTable& operator=(HashTable&& other) noexcept;
+
 
   // Destructor
   virtual ~HashTable() = default;

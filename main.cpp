@@ -32,10 +32,10 @@ ALL'INTERNO DI CONTAINER.HPP E' STATO DEFINITO IL TIPO ULONG
 
 
 TODO:
-  - Correggere exists (deve essere costante)
-  - Implementare con Vector per facilitare la resize oppure modificare il vettore e renderlo un vettore di liste
-  - Correggere gli inline operator() (farne uno solo generale, è più figo)
-  - Bitest
+  - Mancano i test sui casi limite e sulle resize
+
+NOTE:
+  - Se chiamo una clear ad una HT che ho utilizzato con move, che deve succedere?
 
 
 ************************************************************************** */
@@ -110,18 +110,6 @@ void temptest() {
   // lasd::HashTableOpnAdr<int> ht(83, vec);
   // cout<<"\n\nSIZE: "<<ht.Size();
 
-
-  lasd::HashTableOpnAdr<int> ht(8);
-  ht.Insert(7);
-  ht.Insert(15);
-  ht.Insert(23);
-  ht.Insert(31);
-  ht.printTable();
-  ht.Remove(23);
-  ht.printTable();
-  ht.Insert(31);
-  ht.printTable();
-
 }
 
 int main(){
@@ -151,14 +139,15 @@ int main(){
 /_____//_/  |_|/____/  /_____/                          
     )"<<endl;
     std::cout << "Libraries 2023" << std::endl<<std::endl;
-    cout<<"Ecco cosa puoi fare:\n1. Eseguire davtest_ex1()\n2. Eseguire davtest_ex2()\n3. Eseguire lasdtest()\n4. temptest()\n0. Uscire\n";
+    cout<<"Ecco cosa puoi fare:\n1. Eseguire davtest_ex1()\n2. Eseguire davtest_ex2()\n3. Eseguire davtest_ex3()\n4. Eseguire lasdtest()\n5. temptest()\n0. Uscire\n";
     cout<<"Inserisci la scelta: ";
     cin>>choose;
     switch(choose){
       case 1 : davtest_ex1(); break;
       case 2 : davtest_ex2(); break;
-      case 3 : lasdtest(); break;
-      case 4 : temptest(); break;
+      case 3 : davtest_ex3(); break;
+      case 4 : lasdtest(); break;
+      case 5 : temptest(); break;
       case 0 : exit=true;
     }
     cout<<endl<<endl;
