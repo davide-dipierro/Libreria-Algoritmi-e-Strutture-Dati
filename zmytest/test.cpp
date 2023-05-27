@@ -2433,79 +2433,6 @@ bool davtest_ex2(){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /************************************************************************************************
 
 
@@ -3018,11 +2945,11 @@ bool TestMSCHTCloseVec(){
         l1.Insert(temp_num);
     };
     lasd::HashTableClsAdr<int> s1(move(v1));
-    for(int i{0}; i<v1.Size(); i++){
+    for(int i{0}; i<l1.Size(); i++){
         correct&=(!(s1.Insert(l1[i])));
     }
     correct&=(s1.Size()==l1.Size());
-    v1.Map(
+    l1.Map(
         [&correct, &s1](const int& dat){
             correct&= s1.Exists(dat);
         }
@@ -3042,11 +2969,11 @@ bool TestMSCHTOpenVec(){
         l1.Insert(temp_num);
     };
     lasd::HashTableOpnAdr<int> s1(move(v1));
-    for(int i{0}; i<v1.Size(); i++){
+    for(int i{0}; i<l1.Size(); i++){
         correct&=(!(s1.Insert(l1[i])));
     }
     correct&=(s1.Size()==l1.Size());
-    v1.Map(
+    l1.Map(
         [&correct, &s1](const int& dat){
             correct&= s1.Exists(dat);
         }
@@ -3065,12 +2992,12 @@ bool TestMSCHTCloseList(){
         v1.InsertAtBack(temp_num);
         l1.Insert(temp_num);
     };
-    lasd::HashTableClsAdr<int> s1(move(l1));
-    for(int i{0}; i<v1.Size(); i++){
-        correct&=(!(s1.Insert(v1[i])));
+    lasd::HashTableClsAdr<int> s1(move(v1));
+    for(int i{0}; i<l1.Size(); i++){
+        correct&=(!(s1.Insert(l1[i])));
     }
     correct&=(s1.Size()==l1.Size());
-    v1.Map(
+    l1.Map(
         [&correct, &s1](const int& dat){
             correct&= s1.Exists(dat);
         }
@@ -3089,17 +3016,16 @@ bool TestMSCHTOpenList(){
         v1.InsertAtBack(temp_num);
         l1.Insert(temp_num);
     };
-    lasd::HashTableOpnAdr<int> s1(move(l1));
-    for(int i{0}; i<v1.Size(); i++){
-        correct&=(!(s1.Insert(v1[i])));
+    lasd::HashTableOpnAdr<int> s1(move(v1));
+    for(int i{0}; i<l1.Size(); i++){
+        correct&=(!(l1.Insert(l1[i])));
     }
     correct&=(s1.Size()==l1.Size());
-    v1.Map(
+    l1.Map(
         [&correct, &s1](const int& dat){
             correct&= s1.Exists(dat);
         }
     );
-    // StressTest(&s1);
     return correct;
 }
 
@@ -3122,166 +3048,182 @@ bool davtest_ex3(){
     uniform_int_distribution<int> select_genSize(MIN_SIZE,MAX_SIZE); genSize = select_genSize;
     uniform_int_distribution<int> select_genNum(MIN_NUM,MAX_NUM); genNum = select_genNum;
 
-    cout<<"Vuoi eseguire uno stress test sulle strutture durante alcune fasi del test?"<<endl;
-    cout<<"1. Voglio eseguire lo stress test (L'esecuzione puo' apparire rallentata)."<<endl;
+    cout<<"Vuoi eseguire uno stress test sulle Exists() (L'esecuzione puo' apparire rallentata)?"<<endl;
+    cout<<"1. Voglio eseguire lo stress test."<<endl;
     cout<<"2. No voglio proseguire velocemente."<<endl;
     cout<<"Inserisci l'opzione: ";
     choose = -1;
     while(choose!=1 && choose!=2) cin>>choose;
-
+    bool wantStressTest = (choose==1);
     bool total = true;
 
-    
+    int ITERAZIONI = 2;
         
-    //Operator==
-    bool testEqualHTOpen = false;
-    bool testEqualHTClose = false;
+    while(ITERAZIONI!=0) {
+        
+        cout<<"\n\n*********** TESTING "<<((ITERAZIONI==1) ? "LIMIT" : "GENERAL")<<" CASES ***********"<<endl;
 
-    //Assignement
-    bool testAssHTOpen = false;
-    bool testAssHTClose = false;
-    bool testMAssHTOpen = false;
-    bool testMAssHTClose = false;
+        //Operator==
+        bool testEqualHTOpen = false;
+        bool testEqualHTClose = false;
 
-    //Constructor
-    bool testCCHTOpen = false;
-    bool testMCHTOpen = false;
-    bool testCCHTClose = false;
-    bool testMCHTClose = false;
+        //Assignement
+        bool testAssHTOpen = false;
+        bool testAssHTClose = false;
+        bool testMAssHTOpen = false;
+        bool testMAssHTClose = false;
 
-    //Specific constructor (Non mutable)
-    bool testSCSizeHTOpen = false;
-    bool testSCSizeHTClose = false;
-    bool testSCHTOpenList = false;
-    bool testSCHTCloseList = false;
-    bool testSCHTOpenVec = false;
-    bool testSCHTCloseVec = false;
+        //Constructor
+        bool testCCHTOpen = false;
+        bool testMCHTOpen = false;
+        bool testCCHTClose = false;
+        bool testMCHTClose = false;
 
-    //Specific constructor (Mutable)
-    bool testMSCHTOpenList = false;
-    bool testMSCHTCloseList = false;
-    bool testMSCHTOpenVec = false;
-    bool testMSCHTCloseVec = false;
+        //Specific constructor (Non mutable)
+        bool testSCSizeHTOpen = false;
+        bool testSCSizeHTClose = false;
+        bool testSCHTOpenList = false;
+        bool testSCHTCloseList = false;
+        bool testSCHTOpenVec = false;
+        bool testSCHTCloseVec = false;
 
-    //Specific functions
-    bool stressTestOnExistsOpen = false;
-    bool stressTestOnExistsClose = false;
-    bool testResizeHTOpen = false;
-    bool testResizeHTClose = false;
+        //Specific constructor (Mutable)
+        bool testMSCHTOpenList = false;
+        bool testMSCHTCloseList = false;
+        bool testMSCHTOpenVec = false;
+        bool testMSCHTCloseVec = false;
 
-
-    cout<<"\nTesting comparison operators...";
-    try { testEqualHTOpen = TestEqualHTOpen(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
-    try { testEqualHTClose = TestEqualHTClose(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
-
-    cout<<"\nTesting assignment operators...";
-    try { testAssHTOpen = TestAssHTOpen(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
-    try { testAssHTClose = TestAssHTClose(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
-
-    cout<<"\nTesting move assignment operators...";
-    try { testMAssHTOpen = TestMAssHTOpen(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
-    try { testMAssHTClose = TestMAssHTClose(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
-
-    cout<<"\nTesting constructors...";
-    try { testCCHTOpen = TestCCHTOpen(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
-    try { testCCHTClose = TestCCHTClose(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
-
-    cout<<"\nTesting move constructors...";
-    try { testMCHTOpen = TestMCHTOpen(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
-    try { testMCHTClose = TestMCHTClose(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
-    
-    cout<<"\nTesting non-mutable specific constructors..<.";
-    try { testSCSizeHTOpen = TestSCSizeHTOpen(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
-    try { testSCSizeHTClose = TestSCSizeHTClose(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
-    try { testSCHTOpenList = TestSCHTOpenList(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
-    try { testSCHTCloseList = TestSCHTCloseList(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
-    try { testSCHTOpenVec = TestSCHTOpenVec(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
-    try { testSCHTCloseVec = TestSCHTCloseVec(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
-
-    cout<<"\nTesting mutable specific constructors...";
-    try { testMSCHTOpenList = TestMSCHTOpenList(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
-    try { testMSCHTCloseList = TestMSCHTCloseList(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
-    try { testMSCHTOpenVec = TestMSCHTOpenVec(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
-    try { testMSCHTCloseVec = TestMSCHTCloseVec(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
-
-    uniform_int_distribution<int> select2_genSize(0,100); genSize = select2_genSize;
-    uniform_int_distribution<int> select2_genNum(0,1000); genNum = select2_genNum;
-
-    cout<<"\nTesting exists...";
-    try { stressTestOnExistsOpen = StressTestOpen(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
-    try { stressTestOnExistsClose = StressTestClose(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        //Specific functions
+        bool stressTestOnExistsOpen = false;
+        bool stressTestOnExistsClose = false;
+        bool testResizeHTOpen = false;
+        bool testResizeHTClose = false;
 
 
-    cout<<"\n\n*********** RESULTS ***********"<<endl;
+        cout<<"\nTesting "<<((ITERAZIONI==1) ? "limit" : "")<<" comparison operators...";
+        try { testEqualHTOpen = TestEqualHTOpen(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        try { testEqualHTClose = TestEqualHTClose(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
 
-    cout<<"\nCOMPARISION OPERATORS:"<<endl;
-    cout<<"HashTableOpnAdr == HashTableOpnAdr: "<<((testEqualHTOpen) ? "Corretto" : "Errore")<<endl;
-    cout<<"HashTableClsAdr == HashTableClsAdr: "<<((testEqualHTClose) ? "Corretto" : "Errore")<<endl;
+        cout<<"\nTesting "<<((ITERAZIONI==1) ? "limit" : "")<<" assignment operators...";
+        try { testAssHTOpen = TestAssHTOpen(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        try { testAssHTClose = TestAssHTClose(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
 
-    cout<<"\nASSIGNAMENT OPERATORS:"<<endl;
-    cout<<"HashTableOpnAdr = HashTableOpnAdr: "<<((testAssHTOpen) ? "Corretto" : "Errore")<<endl;
-    cout<<"HashTableClsAdr = HashTableClsAdr: "<<((testAssHTClose) ? "Corretto" : "Errore")<<endl;
+        cout<<"\nTesting "<<((ITERAZIONI==1) ? "limit" : "")<<" move assignment operators...";
+        try { testMAssHTOpen = TestMAssHTOpen(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        try { testMAssHTClose = TestMAssHTClose(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
 
-    cout<<"\nMOVE ASSIGNAMENT OPERATORS:"<<endl;
-    cout<<"HashTableOpnAdr = move(HashTableOpnAdr): "<<((testMAssHTOpen) ? "Corretto" : "Errore")<<endl;
-    cout<<"HashTableClsAdr = move(HashTableClsAdr): "<<((testMAssHTClose) ? "Corretto" : "Errore")<<endl;
+        cout<<"\nTesting "<<((ITERAZIONI==1) ? "limit" : "")<<" constructors...";
+        try { testCCHTOpen = TestCCHTOpen(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        try { testCCHTClose = TestCCHTClose(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
 
-    cout<<"\nCOPY CONSTRUCTORS: "<<endl;
-    cout<<"HashTableOpnAdr(HashTableOpnAdr): "<<((testCCHTOpen) ? "Corretto" : "Errore")<<endl;
-    cout<<"HashTableClsAdr(HashTableClsAdr): "<<((testCCHTClose) ? "Corretto" : "Errore")<<endl;
+        cout<<"\nTesting "<<((ITERAZIONI==1) ? "limit" : "")<<" move constructors...";
+        try { testMCHTOpen = TestMCHTOpen(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        try { testMCHTClose = TestMCHTClose(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        
+        cout<<"\nTesting "<<((ITERAZIONI==1) ? "limit" : "")<<" non-mutable specific constructors..";
+        try { testSCSizeHTOpen = TestSCSizeHTOpen(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        try { testSCSizeHTClose = TestSCSizeHTClose(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        try { testSCHTOpenList = TestSCHTOpenList(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        try { testSCHTCloseList = TestSCHTCloseList(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        try { testSCHTOpenVec = TestSCHTOpenVec(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        try { testSCHTCloseVec = TestSCHTCloseVec(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
 
-    cout<<"\nMOVE CONSTRUCTORS: "<<endl;
-    cout<<"HashTableOpnAdr(move(HashTableOpnAdr)): "<<((testMCHTOpen) ? "Corretto" : "Errore")<<endl;
-    cout<<"HashTableClsAdr(move(HashTableClsAdr)): "<<((testMCHTClose) ? "Corretto" : "Errore")<<endl;
+        cout<<"\nTesting "<<((ITERAZIONI==1) ? "limit" : "")<<" mutable specific constructors...";
+        try { testMSCHTOpenList = TestMSCHTOpenList(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        try { testMSCHTCloseList = TestMSCHTCloseList(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        try { testMSCHTOpenVec = TestMSCHTOpenVec(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        try { testMSCHTCloseVec = TestMSCHTCloseVec(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
 
-    cout<<"\nSPECIFIC NON-MUTABLE SPECIFIC CONSTRUCTORS: "<<endl;
-    cout<<"HashTableOpnAdr(size): "<<((testSCSizeHTOpen) ? "Corretto" : "Errore")<<endl;
-    cout<<"HashTableClsAdr(size): "<<((testSCSizeHTClose) ? "Corretto" : "Errore")<<endl;
-    cout<<"HashTableOpnAdr(Vector): "<<((testSCHTOpenVec) ? "Corretto" : "Errore")<<endl;
-    cout<<"HashTableOpnAdr(List): "<<((testSCHTOpenList) ? "Corretto" : "Errore")<<endl;
-    cout<<"HashTableClsAdr(Vector): "<<((testSCHTCloseVec) ? "Corretto" : "Errore")<<endl;
-    cout<<"HashTableClsAdr(List): "<<((testSCHTCloseList) ? "Corretto" : "Errore")<<endl;
+        if(wantStressTest){
 
-    cout<<"\nSPECIFIC MUTABLE SPECIFIC CONSTRUCTORS: "<<endl;
-    cout<<"HashTableOpnAdr(Vector): "<<((testSCHTOpenVec) ? "Corretto" : "Errore")<<endl;
-    cout<<"HashTableOpnAdr(List): "<<((testSCHTOpenList) ? "Corretto" : "Errore")<<endl;
-    cout<<"HashTableClsAdr(Vector): "<<((testSCHTCloseVec) ? "Corretto" : "Errore")<<endl;
-    cout<<"HashTableClsAdr(List): "<<((testSCHTCloseList) ? "Corretto" : "Errore")<<endl;
+            if(ITERAZIONI==2){
+                uniform_int_distribution<int> select2_genSize(0,100); genSize = select2_genSize;
+                uniform_int_distribution<int> select2_genNum(0,1000); genNum = select2_genNum;
+            }
 
-    cout<<"\nSTRESS TEST ON EXISTS: "<<endl;
-    cout<<"HashTableOpnAdr: "<<((stressTestOnExistsOpen) ? "Corretto" : "Errore")<<endl;
-    cout<<"HashTableClsAdr: "<<((stressTestOnExistsClose) ? "Corretto" : "Errore")<<endl;
+            cout<<"\nTesting "<<((ITERAZIONI==1) ? "limit" : "")<<" exists...";
+            try { stressTestOnExistsOpen = StressTestOpen(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+            try { stressTestOnExistsClose = StressTestClose(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        } else {
+            stressTestOnExistsOpen = stressTestOnExistsClose = true;
+        }
+
+        uniform_int_distribution<int> select3_genSize(0,1); genSize = select3_genSize;
+
+        cout<<"\n\n*********** RESULTS ***********"<<endl;
+
+        cout<<"\nCOMPARISION OPERATORS:"<<endl;
+        cout<<"HashTableOpnAdr == HashTableOpnAdr: "<<((testEqualHTOpen) ? "Corretto" : "Errore")<<endl;
+        cout<<"HashTableClsAdr == HashTableClsAdr: "<<((testEqualHTClose) ? "Corretto" : "Errore")<<endl;
+
+        cout<<"\nASSIGNAMENT OPERATORS:"<<endl;
+        cout<<"HashTableOpnAdr = HashTableOpnAdr: "<<((testAssHTOpen) ? "Corretto" : "Errore")<<endl;
+        cout<<"HashTableClsAdr = HashTableClsAdr: "<<((testAssHTClose) ? "Corretto" : "Errore")<<endl;
+
+        cout<<"\nMOVE ASSIGNAMENT OPERATORS:"<<endl;
+        cout<<"HashTableOpnAdr = move(HashTableOpnAdr): "<<((testMAssHTOpen) ? "Corretto" : "Errore")<<endl;
+        cout<<"HashTableClsAdr = move(HashTableClsAdr): "<<((testMAssHTClose) ? "Corretto" : "Errore")<<endl;
+
+        cout<<"\nCOPY CONSTRUCTORS: "<<endl;
+        cout<<"HashTableOpnAdr(HashTableOpnAdr): "<<((testCCHTOpen) ? "Corretto" : "Errore")<<endl;
+        cout<<"HashTableClsAdr(HashTableClsAdr): "<<((testCCHTClose) ? "Corretto" : "Errore")<<endl;
+
+        cout<<"\nMOVE CONSTRUCTORS: "<<endl;
+        cout<<"HashTableOpnAdr(move(HashTableOpnAdr)): "<<((testMCHTOpen) ? "Corretto" : "Errore")<<endl;
+        cout<<"HashTableClsAdr(move(HashTableClsAdr)): "<<((testMCHTClose) ? "Corretto" : "Errore")<<endl;
+
+        cout<<"\nSPECIFIC NON-MUTABLE SPECIFIC CONSTRUCTORS: "<<endl;
+        cout<<"HashTableOpnAdr(size): "<<((testSCSizeHTOpen) ? "Corretto" : "Errore")<<endl;
+        cout<<"HashTableClsAdr(size): "<<((testSCSizeHTClose) ? "Corretto" : "Errore")<<endl;
+        cout<<"HashTableOpnAdr(Vector): "<<((testSCHTOpenVec) ? "Corretto" : "Errore")<<endl;
+        cout<<"HashTableOpnAdr(List): "<<((testSCHTOpenList) ? "Corretto" : "Errore")<<endl;
+        cout<<"HashTableClsAdr(Vector): "<<((testSCHTCloseVec) ? "Corretto" : "Errore")<<endl;
+        cout<<"HashTableClsAdr(List): "<<((testSCHTCloseList) ? "Corretto" : "Errore")<<endl;
+
+        cout<<"\nSPECIFIC MUTABLE SPECIFIC CONSTRUCTORS: "<<endl;
+        cout<<"HashTableOpnAdr(Vector): "<<((testMSCHTOpenVec) ? "Corretto" : "Errore")<<endl;
+        cout<<"HashTableOpnAdr(List): "<<((testMSCHTOpenList) ? "Corretto" : "Errore")<<endl;
+        cout<<"HashTableClsAdr(Vector): "<<((testMSCHTCloseVec) ? "Corretto" : "Errore")<<endl;
+        cout<<"HashTableClsAdr(List): "<<((testMSCHTCloseList) ? "Corretto" : "Errore")<<endl;
+
+        cout<<"\nSTRESS TEST ON EXISTS: "<<endl;
+        cout<<"HashTableOpnAdr: "<<((stressTestOnExistsOpen) ? "Corretto" : "Errore")<<endl;
+        cout<<"HashTableClsAdr: "<<((stressTestOnExistsClose) ? "Corretto" : "Errore")<<endl;
 
 
-    if (testEqualHTOpen &&
-        testEqualHTClose &&
-        testAssHTOpen &&
-        testAssHTClose &&
-        testMAssHTOpen &&
-        testMAssHTClose &&
-        testCCHTOpen &&
-        testMCHTOpen &&
-        testCCHTClose &&
-        testMCHTClose &&
-        testSCSizeHTOpen &&
-        testSCSizeHTClose &&
-        testSCHTOpenList &&
-        testSCHTCloseList &&
-        testSCHTOpenVec &&
-        testSCHTCloseVec &&
-        testMSCHTOpenList &&
-        testMSCHTCloseList &&
-        testMSCHTOpenVec &&
-        testMSCHTCloseVec &&
-        stressTestOnExistsOpen &&
-        stressTestOnExistsClose
-        // testResizeHTOpen &&
-        // testResizeHTClose
-        )
-    {
-        total = true;
-    } else {
-        total = false
+        if (testEqualHTOpen &&
+            testEqualHTClose &&
+            testAssHTOpen &&
+            testAssHTClose &&
+            testMAssHTOpen &&
+            testMAssHTClose &&
+            testCCHTOpen &&
+            testMCHTOpen &&
+            testCCHTClose &&
+            testMCHTClose &&
+            testSCSizeHTOpen &&
+            testSCSizeHTClose &&
+            testSCHTOpenList &&
+            testSCHTCloseList &&
+            testSCHTOpenVec &&
+            testSCHTCloseVec &&
+            testMSCHTOpenList &&
+            testMSCHTCloseList &&
+            testMSCHTOpenVec &&
+            testMSCHTCloseVec &&
+            stressTestOnExistsOpen &&
+            stressTestOnExistsClose
+            // testResizeHTOpen &&
+            // testResizeHTClose
+            )
+        {
+            total = true;
+        } else {
+            total = false;
+        }
+
+        ITERAZIONI--;
+
     }
 
     if(total){
@@ -3294,6 +3236,5 @@ bool davtest_ex3(){
 
     return true;
 }
-
 
 #endif
