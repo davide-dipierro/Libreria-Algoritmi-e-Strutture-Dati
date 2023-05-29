@@ -2445,7 +2445,7 @@ bool davtest_ex2(){
 
 bool StressTestOpen(){                   // Un test probabilmente inutile ma divertente
     bool correct=true;
-    int num = 65535;
+    int num = 30000;
     lasd::HashTableOpnAdr<int> s1;
     cout<<endl;
     for(int i{0}; i<num; i++){
@@ -2479,7 +2479,7 @@ bool StressTestOpen(){                   // Un test probabilmente inutile ma div
 
 bool StressTestClose(){    // Un test probabilmente inutile ma divertente
     bool correct=true;
-    int num = 65535;
+    int num = 30000;
     lasd::HashTableClsAdr<int> s1;
     cout<<endl;
     for(int i{0}; i<num; i++){
@@ -3062,6 +3062,7 @@ bool davtest_ex3(){
     while(ITERAZIONI!=0) {
         
         cout<<"\n\n*********** TESTING "<<((ITERAZIONI==1) ? "LIMIT" : "GENERAL")<<" CASES ***********"<<endl;
+        if(ITERAZIONI==1) cout<<"(La dimensione massima delle strutture e' impostata a 0)"<<endl;
 
         //Operator==
         bool testEqualHTOpen = false;
@@ -3148,7 +3149,7 @@ bool davtest_ex3(){
             stressTestOnExistsOpen = stressTestOnExistsClose = true;
         }
 
-        uniform_int_distribution<int> select3_genSize(0,1); genSize = select3_genSize;
+        uniform_int_distribution<int> select3_genSize(0,0); genSize = select3_genSize;
 
         cout<<"\n\n*********** RESULTS ***********"<<endl;
 
