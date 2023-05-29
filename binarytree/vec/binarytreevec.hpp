@@ -36,11 +36,11 @@ protected:
 
     BinaryTreeVec<Data>* bt;
     Data dat {};
-    int i;
+    ulong i;
 
 
-    NodeVec(const Data &dat, int i, BinaryTreeVec<Data>* bt);
-    NodeVec(Data&& dat, int i, BinaryTreeVec<Data>* bt) noexcept;
+    NodeVec(const Data &dat, ulong i, BinaryTreeVec<Data>* bt);
+    NodeVec(Data&& dat, ulong i, BinaryTreeVec<Data>* bt) noexcept;
     ~NodeVec() { if(!(bt->Nodes.Empty())) bt->Nodes[Index()]=nullptr; };
 
     NodeVec& operator=(const NodeVec& other);
@@ -124,21 +124,21 @@ public:
   // Specific member functions (inherited from BreadthFoldableContainer)
 
   using typename FoldableContainer<Data>::FoldFunctor;
-  void BreadthFold(FoldFunctor func, void* acc) const override { for(int i{0}; i<Nodes.Size(); i++) func(Nodes[i]->Element(), acc); }; // Override BreadthFoldableContainer member
+  void BreadthFold(FoldFunctor func, void* acc) const override { for(ulong i{0}; i<Nodes.Size(); i++) func(Nodes[i]->Element(), acc); }; // Override BreadthFoldableContainer member
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from BreadthMappableContainer)
 
   using typename MappableContainer<Data>::MapFunctor;
-  void BreadthMap(MapFunctor func) const override { for(int i{0}; i<Nodes.Size(); i++) func(Nodes[i]->Element()); }; // Override BreadthMappableContainer member
+  void BreadthMap(MapFunctor func) const override { for(ulong i{0}; i<Nodes.Size(); i++) func(Nodes[i]->Element()); }; // Override BreadthMappableContainer member
 
   /* ************************************************************************ */
 
   // Specific member functions (inherited from MutableBreadthMappableContainer)
 
   using typename MutableMappableContainer<Data>::MutableMapFunctor;
-  void BreadthMap(MutableMapFunctor func) override { for(int i{0}; i<Nodes.Size(); i++) func(Nodes[i]->Element()); }; // Override MutableBreadthMappableContainer member
+  void BreadthMap(MutableMapFunctor func) override { for(ulong i{0}; i<Nodes.Size(); i++) func(Nodes[i]->Element()); }; // Override MutableBreadthMappableContainer member
 
 };
 

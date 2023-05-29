@@ -5,14 +5,14 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
-BinaryTreeVec<Data>::NodeVec::NodeVec(const Data &dat2, int i2, BinaryTreeVec<Data>* bt2) {
+BinaryTreeVec<Data>::NodeVec::NodeVec(const Data &dat2, ulong i2, BinaryTreeVec<Data>* bt2) {
     this->bt = bt2;
     this->i = i2;
     this->dat = dat2;  
 }
 
 template <typename Data>
-BinaryTreeVec<Data>::NodeVec::NodeVec(Data&& dat2, int i2, BinaryTreeVec<Data>* bt2) noexcept {
+BinaryTreeVec<Data>::NodeVec::NodeVec(Data&& dat2, ulong i2, BinaryTreeVec<Data>* bt2) noexcept {
     this->bt = bt2;
     this->i = i2;
     std::swap(dat, dat2);  
@@ -102,8 +102,8 @@ template <typename Data>
 BinaryTreeVec<Data>::BinaryTreeVec(BinaryTreeVec<Data> &&other) noexcept  {
     std::swap(Nodes, other.Nodes);
     std::swap(this->size, other.size);
-    for(int i=0; i<this->Size(); i++) Nodes[i]->bt = this;
-    for(int i=0; i<other.Size(); i++) other.Nodes[i]->bt = &other;
+    for(ulong i=0; i<this->Size(); i++) Nodes[i]->bt = this;
+    for(ulong i=0; i<other.Size(); i++) other.Nodes[i]->bt = &other;
 }
 
 template <typename Data>
@@ -124,8 +124,8 @@ template <typename Data>
 BinaryTreeVec<Data>& BinaryTreeVec<Data>::operator=(BinaryTreeVec &&other) noexcept {
     std::swap(this->Nodes, other.Nodes);
     std::swap(this->size, other.size);
-    for(int i=0; i<this->Size(); i++) Nodes[i]->bt = this;
-    for(int i=0; i<other.Size(); i++) other.Nodes[i]->bt = &other;
+    for(ulong i=0; i<this->Size(); i++) Nodes[i]->bt = this;
+    for(ulong i=0; i<other.Size(); i++) other.Nodes[i]->bt = &other;
     return *this;
 }
 

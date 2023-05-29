@@ -26,18 +26,23 @@ protected:
 
   
   using HashTable<Data>::nextPow;
-  using DictionaryContainer<Data>::InsertAll;
   // using DictionaryContainer<Data>::Remove;
   using Container::size;
 
   List<Data>* vec = nullptr;
-  using HashTable<Data>::vecSize;
 
 
 public:
+  using DictionaryContainer<Data>::InsertAll;
+  using DictionaryContainer<Data>::RemoveAll;
+  using DictionaryContainer<Data>::InsertSome;
+  using DictionaryContainer<Data>::RemoveSome;
+
+
+  using HashTable<Data>::vecSize;
 
   // Default constructor
-  HashTableClsAdr() : HashTableClsAdr(8) {};
+  HashTableClsAdr() : HashTableClsAdr(16) {};
 
   /* ************************************************************************ */
 

@@ -66,7 +66,7 @@ template <typename Data>
 bool HashTableClsAdr<Data>::operator==(const HashTableClsAdr &other) const noexcept {
     if(other.size!=size) return false;
     bool result=true;
-    for(int i{0}; i<vecSize; i++){
+    for(ulong i{0}; i<vecSize; i++){
         vec[i].Map(
             [&other, &result](const Data& dat){
                 result&=other.Exists(dat);
@@ -128,14 +128,14 @@ void HashTableClsAdr<Data>::Resize(const ulong n) {
 
 template <typename Data>
 inline void HashTableClsAdr<Data>::Clear() {
-    for(int i{0}; i<vecSize; i++) vec[i].List<Data>::Clear();
+    for(ulong i{0}; i<vecSize; i++) vec[i].List<Data>::Clear();
     size = 0;
 }
 
 template <typename Data>
 void HashTableClsAdr<Data>::printTable() {
     std::cout<<std::endl;
-    for(int i{0}; i<vecSize; i++){
+    for(ulong i{0}; i<vecSize; i++){
         std::cout<<"Array["<<i<<"]=";
         vec[i].Map(
             [](const Data& dat) {std::cout<<"\t"<<dat;}

@@ -46,7 +46,7 @@ ulong HashTable<Data>::HashKey(const ulong key) const noexcept {
 
 template <typename Data>
 ulong HashTable<Data>::nextPow(ulong num) {
-    if(num<8) return 8;
+    if(num<16) return 16;
     num--;
     num |= num >> 1;
     num |= num >> 2;

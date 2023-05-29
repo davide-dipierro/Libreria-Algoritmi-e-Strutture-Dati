@@ -3048,7 +3048,7 @@ bool davtest_ex3(){
     uniform_int_distribution<int> select_genSize(MIN_SIZE,MAX_SIZE); genSize = select_genSize;
     uniform_int_distribution<int> select_genNum(MIN_NUM,MAX_NUM); genNum = select_genNum;
 
-    cout<<"Vuoi eseguire uno stress test sulle Exists() (L'esecuzione puo' apparire rallentata)?"<<endl;
+    cout<<"\nVuoi eseguire uno stress test sulle Exists() (L'esecuzione puo' apparire rallentata)?"<<endl;
     cout<<"1. Voglio eseguire lo stress test."<<endl;
     cout<<"2. No voglio proseguire velocemente."<<endl;
     cout<<"Inserisci l'opzione: ";
@@ -3217,9 +3217,9 @@ bool davtest_ex3(){
             // testResizeHTClose
             )
         {
-            total = true;
+            total &= true;
         } else {
-            total = false;
+            total &= false;
         }
 
         ITERAZIONI--;

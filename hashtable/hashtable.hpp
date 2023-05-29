@@ -62,10 +62,13 @@ protected:
 
   ulong a = 3;
   ulong b = 4;
-  ulong vecSize = 8;
+
 
 
 public:
+
+  
+  ulong vecSize = 16;
 
   //Constructor
   HashTable() {

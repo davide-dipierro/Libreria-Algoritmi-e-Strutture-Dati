@@ -20,7 +20,7 @@ HashTableOpnAdr<Data>::HashTableOpnAdr(const MappableContainer<Data> &other) : H
 }
 
 template <typename Data>
-HashTableOpnAdr<Data>::HashTableOpnAdr(const ulong newSize, const MappableContainer<Data> &other) : HashTableOpnAdr(other.Size()) {
+HashTableOpnAdr<Data>::HashTableOpnAdr(const ulong newSize, const MappableContainer<Data> &other) : HashTableOpnAdr(newSize) {
     InsertAll(other);
 }
 
@@ -110,7 +110,7 @@ bool HashTableOpnAdr<Data>::Insert(const Data& dat) {
         Elements[tmp_index] = dat;
         Bits[tmp_index].set();
         size++;
-        return !Remove(dat, ++prob_index); 
+        return !Remove(Elements[tmp_index], ++prob_index); 
     }
     prob_index = 0;
     return false;
@@ -122,10 +122,10 @@ bool HashTableOpnAdr<Data>::Insert(Data&& dat) {
     if(size*2>=vecSize) Resize(vecSize*2);
     ulong tmp_index = FindEmpty(dat, prob_index);
     if(Bits[tmp_index][valid_bit]==0){
-        Elements[tmp_index] = dat;
+        std::swap(Elements[tmp_index], dat);
         Bits[tmp_index].set();
         size++;
-        return !Remove(dat, ++prob_index); 
+        return !Remove(Elements[tmp_index], ++prob_index); 
     }
     prob_index = 0;
     return false; 
@@ -155,7 +155,7 @@ void HashTableOpnAdr<Data>::Resize(const ulong newSize) {
     std::swap(tmpBits, Bits);
 
     size = 0;
-    for(int i{0}; i<tmpvecSize; i++){
+    for(ulong i{0}; i<tmpvecSize; i++){
         if(tmpBits[i].all()) Insert(tmpElements[i]);
     }
     delete [] tmpElements;
@@ -164,7 +164,7 @@ void HashTableOpnAdr<Data>::Resize(const ulong newSize) {
 
 template <typename Data>
 void HashTableOpnAdr<Data>::Clear() {
-    for(int i{0}; i<vecSize; i++) Bits[i][valid_bit]=0;
+    for(ulong i{0}; i<vecSize; i++) Bits[i][valid_bit]=0;
     size=0;
 }
 
@@ -219,14 +219,14 @@ bool HashTableOpnAdr<Data>::Remove(const Data &dat, ulong& prob_index) {
 template <typename Data>
 bool HashTableOpnAdr<Data>::CheckDirtyBit() {
     bool result = true;
-    for(int i{0}; i<vecSize; i++) result&=Bits[i][full_bit] == 1;
+    for(ulong i{0}; i<vecSize; i++) result&=Bits[i][full_bit] == 1;
     return result;
 }
 
 template <typename Data>
 void HashTableOpnAdr<Data>::printTable() {
     std::cout<<std::endl;
-    for(int i{0}; i<vecSize; i++){
+    for(ulong i{0}; i<vecSize; i++){
         std::cout<<"Bits["<<i<<"][0]="<<Bits[i][0]<<"\t["<<i<<"][0]="<<Bits[i][1]<<"\tElements: "<<Elements[i]<<std::endl;
     }
 }
