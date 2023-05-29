@@ -49,7 +49,7 @@ public:
   using HashTable<Data>::vecSize;
 
   // Default constructor
-  HashTableOpnAdr() : HashTableOpnAdr(16) {};
+  HashTableOpnAdr() : HashTableOpnAdr(HASHTABLE_INIT_SIZE) {};
 
   /* ************************************************************************ */
 

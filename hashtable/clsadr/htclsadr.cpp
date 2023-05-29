@@ -11,7 +11,7 @@ HashTableClsAdr<Data>::HashTableClsAdr(const ulong newSize) : HashTable<Data>() 
 }
 
 template <typename Data>
-HashTableClsAdr<Data>::HashTableClsAdr(const MappableContainer<Data> &other) : HashTableClsAdr(other.Size()*2) {
+HashTableClsAdr<Data>::HashTableClsAdr(const MappableContainer<Data> &other) : HashTableClsAdr(other.Size()) {
     InsertAll(other);
 }
 
@@ -21,7 +21,7 @@ HashTableClsAdr<Data>::HashTableClsAdr(const ulong newSize, const MappableContai
 }
 
 template <typename Data>
-HashTableClsAdr<Data>::HashTableClsAdr(MutableMappableContainer<Data> &&other) noexcept : HashTableClsAdr(other.Size()*2) {
+HashTableClsAdr<Data>::HashTableClsAdr(MutableMappableContainer<Data> &&other) noexcept : HashTableClsAdr(other.Size()) {
     InsertAll(std::move(other));
 }
 

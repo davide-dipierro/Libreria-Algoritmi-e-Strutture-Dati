@@ -32,13 +32,13 @@ ALL'INTERNO DI CONTAINER.HPP E' STATO DEFINITO IL TIPO ULONG
 
 
 TODO:
-  - Mancano i test sui casi limite e sulle resize
+  - Mancano i test sulle resize e su vecSize
 
 NOTE:
   - Se chiamo una clear ad una HT che ho utilizzato con move, che deve succedere?
   - Resize a N<Size() mi crea una HT comunque sufficiente a contenere tutti gli elementi
   - Perché devo richiamare i costruttori?
-
+  - Perché lo swap tra *this e *tmp mi da errore e mi chiama il move constructor?
 
 ************************************************************************** */
 

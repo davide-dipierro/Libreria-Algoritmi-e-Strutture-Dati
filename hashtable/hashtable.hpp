@@ -2,6 +2,8 @@
 #ifndef HASHTABLE_HPP
 #define HASHTABLE_HPP
 
+#define HASHTABLE_INIT_SIZE 16
+
 /* ************************************************************************** */
 
 #include <random>
@@ -25,8 +27,6 @@ template <typename Data>
 class Hashable {
 
 protected:
-
-  ulong prime = 31;
 
 public:
 
@@ -54,21 +54,21 @@ protected:
   using DictionaryContainer<Data>::RemoveAll;
   using DictionaryContainer<Data>::RemoveSome;
 
-  ulong prime = 31;
+  ulong max = 127;
 
   std::default_random_engine gen = std::default_random_engine(std::random_device{}());
-  std::uniform_int_distribution<ulong> genA = std::uniform_int_distribution<ulong>(1, prime);
-  std::uniform_int_distribution<ulong> genB = std::uniform_int_distribution<ulong>(0, prime);
+  std::uniform_int_distribution<ulong> genA = std::uniform_int_distribution<ulong>(1, max);
+  std::uniform_int_distribution<ulong> genB = std::uniform_int_distribution<ulong>(0, max);
 
-  ulong a = 3;
-  ulong b = 4;
+  ulong a = 1;
+  ulong b = 0;
 
 
 
 public:
 
   
-  ulong vecSize = 16;
+  ulong vecSize = HASHTABLE_INIT_SIZE;
 
   //Constructor
   HashTable() {

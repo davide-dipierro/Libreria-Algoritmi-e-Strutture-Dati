@@ -42,7 +42,7 @@ public:
   using HashTable<Data>::vecSize;
 
   // Default constructor
-  HashTableClsAdr() : HashTableClsAdr(16) {};
+  HashTableClsAdr() : HashTableClsAdr(HASHTABLE_INIT_SIZE) {};
 
   /* ************************************************************************ */
 

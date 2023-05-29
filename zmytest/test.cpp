@@ -3049,7 +3049,7 @@ bool davtest_ex3(){
     uniform_int_distribution<int> select_genNum(MIN_NUM,MAX_NUM); genNum = select_genNum;
 
     cout<<"\nVuoi eseguire uno stress test sulle Exists() (L'esecuzione puo' apparire rallentata)?"<<endl;
-    cout<<"1. Voglio eseguire lo stress test."<<endl;
+    cout<<"1. Voglio eseguire lo stress test (Sconsigliato con Valgrind)."<<endl;
     cout<<"2. No voglio proseguire velocemente."<<endl;
     cout<<"Inserisci l'opzione: ";
     choose = -1;
@@ -3172,7 +3172,7 @@ bool davtest_ex3(){
         cout<<"HashTableOpnAdr(move(HashTableOpnAdr)): "<<((testMCHTOpen) ? "Corretto" : "Errore")<<endl;
         cout<<"HashTableClsAdr(move(HashTableClsAdr)): "<<((testMCHTClose) ? "Corretto" : "Errore")<<endl;
 
-        cout<<"\nSPECIFIC NON-MUTABLE SPECIFIC CONSTRUCTORS: "<<endl;
+        cout<<"\nNON-MUTABLE SPECIFIC CONSTRUCTORS: "<<endl;
         cout<<"HashTableOpnAdr(size): "<<((testSCSizeHTOpen) ? "Corretto" : "Errore")<<endl;
         cout<<"HashTableClsAdr(size): "<<((testSCSizeHTClose) ? "Corretto" : "Errore")<<endl;
         cout<<"HashTableOpnAdr(Vector): "<<((testSCHTOpenVec) ? "Corretto" : "Errore")<<endl;
@@ -3180,7 +3180,7 @@ bool davtest_ex3(){
         cout<<"HashTableClsAdr(Vector): "<<((testSCHTCloseVec) ? "Corretto" : "Errore")<<endl;
         cout<<"HashTableClsAdr(List): "<<((testSCHTCloseList) ? "Corretto" : "Errore")<<endl;
 
-        cout<<"\nSPECIFIC MUTABLE SPECIFIC CONSTRUCTORS: "<<endl;
+        cout<<"\nMUTABLE SPECIFIC CONSTRUCTORS: "<<endl;
         cout<<"HashTableOpnAdr(Vector): "<<((testMSCHTOpenVec) ? "Corretto" : "Errore")<<endl;
         cout<<"HashTableOpnAdr(List): "<<((testMSCHTOpenList) ? "Corretto" : "Errore")<<endl;
         cout<<"HashTableClsAdr(Vector): "<<((testMSCHTCloseVec) ? "Corretto" : "Errore")<<endl;
