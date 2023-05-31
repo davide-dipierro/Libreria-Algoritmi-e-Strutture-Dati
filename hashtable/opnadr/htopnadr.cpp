@@ -108,6 +108,7 @@ bool HashTableOpnAdr<Data>::Insert(const Data& dat) {
     ulong tmp_index = FindEmpty(dat, prob_index);
     if(Bits[tmp_index][valid_bit]==0){
         Elements[tmp_index] = dat;
+        if(Bits[tmp_index][full_bit]==1) holes--;
         Bits[tmp_index].set();
         size++;
         return !Remove(Elements[tmp_index], ++prob_index); 
@@ -123,6 +124,7 @@ bool HashTableOpnAdr<Data>::Insert(Data&& dat) {
     ulong tmp_index = FindEmpty(dat, prob_index);
     if(Bits[tmp_index][valid_bit]==0){
         std::swap(Elements[tmp_index], dat);
+        if(Bits[tmp_index][full_bit]==1) holes--;
         Bits[tmp_index].set();
         size++;
         return !Remove(Elements[tmp_index], ++prob_index); 
@@ -154,7 +156,7 @@ void HashTableOpnAdr<Data>::Resize(const ulong newSize) {
     std::swap(tmpElements, Elements);
     std::swap(tmpBits, Bits);
 
-    size = 0;
+    size = 0; holes = 0;
     for(ulong i{0}; i<tmpvecSize; i++){
         if(tmpBits[i].all()) Insert(tmpElements[i]);
     }
@@ -182,11 +184,23 @@ template <typename Data>
 bool HashTableOpnAdr<Data>::Find(ulong& index, const Data &dat, ulong& prob_index) const noexcept {
     ulong tmp_index = HashKey(dat, prob_index);
     ulong jumps = 0;
-    do{
+    ulong aviable_swap_index;
+    bool aviable_swap_find = false;
+    do {
         if(jumps == vecSize-1) return false;
         if(Elements[tmp_index]==dat && Bits[tmp_index].all()) {
-            index=tmp_index;
+            if(aviable_swap_find){
+                Elements[aviable_swap_index]=Elements[tmp_index];
+                std::swap(Bits[aviable_swap_index], Bits[tmp_index]);
+                index=aviable_swap_index;
+            }else{
+                index=tmp_index;
+            }
             return true;
+        }
+        if(Bits[tmp_index][valid_bit]==0 && !aviable_swap_find) {
+            aviable_swap_index = tmp_index;  
+            aviable_swap_find = true;
         }
         tmp_index = HashKey(dat, ++prob_index); jumps++;
     }while(!Bits[tmp_index].none());
@@ -207,9 +221,14 @@ bool HashTableOpnAdr<Data>::Remove(const Data &dat, ulong& prob_index) {
     ulong tmp_index;
     if(Find(tmp_index, dat, prob_index)){
         Bits[tmp_index][valid_bit]=0;
+        holes++;
         size--;
         prob_index = 0;
-        if(size<vecSize/5) Resize(vecSize/2);
+        if(size<vecSize/5 && vecSize>HASHTABLE_INIT_SIZE) Resize(vecSize/2);
+        if(holes>vecSize/3) {
+            Resize(vecSize);
+            std::cout<<"\nResize per troppi buchi\n";
+        }
         return true;
     }
     prob_index = 0;

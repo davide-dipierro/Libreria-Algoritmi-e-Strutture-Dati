@@ -36,7 +36,7 @@ protected:
   Data* Elements = nullptr;
   std::bitset<2>* Bits = nullptr; //Vector of 2 bits  -(00) Empty/Deleted -(01) Empty/Valid (Inconsistente)
 //                                          -(10) Full/Deleted  -(11) Full/Valid
-
+  ulong holes = 0;
 
 public:
 

@@ -47,7 +47,38 @@ void printmap(const int& dat){
 }
 
 void temptest() {
-  cout<<"\n\tEMPTY TEST\n";  
+  // cout<<"\n\tEMPTY TEST\n";  
+  lasd::HashTableOpnAdr<int> ht;
+  for(int i=0; i<7; i++) ht.Insert(i);
+  ht.printTable();
+
+  for(int i=0; i<6; i++) ht.Remove(i+1);
+  ht.printTable();
+
+  // ht.Remove(5+(16*3));
+  // ht.Remove(5+(16*2));
+  // // ht.Remove(5+(16*1));
+  // ht.printTable();
+
+  // ht.Exists(5+(16*4));
+  // cout<<"\nDOPO EXISTS INSERT:";
+  // ht.printTable();
+
+  // ht.Clear();
+  // for(int i=0; i<5; i++) ht.Insert(5+(16*i));
+  // ht.printTable();
+
+  // ht.Remove(5+(16*1));
+  // ht.Remove(5+(16*2));
+  // ht.Remove(5+(16*3));
+  // ht.printTable();
+
+  // cout<<"\nDOPO EXISTS REMOVE:";
+  // ht.Exists(5+(16*4));
+  // ht.printTable();
+
+
+
 }
 
 int main(){

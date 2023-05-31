@@ -83,7 +83,10 @@ bool HashTableClsAdr<Data>::Insert(const Data &val) {
     ulong index = this->HashKey(Hashable<Data>()(val));
     result = vec[index].List<Data>::Insert(val);
     if(result) size++;
-
+    if(vec[index].Size()>max_dict_size){
+        std::cout<<"\nResize per dizionario lungo\n";
+        Resize(vecSize*2);
+    }
     return result;
 }
 
@@ -93,7 +96,10 @@ bool HashTableClsAdr<Data>::Insert(Data &&val) {
     ulong index = this->HashKey(Hashable<Data>()(val));
     result = vec[index].List<Data>::Insert(std::move(val));
     if(result) size++;
-
+    if(vec[index].Size()>max_dict_size){
+        std::cout<<"\nResize per dizionario lungo\t Size("<<index<<"): "<<vec[index].Size()<<"\n";
+        Resize(vecSize*2);
+    }
     return result;
 }
 

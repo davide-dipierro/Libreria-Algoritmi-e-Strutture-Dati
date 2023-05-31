@@ -28,7 +28,7 @@ protected:
   using HashTable<Data>::nextPow;
   // using DictionaryContainer<Data>::Remove;
   using Container::size;
-
+  ulong max_dict_size = 5;
   List<Data>* vec = nullptr;
 
 

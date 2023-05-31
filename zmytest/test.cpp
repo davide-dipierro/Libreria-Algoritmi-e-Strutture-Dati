@@ -2445,7 +2445,7 @@ bool davtest_ex2(){
 
 bool StressTestOpen(){                   // Un test probabilmente inutile ma divertente
     bool correct=true;
-    int num = 30000;
+    int num = 60000;
     lasd::HashTableOpnAdr<int> s1;
     cout<<endl;
     for(int i{0}; i<num; i++){
@@ -2454,25 +2454,19 @@ bool StressTestOpen(){                   // Un test probabilmente inutile ma div
         
         if(i%10000==5000) std::cout << "\b\b\b\b\b\b\b\b\b\bLoading..." << std::flush;
 
-        if(!s1.Size()>1000){
+        if(s1.Size()<1000){
             int in = genSize(gen);
             lasd::List<int> l1;
             for(int j{0}; j<in; j++) l1.Insert(genNum(gen));
-            l1.Map(
-                [&correct, &s1](const int& dat){
-                    correct&= s1.Exists(dat);
-                }
-            );
+            s1.InsertAll(l1);
+            for(int j{0}; j<l1.Size(); j++) correct &= (s1.Exists(l1[j]));
         }
         
         int out = genSize(gen);
         lasd::List<int> l2;
         for(int j{0}; j<out; j++) l2.Insert(genNum(gen));
-        l2.Map(
-            [&correct, &s1](const int& dat){
-                correct&= (!s1.Exists(dat));
-            }
-        );
+        s1.RemoveAll(l2);
+        for(int j{0}; j<l2.Size(); j++) correct &= (!s1.Exists(l2[j]));
     }
     return correct;
 }
@@ -2488,25 +2482,19 @@ bool StressTestClose(){    // Un test probabilmente inutile ma divertente
         
         if(i%10000==5000) std::cout << "\b\b\b\b\b\b\b\b\b\bLoading..." << std::flush;
 
-        if(!s1.Size()>1000){
+        if(s1.Size()<1000){
             int in = genSize(gen);
             lasd::List<int> l1;
             for(int j{0}; j<in; j++) l1.Insert(genNum(gen));
-            l1.Map(
-                [&correct, &s1](const int& dat){
-                    correct&= s1.Exists(dat);
-                }
-            );
+            s1.InsertAll(l1);
+            for(int j{0}; j<l1.Size(); j++) correct &= (s1.Exists(l1[j]));
         }
         
         int out = genSize(gen);
         lasd::List<int> l2;
         for(int j{0}; j<out; j++) l2.Insert(genNum(gen));
-        l2.Map(
-            [&correct, &s1](const int& dat){
-                correct&= (!s1.Exists(dat));
-            }
-        );
+        s1.RemoveAll(l2);
+        for(int j{0}; j<l2.Size(); j++) correct &= (!s1.Exists(l2[j]));
     }
     return correct;
 }

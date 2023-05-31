@@ -72,7 +72,7 @@ template <>
 class Hashable<int>{
     public:
         ulong operator()(int val) const noexcept {      
-            // return val;
+            return val;
             // return static_cast<long>(std::hash<Data>{}(dat));
             val = (val + 0x7ed55d16) + (val << 12);        // MurmurHash      
             val = (val ^ 0xc761c23c) ^ (val >> 19);
