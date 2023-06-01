@@ -163,6 +163,10 @@ void HashTableOpnAdr<Data>::Resize(const ulong newSize) {
     }
     delete [] tmpElements;
     delete [] tmpBits;
+
+    // HashTableOpnAdr<Data>* tmp = new HashTableOpnAdr<Data>(newSize, *this);
+    // std::swap(*tmp, *this);
+    // delete tmp;
 }
 
 template <typename Data>
