@@ -32,7 +32,7 @@ ALL'INTERNO DI CONTAINER.HPP E' STATO DEFINITO IL TIPO ULONG
 
 
 TODO:
-  - Niente :)
+  - Sostituire le resize e gli assegnamenti con gli swap
 
 ************************************************************************** */
 
