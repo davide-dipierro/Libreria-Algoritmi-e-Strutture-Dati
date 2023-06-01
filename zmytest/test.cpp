@@ -2454,7 +2454,7 @@ bool StressTestOpen(){                   // Un test probabilmente inutile ma div
         
         if(i%10000==5000) std::cout << "\b\b\b\b\b\b\b\b\b\bLoading..." << std::flush;
 
-        if(s1.Size()<1000){
+        if(s1.Size()<5000){
             int in = genSize(gen);
             lasd::List<int> l1;
             for(int j{0}; j<in; j++) l1.Insert(genNum(gen));
@@ -2468,12 +2468,13 @@ bool StressTestOpen(){                   // Un test probabilmente inutile ma div
         s1.RemoveAll(l2);
         for(int j{0}; j<l2.Size(); j++) correct &= (!s1.Exists(l2[j]));
     }
+    // cout<<"\nSize(): "<<s1.Size()<<"\tSizeVec: "<<s1.vecSize<<"\n"; s1.printTable();
     return correct;
 }
 
 bool StressTestClose(){    // Un test probabilmente inutile ma divertente
     bool correct=true;
-    int num = 30000;
+    int num = 60000;
     lasd::HashTableClsAdr<int> s1;
     cout<<endl;
     for(int i{0}; i<num; i++){
@@ -2482,7 +2483,7 @@ bool StressTestClose(){    // Un test probabilmente inutile ma divertente
         
         if(i%10000==5000) std::cout << "\b\b\b\b\b\b\b\b\b\bLoading..." << std::flush;
 
-        if(s1.Size()<1000){
+        if(s1.Size()<5000){
             int in = genSize(gen);
             lasd::List<int> l1;
             for(int j{0}; j<in; j++) l1.Insert(genNum(gen));
@@ -2496,6 +2497,7 @@ bool StressTestClose(){    // Un test probabilmente inutile ma divertente
         s1.RemoveAll(l2);
         for(int j{0}; j<l2.Size(); j++) correct &= (!s1.Exists(l2[j]));
     }
+    // cout<<"\nSize(): "<<s1.Size()<<"\tSizeVec: "<<s1.vecSize<<"\n"; s1.printTable();
     return correct;
 }
 
@@ -2651,7 +2653,7 @@ bool TestMAssHTOpen(){
     lasd::HashTableOpnAdr<int> s5;
     s2 = move(s1);
     correct&=(s1==s4);
-    s1.Insert(genNum(gen));
+    while(!s1.Insert(genNum(gen)));
     correct&=(s1!=s4);
     correct&=(s2==s3);
     s1 = move(s5);
@@ -2685,7 +2687,7 @@ bool TestMAssHTClose(){
     lasd::HashTableClsAdr<int> s5;
     s2 = move(s1);
     correct&=(s1==s4);
-    s1.Insert(genNum(gen));
+    while(!s1.Insert(genNum(gen)));
     correct&=(s1!=s4);
     correct&=(s2==s3);
     s1 = move(s5);

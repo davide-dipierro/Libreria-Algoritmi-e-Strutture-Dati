@@ -7,6 +7,8 @@
 #include "../hashtable.hpp"
 #include "../../list/list.hpp"
 
+#include <functional>
+
 /* ************************************************************************** */
 
 namespace lasd {
@@ -30,6 +32,9 @@ protected:
   using Container::size;
   ulong max_dict_size = 5;
   List<Data>* vec = nullptr;
+  virtual inline void Map(typename lasd::MappableContainer<Data>::MapFunctor mapFunc) const override {
+    for(int i{0}; i<vecSize; i++) static_cast<const lasd::List<Data>&>(vec[i]).Map(mapFunc);
+  }
 
 
 public:
@@ -37,6 +42,8 @@ public:
   using DictionaryContainer<Data>::RemoveAll;
   using DictionaryContainer<Data>::InsertSome;
   using DictionaryContainer<Data>::RemoveSome;
+
+
 
 
   using HashTable<Data>::vecSize;

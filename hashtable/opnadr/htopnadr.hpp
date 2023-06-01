@@ -37,8 +37,13 @@ protected:
   std::bitset<2>* Bits = nullptr; //Vector of 2 bits  -(00) Empty/Deleted -(01) Empty/Valid (Inconsistente)
 //                                          -(10) Full/Deleted  -(11) Full/Valid
   ulong holes = 0;
+  using typename MappableContainer<Data>::MapFunctor;
+  virtual inline void Map(MapFunctor func) const override {for(int i{0}; i<vecSize; i++) if(Bits[i].all()) func(Elements[i]); }
+
 
 public:
+
+
 
   using DictionaryContainer<Data>::InsertAll;
   using DictionaryContainer<Data>::InsertSome;

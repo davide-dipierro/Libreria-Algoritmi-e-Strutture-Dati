@@ -7,7 +7,7 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
-HashTableOpnAdr<Data>::HashTableOpnAdr(const ulong newSize) : HashTable<Data>() {
+HashTableOpnAdr<Data>::HashTableOpnAdr(const ulong newSize) {
     vecSize = nextPow(newSize);
     Elements = new Data[vecSize] {};
     Bits = new std::bitset<2>[vecSize] {};
@@ -148,7 +148,8 @@ bool HashTableOpnAdr<Data>::Exists(const Data &dat) const noexcept {
 
 template <typename Data>
 void HashTableOpnAdr<Data>::Resize(const ulong newSize) {
-    ulong tmpvecSize = nextPow(newSize);
+
+    ulong tmpvecSize = (newSize<this->Size()) ? nextPow(this->Size()) : nextPow(newSize);
     Data* tmpElements = new Data[tmpvecSize] {};
     std::bitset<2>* tmpBits = new std::bitset<2>[tmpvecSize] {};
 
@@ -227,7 +228,7 @@ bool HashTableOpnAdr<Data>::Remove(const Data &dat, ulong& prob_index) {
         if(size<vecSize/5 && vecSize>HASHTABLE_INIT_SIZE) Resize(vecSize/2);
         if(holes>vecSize/3) {
             Resize(vecSize);
-            std::cout<<"\nResize per troppi buchi\n";
+            // std::cout<<"\nResize per troppi buchi\n";
         }
         return true;
     }

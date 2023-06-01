@@ -40,7 +40,20 @@ HashTable<Data>& HashTable<Data>::operator=(HashTable &&other) noexcept {
 }
 
 template <typename Data>
-ulong HashTable<Data>::HashKey(const ulong key) const noexcept {
+bool HashTable<Data>::operator==(const HashTable &other) const noexcept {
+    if(size!=other.size) return false;
+    bool correct = true;
+    other.Map(
+        [&correct, this](const Data& dat){
+            correct &= this->Exists(dat);
+        }
+    );
+    return correct;
+}
+
+template <typename Data>
+ulong HashTable<Data>::HashKey(const ulong key) const noexcept
+{
     return (a*key+b)%vecSize;
 }
 
@@ -72,7 +85,7 @@ template <>
 class Hashable<int>{
     public:
         ulong operator()(int val) const noexcept {      
-            return val;
+            // return val;
             // return static_cast<long>(std::hash<Data>{}(dat));
             val = (val + 0x7ed55d16) + (val << 12);        // MurmurHash      
             val = (val ^ 0xc761c23c) ^ (val >> 19);

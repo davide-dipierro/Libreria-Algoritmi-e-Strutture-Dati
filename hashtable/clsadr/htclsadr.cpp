@@ -5,7 +5,7 @@ namespace lasd {
 /* ************************************************************************** */
 
 template <typename Data>
-HashTableClsAdr<Data>::HashTableClsAdr(const ulong newSize) : HashTable<Data>() {
+HashTableClsAdr<Data>::HashTableClsAdr(const ulong newSize) {
     vecSize = nextPow(newSize);
     vec = new List<Data>[vecSize] {};
 }
@@ -83,8 +83,8 @@ bool HashTableClsAdr<Data>::Insert(const Data &val) {
     ulong index = this->HashKey(Hashable<Data>()(val));
     result = vec[index].List<Data>::Insert(val);
     if(result) size++;
-    if(vec[index].Size()>max_dict_size){
-        std::cout<<"\nResize per dizionario lungo\n";
+    if(vec[index].Size()>max_dict_size){ 
+        // std::cout<<"\nResize per dizionario lungo\t Size("<<index<<"): "<<vec[index].Size()<<"\n\n";
         Resize(vecSize*2);
     }
     return result;
@@ -97,7 +97,7 @@ bool HashTableClsAdr<Data>::Insert(Data &&val) {
     result = vec[index].List<Data>::Insert(std::move(val));
     if(result) size++;
     if(vec[index].Size()>max_dict_size){
-        std::cout<<"\nResize per dizionario lungo\t Size("<<index<<"): "<<vec[index].Size()<<"\n";
+        // std::cout<<"\nResize per dizionario lungo\t Size("<<index<<"): "<<vec[index].Size()<<"\n\n";
         Resize(vecSize*2);
     }
     return result;
@@ -111,7 +111,7 @@ bool HashTableClsAdr<Data>::Remove(const Data &val) {
     
     result = vec[index].List<Data>::Remove(val);
     if(result) size--;
-
+    if(this->Size()<vecSize/5 && vecSize>HASHTABLE_INIT_SIZE) Resize(vecSize/2);
     return result;
 }
 

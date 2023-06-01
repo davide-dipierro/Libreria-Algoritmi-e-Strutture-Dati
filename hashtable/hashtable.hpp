@@ -40,7 +40,8 @@ public:
 
 template <typename Data>
 class HashTable : virtual public ResizableContainer,
-                  virtual public DictionaryContainer<Data> {
+                  virtual public DictionaryContainer<Data>,
+                  virtual protected MappableContainer<Data> {
 
 private:
 
@@ -49,11 +50,6 @@ private:
 protected:
 
   using Container::size;
-  using DictionaryContainer<Data>::InsertAll;
-  using DictionaryContainer<Data>::InsertSome;
-  using DictionaryContainer<Data>::RemoveAll;
-  using DictionaryContainer<Data>::RemoveSome;
-
   ulong max = 127;
 
   std::default_random_engine gen = std::default_random_engine(std::random_device{}());
@@ -67,6 +63,12 @@ protected:
 
 public:
 
+  
+  using DictionaryContainer<Data>::Exists; 
+  using DictionaryContainer<Data>::InsertAll;
+  using DictionaryContainer<Data>::InsertSome;
+  using DictionaryContainer<Data>::RemoveAll;
+  using DictionaryContainer<Data>::RemoveSome;
   
   ulong vecSize = HASHTABLE_INIT_SIZE;
 
@@ -95,8 +97,8 @@ public:
 /* ************************************************************************ */
 
   // Comparison operators
-  bool operator==(const HashTable& other) const noexcept = delete; // Comparison of abstract hashtable is possible but not required.
-  inline bool operator!=(const HashTable& other) const noexcept = delete; // Comparison of abstract hashtable is possible but not required.
+  bool operator==(const HashTable& other) const noexcept; // Comparison of abstract hashtable is possible but not required.
+  inline bool operator!=(const HashTable& other) const noexcept { return !(operator==(other)); }; // Comparison of abstract hashtable is possible but not required.
 
 protected:
 
