@@ -62,24 +62,24 @@ HashTableOpnAdr<Data>::~HashTableOpnAdr() {
 
 template <typename Data>
 HashTableOpnAdr<Data>& HashTableOpnAdr<Data>::operator=(const HashTableOpnAdr &other) {
-    HashTable<Data>::operator=(other);
-    delete[] Elements;
-    delete[] Bits;
-    Elements = new Data[vecSize]{};
-    Bits = new std::bitset<2>[vecSize]{};
-    for (ulong i = 0; i < vecSize; i++) {
-        Elements[i] = other.Elements[i];
-        Bits[i][0] = other.Bits[i][0];
-        Bits[i][1] = other.Bits[i][1];
-    }
-    return *this;
+    // HashTable<Data>::operator=(other);
+    // delete[] Elements;
+    // delete[] Bits;
+    // Elements = new Data[vecSize]{};
+    // Bits = new std::bitset<2>[vecSize]{};
+    // for (ulong i = 0; i < vecSize; i++) {
+    //     Elements[i] = other.Elements[i];
+    //     Bits[i][0] = other.Bits[i][0];
+    //     Bits[i][1] = other.Bits[i][1];
+    // }
+    // return *this;
 
     //NOTE: Non funziona
     // //std::cout<<"\nOPERATOR=";
-    // HashTableOpnAdr* tmp = new HashTableOpnAdr(other);
-    // std::swap(*this, *tmp);
-    // delete tmp;
-    // return *this;
+    HashTableOpnAdr* tmp = new HashTableOpnAdr(other);
+    std::swap(*this, *tmp);
+    delete tmp;
+    return *this;
 }
 
 template <typename Data>
@@ -148,22 +148,24 @@ bool HashTableOpnAdr<Data>::Exists(const Data &dat) const noexcept {
 
 template <typename Data>
 void HashTableOpnAdr<Data>::Resize(const ulong newSize) {
+    ulong tmpVecSize = (newSize<this->Size()) ? nextPow(this->Size()) : nextPow(newSize);
 
-    ulong tmpvecSize = (newSize<this->Size()) ? nextPow(this->Size()) : nextPow(newSize);
-    Data* tmpElements = new Data[tmpvecSize] {};
-    std::bitset<2>* tmpBits = new std::bitset<2>[tmpvecSize] {};
+    // **** PIU' VELOCE ****
+    Data* tmpElements = new Data[tmpVecSize] {};
+    std::bitset<2>* tmpBits = new std::bitset<2>[tmpVecSize] {};
 
-    std::swap(tmpvecSize, vecSize);
+    std::swap(tmpVecSize, vecSize);
     std::swap(tmpElements, Elements);
     std::swap(tmpBits, Bits);
 
     size = 0; holes = 0;
-    for(ulong i{0}; i<tmpvecSize; i++){
+    for(ulong i{0}; i<tmpVecSize; i++){
         if(tmpBits[i].all()) Insert(tmpElements[i]);
     }
     delete [] tmpElements;
     delete [] tmpBits;
 
+    // **** MOLTO MENO VELOCE ****
     // HashTableOpnAdr<Data>* tmp = new HashTableOpnAdr<Data>(newSize, *this);
     // std::swap(*tmp, *this);
     // delete tmp;

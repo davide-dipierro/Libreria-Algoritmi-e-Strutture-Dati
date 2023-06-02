@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include <bitset>
+#include <time.h>
 
 using namespace std;
 
@@ -37,7 +38,12 @@ TODO:
 ************************************************************************** */
 
 void temptest() {
-  cout<<"\n\tEMPTY TEST\n";  
+  // cout<<"\n\tEMPTY TEST\n";  
+
+  lasd::HashTableClsAdr<int> ht1;
+  lasd::HashTableOpnAdr<int> ht2;
+
+  std::cout<<"\nFalse: "<<(ht1.Exists(4)||ht1.Exists(5))<<endl;
 }
 
 int main(){

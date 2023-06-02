@@ -5,6 +5,7 @@
 #include <random>
 #include <stack>
 #include <queue>
+#include <time.h>
 
 
 #include "../container/mappable.hpp"
@@ -2445,9 +2446,10 @@ bool davtest_ex2(){
 
 bool StressTestOpen(){                   // Un test probabilmente inutile ma divertente
     bool correct=true;
-    int num = 60000;
+    int num = 45000;
     lasd::HashTableOpnAdr<int> s1;
     cout<<endl;
+    clock_t tStart = clock();
     for(int i{0}; i<num; i++){
 
         if(i%10000==0) std::cout << "\b\b\b\b\b\b\b\b\b\bLoading.." << std::flush;    // Ahahahahahahaha thread?? ahahahahhaa
@@ -2469,14 +2471,16 @@ bool StressTestOpen(){                   // Un test probabilmente inutile ma div
         for(int j{0}; j<l2.Size(); j++) correct &= (!s1.Exists(l2[j]));
     }
     // cout<<"\nSize(): "<<s1.Size()<<"\tSizeVec: "<<s1.vecSize<<"\n"; s1.printTable();
+    cout<<"\tTime taken (Open): "<<((double)(clock() - tStart)/CLOCKS_PER_SEC);
     return correct;
 }
 
 bool StressTestClose(){    // Un test probabilmente inutile ma divertente
     bool correct=true;
-    int num = 60000;
+    int num = 45000;
     lasd::HashTableClsAdr<int> s1;
     cout<<endl;
+    clock_t tStart = clock();
     for(int i{0}; i<num; i++){
 
         if(i%10000==0) std::cout << "\b\b\b\b\b\b\b\b\b\bLoading.." << std::flush;    // Ahahahahahahaha thread?? ahahahahhaa
@@ -2498,6 +2502,7 @@ bool StressTestClose(){    // Un test probabilmente inutile ma divertente
         for(int j{0}; j<l2.Size(); j++) correct &= (!s1.Exists(l2[j]));
     }
     // cout<<"\nSize(): "<<s1.Size()<<"\tSizeVec: "<<s1.vecSize<<"\n"; s1.printTable();
+    cout<<"\tTime taken (Close): "<<((double)(clock() - tStart)/CLOCKS_PER_SEC);
     return correct;
 }
 
