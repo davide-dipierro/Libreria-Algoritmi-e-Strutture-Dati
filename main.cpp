@@ -40,10 +40,10 @@ TODO:
 void temptest() {
   // cout<<"\n\tEMPTY TEST\n";  
 
-  lasd::HashTableClsAdr<int> ht1;
-  lasd::HashTableOpnAdr<int> ht2;
+  lasd::HashTableClsAdr<int> ht1(90);
+  lasd::HashTableClsAdr<int> ht2(move(ht1));
 
-  std::cout<<"\nFalse: "<<(ht1.Exists(4)||ht1.Exists(5))<<endl;
+  std::cout<<"\nFalse: "<<(ht1.Exists(4))<<endl;
 }
 
 int main(){

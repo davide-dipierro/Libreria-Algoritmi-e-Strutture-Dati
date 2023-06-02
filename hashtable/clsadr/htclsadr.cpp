@@ -38,6 +38,7 @@ HashTableClsAdr<Data>::HashTableClsAdr(const HashTableClsAdr<Data> &other) : Has
 
 template <typename Data>
 HashTableClsAdr<Data>::HashTableClsAdr(HashTableClsAdr<Data> &&other) noexcept : HashTable<Data>(std::move(other)) {
+    vec = new List<Data>[vecSize] {};
     std::swap(vec, other.vec);
 }
 
