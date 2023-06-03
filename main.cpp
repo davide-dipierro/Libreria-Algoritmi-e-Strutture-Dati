@@ -31,19 +31,10 @@ using namespace std;
 
 ALL'INTERNO DI CONTAINER.HPP E' STATO DEFINITO IL TIPO ULONG
 
-
-TODO:
-  - Sostituire le resize e gli assegnamenti con gli swap
-
 ************************************************************************** */
 
 void temptest() {
-  // cout<<"\n\tEMPTY TEST\n";  
-
-  lasd::HashTableClsAdr<int> ht1(90);
-  lasd::HashTableClsAdr<int> ht2(move(ht1));
-
-  std::cout<<"\nFalse: "<<(ht1.Exists(4))<<endl;
+  cout<<"\n\tEMPTY TEST\n";  
 }
 
 int main(){

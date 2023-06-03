@@ -100,6 +100,9 @@ public:
   bool operator==(const HashTable& other) const noexcept; // Comparison of abstract hashtable is possible but not required.
   inline bool operator!=(const HashTable& other) const noexcept { return !(operator==(other)); }; // Comparison of abstract hashtable is possible but not required.
 
+  // Just for testing
+  virtual void printTable() const = 0;
+
 protected:
 
   // Auxiliary member functions

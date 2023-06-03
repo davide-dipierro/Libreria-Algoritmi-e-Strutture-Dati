@@ -52,8 +52,7 @@ bool HashTable<Data>::operator==(const HashTable &other) const noexcept {
 }
 
 template <typename Data>
-ulong HashTable<Data>::HashKey(const ulong key) const noexcept
-{
+ulong HashTable<Data>::HashKey(const ulong key) const noexcept {
     return (a*key+b)%vecSize;
 }
 
@@ -87,13 +86,15 @@ class Hashable<int>{
         ulong operator()(int val) const noexcept {      
             // return val;
             // return static_cast<long>(std::hash<Data>{}(dat));
-            val = (val + 0x7ed55d16) + (val << 12);        // MurmurHash      
+            val = (val + 0x7ed55d16) + (val << 12);        // MurmurHash   PRESO ONLINE   
             val = (val ^ 0xc761c23c) ^ (val >> 19);
             val = (val + 0x165667b1) + (val << 5);
             val = (val + 0xd3a2646c) ^ (val << 9);
             val = (val + 0xfd7046c5) + (val << 3);
             val = (val ^ 0xb55a4f09) ^ (val >> 16);
             return static_cast<ulong>(val);
+            // return val*val;
+
         }
 };
 
@@ -102,21 +103,25 @@ class Hashable<std::string>{
     public:
         ulong operator()(std::string val) const noexcept {
             // return static_cast<long>(std::hash<Data>{}(dat));
-            ulong hash = 5381;
-            for (char c : val) hash = ((hash << 5) + hash) + c; // hash * 33 + c
-            return hash;
+            // ulong hash = 5381;
+            // for (char c : val) hash = ((hash << 5) + hash) + c; // hash * 33 + c
+            // return hash;
+            ulong accumulator = 0;
+            for(ulong i = 0; i < val.length(); i++) accumulator+=val[i]*i;
+            return accumulator;
         }
 };
 
 template <>
 class Hashable<double>{
     public:
-        ulong operator()(double val) const noexcept {
+        ulong operator()(double dat) const noexcept {
             // return static_cast<long>(std::hash<Data>{}(dat));
-            ulong longVal = *reinterpret_cast<ulong*>(&val);  // Converte il double in un ulong
-            ulong hash = 5381;
-            hash ^= longVal;
-            return hash;
+            // ulong longVal = *reinterpret_cast<ulong*>(&val);  // Converte il double in un ulong
+            // ulong hash = 5381;
+            // hash ^= longVal;
+            // return hash;
+            return (floor(dat) * pow(2,24)*(dat-floor(dat)));
         }
 };
 

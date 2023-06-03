@@ -16,7 +16,6 @@ HashTableOpnAdr<Data>::HashTableOpnAdr(const ulong newSize) {
 template <typename Data>
 HashTableOpnAdr<Data>::HashTableOpnAdr(const MappableContainer<Data> &other) : HashTableOpnAdr(other.Size()*2) {
     InsertAll(other);
-    //std::cout<<"COPY SPECIFIC CONSTRUCTOR";
 }
 
 template <typename Data>
@@ -27,7 +26,6 @@ HashTableOpnAdr<Data>::HashTableOpnAdr(const ulong newSize, const MappableContai
 template <typename Data>
 HashTableOpnAdr<Data>::HashTableOpnAdr(MutableMappableContainer<Data>&& other) noexcept : HashTableOpnAdr(other.Size()*2) {
     InsertAll(std::move(other));
-    //std::cout<<"MOVE SPECIFIC CONSTRUCTOR";
 }
 
 template <typename Data>
@@ -44,14 +42,12 @@ HashTableOpnAdr<Data>::HashTableOpnAdr(const HashTableOpnAdr<Data> &other) : Has
         Bits[i][0]=other.Bits[i][0];
         Bits[i][1]=other.Bits[i][1];
     }
-    //std::cout<<"COPY CONSTRUCTOR";
 }
 
 template <typename Data>
 HashTableOpnAdr<Data>::HashTableOpnAdr(HashTableOpnAdr<Data> &&other) noexcept : HashTable<Data>(std::move(other)) {
     std::swap(Elements, other.Elements);
     std::swap(Bits, other.Bits);
-    //std::cout<<"MOVE CONSTRUCTOR";
 }
 
 template <typename Data>
@@ -62,24 +58,23 @@ HashTableOpnAdr<Data>::~HashTableOpnAdr() {
 
 template <typename Data>
 HashTableOpnAdr<Data>& HashTableOpnAdr<Data>::operator=(const HashTableOpnAdr &other) {
-    // HashTable<Data>::operator=(other);
-    // delete[] Elements;
-    // delete[] Bits;
-    // Elements = new Data[vecSize]{};
-    // Bits = new std::bitset<2>[vecSize]{};
-    // for (ulong i = 0; i < vecSize; i++) {
-    //     Elements[i] = other.Elements[i];
-    //     Bits[i][0] = other.Bits[i][0];
-    //     Bits[i][1] = other.Bits[i][1];
-    // }
-    // return *this;
-
-    //NOTE: Non funziona
-    // //std::cout<<"\nOPERATOR=";
-    HashTableOpnAdr* tmp = new HashTableOpnAdr(other);
-    std::swap(*this, *tmp);
-    delete tmp;
+    HashTable<Data>::operator=(other);
+    delete[] Elements;
+    delete[] Bits;
+    Elements = new Data[vecSize]{};
+    Bits = new std::bitset<2>[vecSize]{};
+    for (ulong i = 0; i < vecSize; i++) {
+        Elements[i] = other.Elements[i];
+        Bits[i][0] = other.Bits[i][0];
+        Bits[i][1] = other.Bits[i][1];
+    }
     return *this;
+
+    // //std::cout<<"\nOPERATOR=";
+    // HashTableOpnAdr* tmp = new HashTableOpnAdr(other);
+    // std::swap(*this, *tmp);
+    // delete tmp;
+    // return *this;
 }
 
 template <typename Data>
@@ -232,10 +227,7 @@ bool HashTableOpnAdr<Data>::Remove(const Data &dat, ulong& prob_index) {
         size--;
         prob_index = 0;
         if(size<vecSize/5 && vecSize>HASHTABLE_INIT_SIZE) Resize(vecSize/2);
-        if(holes>vecSize/3) {
-            Resize(vecSize);
-            // std::cout<<"\nResize per troppi buchi\n";
-        }
+        if(holes>vecSize/3) Resize(vecSize);
         return true;
     }
     prob_index = 0;
@@ -250,7 +242,7 @@ bool HashTableOpnAdr<Data>::CheckDirtyBit() {
 }
 
 template <typename Data>
-void HashTableOpnAdr<Data>::printTable() {
+void HashTableOpnAdr<Data>::printTable() const {
     std::cout<<std::endl;
     for(ulong i{0}; i<vecSize; i++){
         std::cout<<"Bits["<<i<<"][0]="<<Bits[i][0]<<"\t["<<i<<"][0]="<<Bits[i][1]<<"\tElements: "<<Elements[i]<<std::endl;

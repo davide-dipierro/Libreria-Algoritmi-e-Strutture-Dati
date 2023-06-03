@@ -84,10 +84,7 @@ bool HashTableClsAdr<Data>::Insert(const Data &val) {
     ulong index = this->HashKey(Hashable<Data>()(val));
     result = vec[index].List<Data>::Insert(val);
     if(result) size++;
-    if(vec[index].Size()>max_dict_size){ 
-        // std::cout<<"\nResize per dizionario lungo\t Size("<<index<<"): "<<vec[index].Size()<<"\n\n";
-        Resize(vecSize*2);
-    }
+    if(vec[index].Size()>((vecSize/max_dict_size)+2)) Resize(vecSize*2);
     return result;
 }
 
@@ -97,10 +94,7 @@ bool HashTableClsAdr<Data>::Insert(Data &&val) {
     ulong index = this->HashKey(Hashable<Data>()(val));
     result = vec[index].List<Data>::Insert(std::move(val));
     if(result) size++;
-    if(vec[index].Size()>max_dict_size){
-        // std::cout<<"\nResize per dizionario lungo\t Size("<<index<<"): "<<vec[index].Size()<<"\n\n";
-        Resize(vecSize*2);
-    }
+    if(vec[index].Size()>((vecSize/max_dict_size)+2)) Resize(vecSize*2);
     return result;
 }
 
@@ -140,7 +134,7 @@ inline void HashTableClsAdr<Data>::Clear() {
 }
 
 template <typename Data>
-void HashTableClsAdr<Data>::printTable() {
+void HashTableClsAdr<Data>::printTable() const {
     std::cout<<std::endl;
     for(ulong i{0}; i<vecSize; i++){
         std::cout<<"Array["<<i<<"]=";

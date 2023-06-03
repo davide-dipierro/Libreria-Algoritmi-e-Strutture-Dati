@@ -28,7 +28,6 @@ protected:
 
   
   using HashTable<Data>::nextPow;
-  // using DictionaryContainer<Data>::Remove;
   using Container::size;
   ulong max_dict_size = 5;
   List<Data>* vec = nullptr;
@@ -36,15 +35,11 @@ protected:
     for(int i{0}; i<vecSize; i++) static_cast<const lasd::List<Data>&>(vec[i]).Map(mapFunc);
   }
 
-
 public:
   using DictionaryContainer<Data>::InsertAll;
   using DictionaryContainer<Data>::RemoveAll;
   using DictionaryContainer<Data>::InsertSome;
   using DictionaryContainer<Data>::RemoveSome;
-
-
-
 
   using HashTable<Data>::vecSize;
 
@@ -115,7 +110,7 @@ public:
 
   /* ************************************************************************ */  //FUNZIONI SOLO PER TEST
 
-  void printTable();
+  void printTable() const override;
 
 };
 

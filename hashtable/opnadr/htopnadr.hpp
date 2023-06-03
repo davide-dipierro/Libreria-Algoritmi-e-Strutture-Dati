@@ -121,7 +121,7 @@ public:
   /* ************************************************************************ */  //FUNZIONI SOLO PER TEST
   
   bool CheckDirtyBit();
-  void printTable();
+  void printTable() const override;
 
 protected:
 

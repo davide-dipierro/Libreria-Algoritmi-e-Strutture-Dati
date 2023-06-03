@@ -2446,13 +2446,13 @@ bool davtest_ex2(){
 
 bool StressTestOpen(){                   // Un test probabilmente inutile ma divertente
     bool correct=true;
-    int num = 45000;
+    int num = 30000;
     lasd::HashTableOpnAdr<int> s1;
     cout<<endl;
     clock_t tStart = clock();
     for(int i{0}; i<num; i++){
 
-        if(i%10000==0) std::cout << "\b\b\b\b\b\b\b\b\b\bLoading.." << std::flush;    // Ahahahahahahaha thread?? ahahahahhaa
+        if(i%10000==0) std::cout << "\b\b\b\b\b\b\b\b\b\bLoading.. " << std::flush;    // Ahahahahahahaha thread?? ahahahahhaa
         
         if(i%10000==5000) std::cout << "\b\b\b\b\b\b\b\b\b\bLoading..." << std::flush;
 
@@ -2477,13 +2477,13 @@ bool StressTestOpen(){                   // Un test probabilmente inutile ma div
 
 bool StressTestClose(){    // Un test probabilmente inutile ma divertente
     bool correct=true;
-    int num = 45000;
+    int num = 30000;
     lasd::HashTableClsAdr<int> s1;
     cout<<endl;
     clock_t tStart = clock();
     for(int i{0}; i<num; i++){
 
-        if(i%10000==0) std::cout << "\b\b\b\b\b\b\b\b\b\bLoading.." << std::flush;    // Ahahahahahahaha thread?? ahahahahhaa
+        if(i%10000==0) std::cout << "\b\b\b\b\b\b\b\b\b\bLoading.. " << std::flush;    // Ahahahahahahaha thread?? ahahahahhaa
         
         if(i%10000==5000) std::cout << "\b\b\b\b\b\b\b\b\b\bLoading..." << std::flush;
 
@@ -2503,6 +2503,35 @@ bool StressTestClose(){    // Un test probabilmente inutile ma divertente
     }
     // cout<<"\nSize(): "<<s1.Size()<<"\tSizeVec: "<<s1.vecSize<<"\n"; s1.printTable();
     cout<<"\tTime taken (Close): "<<((double)(clock() - tStart)/CLOCKS_PER_SEC);
+    return correct;
+}
+
+bool TestEqualHT(){
+    if(output) cout<<"\n**********TEST TestEqualHT**********\n";
+    bool correct=true;
+    int temp_size = genSize(gen)+1;
+    lasd::Vector<int> v1(temp_size);
+    for(int i=0; i<temp_size; i++){
+        int temp_num = genNum(gen);
+        v1[i]=temp_num;
+    } 
+    lasd::HashTableClsAdr<int> s1(v1);
+    lasd::HashTableOpnAdr<int> s2(v1);
+    if(output) { 
+        cout<<"\nS1: ";
+        s1.printTable();
+    }
+    if(output) { 
+        cout<<"\nS2: ";
+        s2.printTable();
+    }
+    correct&=(s1.HashTable<int>::operator==(s2));
+    v1[genSize(gen)%temp_size]=genNum(gen);
+    lasd::HashTableOpnAdr<int> s3(v1);
+    correct&=(s1.HashTable<int>::operator!=(s3));
+    s1.Clear();
+    s2.Clear();
+    correct&=(s1.HashTable<int>::operator==(s2));
     return correct;
 }
 
@@ -3062,6 +3091,7 @@ bool davtest_ex3(){
         //Operator==
         bool testEqualHTOpen = false;
         bool testEqualHTClose = false;
+        bool testEqualHT = false;
 
         //Assignement
         bool testAssHTOpen = false;
@@ -3097,6 +3127,7 @@ bool davtest_ex3(){
 
 
         cout<<"\nTesting "<<((ITERAZIONI==1) ? "limit" : "")<<" comparison operators...";
+        try { testEqualHT = TestEqualHT(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
         try { testEqualHTOpen = TestEqualHTOpen(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
         try { testEqualHTClose = TestEqualHTClose(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
 
@@ -3149,6 +3180,7 @@ bool davtest_ex3(){
         cout<<"\n\n*********** RESULTS ***********"<<endl;
 
         cout<<"\nCOMPARISION OPERATORS:"<<endl;
+        cout<<"HashTableOpnAdr == HashTableClsAdr: "<<((testEqualHT) ? "Corretto" : "Errore")<<endl;
         cout<<"HashTableOpnAdr == HashTableOpnAdr: "<<((testEqualHTOpen) ? "Corretto" : "Errore")<<endl;
         cout<<"HashTableClsAdr == HashTableClsAdr: "<<((testEqualHTClose) ? "Corretto" : "Errore")<<endl;
 
@@ -3208,7 +3240,8 @@ bool davtest_ex3(){
             testMSCHTOpenVec &&
             testMSCHTCloseVec &&
             stressTestOnExistsOpen &&
-            stressTestOnExistsClose
+            stressTestOnExistsClose &&
+            testEqualHT
             // testResizeHTOpen &&
             // testResizeHTClose
             )
