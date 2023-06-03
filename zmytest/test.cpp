@@ -2506,8 +2506,8 @@ bool StressTestClose(){    // Un test probabilmente inutile ma divertente
     return correct;
 }
 
-bool TestEqualHT(){
-    if(output) cout<<"\n**********TEST TestEqualHT**********\n";
+bool TestEqualHTLR(){
+    if(output) cout<<"\n**********TEST TestEqualHTLR**********\n";
     bool correct=true;
     int temp_size = genSize(gen)+1;
     lasd::Vector<int> v1(temp_size);
@@ -2528,6 +2528,35 @@ bool TestEqualHT(){
     correct&=(s1.HashTable<int>::operator==(s2));
     v1[genSize(gen)%temp_size]=genNum(gen);
     lasd::HashTableOpnAdr<int> s3(v1);
+    correct&=(s1.HashTable<int>::operator!=(s3));
+    s1.Clear();
+    s2.Clear();
+    correct&=(s1.HashTable<int>::operator==(s2));
+    return correct;
+}
+
+bool TestEqualHTRL(){
+    if(output) cout<<"\n**********TEST TestEqualHTRL**********\n";
+    bool correct=true;
+    int temp_size = genSize(gen)+1;
+    lasd::Vector<int> v1(temp_size);
+    for(int i=0; i<temp_size; i++){
+        int temp_num = genNum(gen);
+        v1[i]=temp_num;
+    } 
+    lasd::HashTableOpnAdr<int> s1(v1);
+    lasd::HashTableClsAdr<int> s2(v1);
+    if(output) { 
+        cout<<"\nS1: ";
+        s1.printTable();
+    }
+    if(output) { 
+        cout<<"\nS2: ";
+        s2.printTable();
+    }
+    correct&=(s1.HashTable<int>::operator==(s2));
+    v1[genSize(gen)%temp_size]=genNum(gen);
+    lasd::HashTableClsAdr<int> s3(v1);
     correct&=(s1.HashTable<int>::operator!=(s3));
     s1.Clear();
     s2.Clear();
@@ -3091,7 +3120,8 @@ bool davtest_ex3(){
         //Operator==
         bool testEqualHTOpen = false;
         bool testEqualHTClose = false;
-        bool testEqualHT = false;
+        bool testEqualHTRL = false;
+        bool testEqualHTLR = false;
 
         //Assignement
         bool testAssHTOpen = false;
@@ -3127,7 +3157,8 @@ bool davtest_ex3(){
 
 
         cout<<"\nTesting "<<((ITERAZIONI==1) ? "limit" : "")<<" comparison operators...";
-        try { testEqualHT = TestEqualHT(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        try { testEqualHTLR = TestEqualHTLR(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
+        try { testEqualHTRL = TestEqualHTRL(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
         try { testEqualHTOpen = TestEqualHTOpen(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
         try { testEqualHTClose = TestEqualHTClose(); } catch (const std::exception& e) { std::cerr<<e.what()<<endl; }
 
@@ -3180,7 +3211,8 @@ bool davtest_ex3(){
         cout<<"\n\n*********** RESULTS ***********"<<endl;
 
         cout<<"\nCOMPARISION OPERATORS:"<<endl;
-        cout<<"HashTableOpnAdr == HashTableClsAdr: "<<((testEqualHT) ? "Corretto" : "Errore")<<endl;
+        cout<<"HashTableClsAdr == HashTableOpnAdr: "<<((testEqualHTLR) ? "Corretto" : "Errore")<<endl;
+        cout<<"HashTableOpnAdr == HashTableClsAdr: "<<((testEqualHTRL) ? "Corretto" : "Errore")<<endl;
         cout<<"HashTableOpnAdr == HashTableOpnAdr: "<<((testEqualHTOpen) ? "Corretto" : "Errore")<<endl;
         cout<<"HashTableClsAdr == HashTableClsAdr: "<<((testEqualHTClose) ? "Corretto" : "Errore")<<endl;
 
@@ -3241,7 +3273,8 @@ bool davtest_ex3(){
             testMSCHTCloseVec &&
             stressTestOnExistsOpen &&
             stressTestOnExistsClose &&
-            testEqualHT
+            testEqualHTRL &&
+            testEqualHTLR 
             // testResizeHTOpen &&
             // testResizeHTClose
             )
